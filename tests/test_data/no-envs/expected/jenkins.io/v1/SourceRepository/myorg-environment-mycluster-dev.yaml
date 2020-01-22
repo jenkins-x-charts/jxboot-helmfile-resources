@@ -1,4 +1,3 @@
-# Source: jxboot-helmfile-resources/templates/repositories.yaml
 apiVersion: jenkins.io/v1
 kind: SourceRepository
 metadata:

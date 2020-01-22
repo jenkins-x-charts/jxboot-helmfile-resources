@@ -44,4 +44,4 @@ endif
 
 
 test:
-	cd tests && go test
+	cd tests && go test -v

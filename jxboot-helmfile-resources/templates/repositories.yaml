@@ -1,0 +1,23 @@
+{{- $jx := .Values.jxRequirements -}}
+{{- range $key, $env := .Values.jxRequirements.environments }}
+---
+apiVersion: jenkins.io/v1
+kind: SourceRepository
+metadata:
+  name: "{{ $env.owner | default $jx.cluster.environmentGitOwner | lower }}-{{ $env.repository }}"
+  labels:
+    jenkins.io/gitSync: "false"
+spec:
+  provider: {{ $jx.cluster.gitServer | default "https://github.com" | quote }}
+  providerName: '{{ $jx.cluster.gitKind | default "github" }}'
+  org: "{{ $env.owner | default $jx.cluster.environmentGitOwner }}"
+  repo: "{{ $env.repository }}"
+  description: "the git repository for the {{ title $env.key }} environment"
+  scheduler:
+    kind: Scheduler
+{{- if $env.remoteCluster }}
+    name: "pr-only"
+{{- else }}
+    name: "environment"
+{{- end -}}
+{{- end -}}

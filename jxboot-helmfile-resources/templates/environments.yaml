@@ -1,0 +1,102 @@
+{{- $jx := .Values.jxRequirements -}}
+{{- $secrets := .Values.secrets -}}
+{{- range $key, $env := .Values.jxRequirements.environments }}
+{{- $gitUrlPathPrefix := "" -}}
+{{- if eq "bitbucketserver" $jx.cluster.gitKind }}
+{{- $gitUrlPathPrefix := "/scm" -}}
+{{- end }}
+---
+apiVersion: jenkins.io/v1
+kind: Environment
+metadata:
+  labels:
+    env: "{{ $env.key }}"
+    team: {{ $env.namespace | default "jx" }}
+  name: "{{ $env.key }}"
+spec:
+{{- if and (hasKey $env "repo") (hasKey $env "owner") }}
+  source:
+    ref: "master"
+    url: {{ $jx.cluster.gitServer | default "https://github.com" }}{{ $gitUrlPathPrefix }}/{{ $env.owner }}/{{ $env.repo }}.git
+{{- end }}
+
+{{- if eq "dev" $env.key }}
+  kind: Development
+  label: Development
+  namespace: {{ $env.namespace | default "jx" }}
+  promotionStrategy: Never
+  webHookEngine: {{ $jx.webhook | default "lighthouse" | quote }}
+  teamSettings:
+    appsRepository: http://chartmuseum.jenkins-x.io
+{{- if hasKey $jx "buildPackName" }}
+    buildPackName: "{{ $jx.buildPackName }}"
+{{- end }}
+{{- if hasKey $jx "buildPackRef" }}
+    buildPackRef: "{{ $jx.buildPackRef }}"
+{{- end }}
+{{- if hasKey $jx "buildPackUrl" }}
+    buildPackUrl: "{{ $jx.buildPackUrl }}"
+{{- end }}
+    defaultScheduler:
+      apiVersion: jenkins.io/v1
+      kind: Scheduler
+      name: default
+{{- if hasKey $jx.cluster "dockerRegistryOrg" }}
+    dockerRegistryOrg: {{ $jx.cluster.dockerRegistryOrg }}
+{{- else }}
+    dockerRegistryOrg: {{ $jx.cluster.project }}
+{{- end }}
+    envOrganisation: {{ $jx.cluster.environmentGitOwner }}
+    gitServer: https://github.com
+{{- if $jx.cluster.gitPublic }}
+    gitPublic: true
+{{- end }}
+    helmTemplate: true
+    kubeProvider: "{{ $jx.cluster.provider }}"
+{{- if hasKey $secrets "pipelineUser" }}
+    pipelineUsername: "{{ $secrets.pipelineUser.username }}"
+    pipelineUserEmail: "{{ $secrets.pipelineUser.email }}"
+{{- end }}
+    prowConfig: Scheduler
+{{- if eq $jx.webhook "jenkins" }}
+    promotionEngine: Jenkins
+    importMode: Jenkinsfile
+{{- else }}
+    importMode: YAML
+    promotionEngine: Prow
+    prowEngine: Tekton
+{{- end }}
+    versionStreamUrl: "{{ $jx.versionStream.url }}"
+    versionStreamRef: "{{ $jx.versionStream.ref }}"
+    useGitOps: true
+{{- if or $jx.storage.logs.url $jx.storage.reports.url }}
+    storageLocations:
+{{- end }}
+{{- if $jx.storage.logs.url }}
+    - bucketUrl: {{ $jx.storage.logs.url }}
+      classifier: logs
+{{- end }}
+{{- if $jx.storage.reports.url }}
+    - bucketUrl: {{ $jx.storage.reports.url }}
+      classifier: reports
+{{- end }}
+{{- if $jx.quickstartLocations }}
+    quickstartLocations:
+{{ toYaml $jx.quickstartLocations | indent 6 }}
+{{- end }}
+{{- else if eq "staging" $env.key }}
+  kind: Permanent
+  label: Staging
+  namespace: {{ $env.namespace | default "jx-staging" }}
+  promotionStrategy: "Auto"
+{{- else }}
+  kind: Permanent
+  label: {{ title $env.key }}
+  promotionStrategy: "Manual"
+{{- if $env.namespace }}
+  namespace: "{{ $env.namespace }}"
+{{- else }}
+  namespace: "jx-{{ $env.key }}"
+{{- end -}}
+{{- end -}}
+{{- end -}}

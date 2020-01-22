@@ -1,0 +1,13 @@
+# Source: jxboot-helmfile-resources/templates/environments.yaml
+apiVersion: jenkins.io/v1
+kind: Environment
+metadata:
+  labels:
+    env: "custom"
+    team: jx
+  name: "custom"
+spec:
+  kind: Permanent
+  label: Custom
+  promotionStrategy: "Manual"
+  namespace: "jx-custom"

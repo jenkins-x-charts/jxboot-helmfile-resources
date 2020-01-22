@@ -1,0 +1,16 @@
+# Source: jxboot-helmfile-resources/templates/repositories.yaml
+apiVersion: jenkins.io/v1
+kind: SourceRepository
+metadata:
+  name: "myorg-environment-mycluster-custom"
+  labels:
+    jenkins.io/gitSync: "false"
+spec:
+  provider: "https://github.com"
+  providerName: 'github'
+  org: "myorg"
+  repo: "environment-mycluster-custom"
+  description: "the git repository for the Custom environment"
+  scheduler:
+    kind: Scheduler
+    name: "environment"

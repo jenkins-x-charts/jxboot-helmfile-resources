@@ -1,0 +1,13 @@
+# Source: jxboot-helmfile-resources/templates/environments.yaml
+apiVersion: jenkins.io/v1
+kind: Environment
+metadata:
+  labels:
+    env: "another"
+    team: jx
+  name: "another"
+spec:
+  kind: Permanent
+  label: Another
+  promotionStrategy: "Manual"
+  namespace: "jx-another"

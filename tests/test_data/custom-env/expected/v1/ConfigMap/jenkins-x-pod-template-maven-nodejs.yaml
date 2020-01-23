@@ -22,13 +22,13 @@ data:
         emptyDir: {}
       - name: volume-0
         secret:
-          secretName: 
+          secretName: jenkins-maven-settings
       - name: volume-1
         secret:
-          secretName: 
+          secretName: jenkins-docker-cfg
       - name: volume-2
         secret:
-          secretName: 
+          secretName: jenkins-release-gpg
       containers:
       - name: mavennodejs
         image: gcr.io/jenkinsxio/builder-maven-nodejs:2.0.876-229

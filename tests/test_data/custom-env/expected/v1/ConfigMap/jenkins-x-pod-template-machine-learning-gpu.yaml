@@ -22,7 +22,7 @@ data:
         emptyDir: {}
       - name: volume-0
         secret:
-          secretName: 
+          secretName: jenkins-docker-cfg
       containers:
       - name: machine-learning
         image: gcr.io/jenkinsxio/builder-machine-learning-gpu:0.1.837

@@ -35,13 +35,13 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080, 5005
       volumes:
         - type: Secret
-          secretname: jenkins-maven-settings
+          secretName: jenkins-maven-settings
           mountPath: /root/.m2/
         - type: Secret
-          secretname: jenkins-docker-cfg
+          secretName: jenkins-docker-cfg
           mountPath: /home/jenkins/.docker
         - type: Secret
-          secretname: jenkins-release-gpg
+          secretName: jenkins-release-gpg
           mountPath: /home/jenkins/.gnupg
       envVars:
         _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx512m'
@@ -77,13 +77,13 @@ podTemplates:
       #   iam.amazonaws.com/role: arn:aws:iam::accountid:role/rolename
       volumes:
       - type: Secret
-        secretname: jenkins-maven-settings
+        secretName: jenkins-maven-settings
         mountPath: /root/.m2/
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       - type: Secret
-        secretname: jenkins-release-gpg
+        secretName: jenkins-release-gpg
         mountPath: /home/jenkins/.gnupg
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -132,13 +132,13 @@ podTemplates:
       devPodPorts: 5005, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-maven-settings
+        secretName: jenkins-maven-settings
         mountPath: /root/.m2/
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       - type: Secret
-        secretname: jenkins-release-gpg
+        secretName: jenkins-release-gpg
         mountPath: /home/jenkins/.gnupg
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -188,13 +188,13 @@ podTemplates:
       devPodPorts: 5005, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-maven-settings
+        secretName: jenkins-maven-settings
         mountPath: /root/.m2/
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       - type: Secret
-        secretname: jenkins-release-gpg
+        secretName: jenkins-release-gpg
         mountPath: /home/jenkins/.gnupg
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -244,10 +244,10 @@ podTemplates:
       devPodPorts: 5005, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       - type: Secret
-        secretname: jenkins-release-gpg
+        secretName: jenkins-release-gpg
         mountPath: /home/jenkins/.gnupg
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -294,13 +294,13 @@ podTemplates:
       devPodPorts: 5005, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-maven-settings
+        secretName: jenkins-maven-settings
         mountPath: /root/.m2/
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       - type: Secret
-        secretname: jenkins-release-gpg
+        secretName: jenkins-release-gpg
         mountPath: /home/jenkins/.gnupg
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -347,7 +347,7 @@ podTemplates:
       devPodPorts: 2345, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -392,7 +392,7 @@ podTemplates:
       label: jenkins-terraform
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -438,7 +438,7 @@ podTemplates:
       devPodPorts: 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -484,7 +484,7 @@ podTemplates:
       devPodPorts: 9229, 3000
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -531,7 +531,7 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -578,7 +578,7 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -625,7 +625,7 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -661,7 +661,7 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -697,7 +697,7 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -733,7 +733,7 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -780,13 +780,13 @@ podTemplates:
       devPodPorts: 9229, 3000, 8080, 5005
       volumes:
         - type: Secret
-          secretname: jenkins-maven-settings
+          secretName: jenkins-maven-settings
           mountPath: /root/.m2/
         - type: Secret
-          secretname: jenkins-docker-cfg
+          secretName: jenkins-docker-cfg
           mountPath: /home/jenkins/.docker
         - type: Secret
-          secretname: jenkins-release-gpg
+          secretName: jenkins-release-gpg
           mountPath: /home/jenkins/.gnupg
       envVars:
         _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m'
@@ -819,7 +819,7 @@ podTemplates:
       label: jenkins-jx-base
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -864,7 +864,7 @@ podTemplates:
       label: jenkins-promote
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -909,7 +909,7 @@ podTemplates:
       label: jenkins-packer
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -945,7 +945,7 @@ podTemplates:
       devPodPorts: 3000, 8000
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -992,7 +992,7 @@ podTemplates:
       devPodPorts: 3000, 8000
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -1039,7 +1039,7 @@ podTemplates:
       devPodPorts: 3000, 8000
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -1086,7 +1086,7 @@ podTemplates:
       devPodPorts: 1234, 3000
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -1133,7 +1133,7 @@ podTemplates:
       devPodPorts: 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -1179,7 +1179,7 @@ podTemplates:
       devPodPorts: 8080
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -1226,7 +1226,7 @@ podTemplates:
       devPodPorts: 3000, 8000
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080
@@ -1273,7 +1273,7 @@ podTemplates:
       devPodPorts: 3000, 8000
       volumes:
       - type: Secret
-        secretname: jenkins-docker-cfg
+        secretName: jenkins-docker-cfg
         mountPath: /home/jenkins/.docker
       envVars:
         JENKINS_URL: http://jenkins:8080

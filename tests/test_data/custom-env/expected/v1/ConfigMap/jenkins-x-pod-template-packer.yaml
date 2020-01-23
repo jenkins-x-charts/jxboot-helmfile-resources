@@ -22,7 +22,7 @@ data:
         emptyDir: {}
       - name: volume-0
         secret:
-          secretName: 
+          secretName: jenkins-docker-cfg
       containers:
       - name: packer
         image: hashicorp/packer:1.4.1

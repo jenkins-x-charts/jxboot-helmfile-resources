@@ -22,7 +22,7 @@ data:
         emptyDir: {}
       - name: volume-0
         secret:
-          secretName: 
+          secretName: jenkins-docker-cfg
       containers:
       - name: ruby
         image: gcr.io/jenkinsxio/builder-ruby:2.0.876-229

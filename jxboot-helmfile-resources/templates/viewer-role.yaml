@@ -1,0 +1,28 @@
+{{- if .Values.teamRoles.viewer.enabled -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: viewer
+  labels:
+    jenkins.io/kind: "EnvironmentRole"
+  annotations:
+     title: "Viewer"
+     description: "A viewer can view all project resources"
+rules:
+  - apiGroups:
+    - ""
+    - jenkins.io
+    - extensions
+    - apps
+    - rbac.authorization.k8s.io
+    - batch
+    - tekton.dev
+    resources:
+    - "*"
+    - pipelineruns
+    - deployments
+    verbs:
+    - list
+    - get
+    - watch
+{{- end }}

@@ -5,7 +5,7 @@ data:
   email: ""
   exposer: "Ingress"
   issuer: ""
-  tls: false
+  tls: "false"
 kind: ConfigMap
 metadata:
   name: ingress-config

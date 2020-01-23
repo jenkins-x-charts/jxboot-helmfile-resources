@@ -1,27 +1,1403 @@
-versions:
-  # TODO update with latest builders version
-  builders: latest
+buildPacks:
+  "classic-workloads":
+    label: "Library Workloads: CI+Release but no CD"
+    gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-classic.git"
+    gitRef: "master"
+  "kubernetes-workloads":
+    label: "Kubernetes Workloads: Automated CI+CD with GitOps Promotion"
+    gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-kubernetes.git"
+    gitRef: "master"
 
-# TODO we want to remove exposecontroller at some point
-exposer: Ingress
+chartmuseumServiceLink:
+  enabled: false
 
-# imported from the global secrets?
-secrets:
-  tektonBucket: ""
-  featureFlagAPIKey: ""
-  chartMuseumPassword: ""
-  chartMuseumUsername: ""
-  pipelineUser:
-    username: ""
-    email: ""
-    token: ""
+  # specify the external name here for where the chartmuseum should be
+  externalname: ""
 
 docker-registry:
   enabled: false
 
+# TODO we want to remove exposecontroller at some point
+exposer: Ingress
+
+extensions:
+  enabled: true
+
+podTemplates:
+  enabled: true
+  agent:
+    dockerHostPath: ""
+    dockerMountPath: ""
+  templates:
+    aws-cdk:
+      name: aws-cdk
+      label: jenkins-aws-cdk
+      devPodPorts: 9229, 3000, 8080, 5005
+      volumes:
+        - type: Secret
+          secretname: jenkins-maven-settings
+          mountPath: /root/.m2/
+        - type: Secret
+          secretname: jenkins-docker-cfg
+          mountPath: /home/jenkins/.docker
+        - type: Secret
+          secretname: jenkins-release-gpg
+          mountPath: /home/jenkins/.gnupg
+      envVars:
+        _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx512m'
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        aws-cdk:
+          image: gcr.io/jenkinsxio/builder-maven-nodejs:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Maven:
+      name: maven
+      label: jenkins-maven
+      devPodPorts: 5005, 8080
+      # annotations:
+      #   iam.amazonaws.com/role: arn:aws:iam::accountid:role/rolename
+      volumes:
+      - type: Secret
+        secretname: jenkins-maven-settings
+        mountPath: /root/.m2/
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      - type: Secret
+        secretname: jenkins-release-gpg
+        mountPath: /home/jenkins/.gnupg
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m'
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+        # lets disable the noisy download artifact logging messages
+        MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Maven:
+          image: gcr.io/jenkinsxio/builder-maven:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "1"
+          limitMemory: "1024Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Maven-Java11:
+      name: maven-java11
+      label: jenkins-maven-java11
+      devPodPorts: 5005, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-maven-settings
+        mountPath: /root/.m2/
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      - type: Secret
+        secretname: jenkins-release-gpg
+        mountPath: /home/jenkins/.gnupg
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m'
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+
+        # lets disable the noisy download artifact logging messages
+        MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Maven:
+          image: gcr.io/jenkinsxio/builder-maven-java11:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "1"
+          limitMemory: "1024Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Maven-GraalVM:
+      name: maven-graalvm
+      label: jenkins-maven-graalvm
+      devPodPorts: 5005, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-maven-settings
+        mountPath: /root/.m2/
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      - type: Secret
+        secretname: jenkins-release-gpg
+        mountPath: /home/jenkins/.gnupg
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx1800m'
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+
+        # lets disable the noisy download artifact logging messages
+        MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Maven:
+          image: gcr.io/jenkinsxio/builder-maven-graalvm:0.1.560
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "2Gi"
+          limitCpu: "1"
+          limitMemory: "3Gi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Gradle:
+      name: gradle
+      label: jenkins-gradle
+      devPodPorts: 5005, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      - type: Secret
+        secretname: jenkins-release-gpg
+        mountPath: /home/jenkins/.gnupg
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m'
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Gradle:
+          image: gcr.io/jenkinsxio/builder-gradle:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "1"
+          limitMemory: "1024Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Scala:
+      name: scala
+      label: jenkins-scala
+      devPodPorts: 5005, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-maven-settings
+        mountPath: /root/.m2/
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      - type: Secret
+        secretname: jenkins-release-gpg
+        mountPath: /home/jenkins/.gnupg
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m'
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Scala:
+          image: gcr.io/jenkinsxio/builder-scala:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "1"
+          limitMemory: "1024Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Go:
+      name: go
+      label: jenkins-go
+      devPodPorts: 2345, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Go:
+          image: gcr.io/jenkinsxio/builder-go:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "600Mi"
+          limitCpu: "1"
+          limitMemory: "1448Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Terraform:
+      name: terraform
+      label: jenkins-terraform
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Terraform:
+          image: gcr.io/jenkinsxio/builder-terraform:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "600Mi"
+          limitCpu: "1"
+          limitMemory: "1448Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Rust:
+      name: rust
+      label: jenkins-rust
+      devPodPorts: 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Rust:
+          image: gcr.io/jenkinsxio/builder-rust:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "1"
+          limitMemory: "1024Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Newman:
+      name: newman
+      label: jenkins-newman
+      devPodPorts: 9229, 3000
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Newman:
+          image: gcr.io/jenkinsxio/builder-newman:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "1"
+          limitMemory: "1024Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Nodejs8x:
+      name: nodejs8x
+      # serviceAccount: fooo
+      label: jenkins-nodejs8x
+      devPodPorts: 9229, 3000, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Nodejs:
+          image: gcr.io/jenkinsxio/builder-nodejs8x:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Nodejs10x:
+      name: nodejs10x
+      # serviceAccount: fooo
+      label: jenkins-nodejs10x
+      devPodPorts: 9229, 3000, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Nodejs:
+          image: gcr.io/jenkinsxio/builder-nodejs10x:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Nodejs12x:
+      name: nodejs12x
+      # serviceAccount: fooo
+      label: jenkins-nodejs12x
+      devPodPorts: 9229, 3000, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Nodejs:
+          image: gcr.io/jenkinsxio/builder-nodejs12x:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    php5x:
+      name: php5x
+      # serviceAccount: fooo
+      label: jenkins-php5x
+      devPodPorts: 9229, 3000, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Nodejs:
+          image: gcr.io/jenkinsxio/builder-php5x:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    php7x:
+      name: php7x
+      # serviceAccount: fooo
+      label: jenkins-php7x
+      devPodPorts: 9229, 3000, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Nodejs:
+          image: gcr.io/jenkinsxio/builder-php7x:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Nodejs:
+      name: nodejs
+      # serviceAccount: fooo
+      label: jenkins-nodejs
+      devPodPorts: 9229, 3000, 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Nodejs:
+          image: gcr.io/jenkinsxio/builder-nodejs:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Maven-Nodejs:
+      name: maven-nodejs
+      # serviceAccount: fooo
+      label: jenkins-maven-nodejs
+      devPodPorts: 9229, 3000, 8080, 5005
+      volumes:
+        - type: Secret
+          secretname: jenkins-maven-settings
+          mountPath: /root/.m2/
+        - type: Secret
+          secretname: jenkins-docker-cfg
+          mountPath: /home/jenkins/.docker
+        - type: Secret
+          secretname: jenkins-release-gpg
+          mountPath: /home/jenkins/.gnupg
+      envVars:
+        _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Xms10m -Xmx192m'
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        MavenNodejs:
+          image: gcr.io/jenkinsxio/builder-maven-nodejs:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    JX-base:
+      name: jx-base
+      label: jenkins-jx-base
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        JX-base:
+          image: gcr.io/jenkinsxio/builder-jx:2.0.876-229
+          privileged: true
+          requestCpu: "200m"
+          requestMemory: "256Mi"
+          limitCpu: "400m"
+          limitMemory: "512Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Promote:
+      name: promote
+      label: jenkins-promote
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Promote:
+          image: gcr.io/jenkinsxio/builder-jx:2.0.876-229
+          privileged: true
+          requestCpu: "200m"
+          requestMemory: "100Mi"
+          limitCpu: "400m"
+          limitMemory: "200Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Packer:
+      name: packer
+      label: jenkins-packer
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Packer:
+          image: hashicorp/packer:1.4.1
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Python2:
+      name: python2
+      # serviceAccount: fooo
+      label: jenkins-python2
+      devPodPorts: 3000, 8000
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Python:
+          image: gcr.io/jenkinsxio/builder-python2:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Python:
+      name: python
+      # serviceAccount: fooo
+      label: jenkins-python
+      devPodPorts: 3000, 8000
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Python:
+          image: gcr.io/jenkinsxio/builder-python:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Python37:
+      name: python37
+      # serviceAccount: fooo
+      label: jenkins-python37
+      devPodPorts: 3000, 8000
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Python:
+          image: gcr.io/jenkinsxio/builder-python37:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Ruby:
+      name: ruby
+      # serviceAccount: fooo
+      label: jenkins-ruby
+      devPodPorts: 1234, 3000
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Ruby:
+          image: gcr.io/jenkinsxio/builder-ruby:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Swift:
+      name: swift
+      # serviceAccount: fooo
+      label: jenkins-swift
+      devPodPorts: 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Swift:
+          image: gcr.io/jenkinsxio/builder-swift:2.0.876-229
+          privileged: true
+          requestCpu: "400m"
+          requestMemory: "512Mi"
+          limitCpu: "2"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Dlang:
+      name: dlang
+      label: jenkins-dlang
+      devPodPorts: 8080
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Dlang:
+          image: gcr.io/jenkinsxio/builder-dlang:2.0.876-229
+          privileged: true
+          requestCpu: "500m"
+          requestMemory: "1024Mi"
+          limitCpu: "1"
+          limitMemory: "2048Mi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/sh -c"
+          args: "cat"
+          tty: true
+    Machine-Learning:
+      name: machine-learning
+      # serviceAccount: fooo
+      label: jenkins-machine-learning
+      devPodPorts: 3000, 8000
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Machine-Learning:
+          image: gcr.io/jenkinsxio/builder-machine-learning:0.1.837
+          privileged: true
+          requestCpu: "2000m"
+          requestMemory: "4Gi"
+          limitCpu: "8000m"
+          limitMemory: "16Gi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/bash -cl"
+          args: "cat"
+          tty: true
+    Machine-Learning-Gpu:
+      name: machine-learning-gpu
+      # serviceAccount: fooo
+      label: jenkins-machine-learning-gpu
+      devPodPorts: 3000, 8000
+      volumes:
+      - type: Secret
+        secretname: jenkins-docker-cfg
+        mountPath: /home/jenkins/.docker
+      envVars:
+        JENKINS_URL: http://jenkins:8080
+        GIT_COMMITTER_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_EMAIL: jenkins-x@googlegroups.com
+        GIT_AUTHOR_NAME: jenkins-x-bot
+        GIT_COMMITTER_NAME: jenkins-x-bot
+        XDG_CONFIG_HOME: /home/jenkins
+        DOCKER_CONFIG: /home/jenkins/.docker/
+      serviceAccount: jenkins
+      # Node labels and tolerations for pod assignment
+      # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+      # ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+      # nodeSelector:
+      #   dedicated: jenkins-x-builder
+      # tolerations:
+      # - effect: NoSchedule
+      #   key: dedicated
+      #   operator: Equal
+      #   value: jenkins-x-builder
+      containers:
+        Jnlp:
+          image: jenkinsci/jnlp-slave:3.26-1-alpine
+
+          requestCpu: "100m"
+          requestMemory: "128Mi"
+          args: '${computer.jnlpmac} ${computer.name}'
+        Machine-Learning:
+          image: gcr.io/jenkinsxio/builder-machine-learning-gpu:0.1.837
+          privileged: true
+          requestCpu: "1000m"
+          requestMemory: "1Gi"
+          limitCpu: "2000m"
+          limitMemory: "2Gi"
+          # You may want to change this to true while testing a new image
+          # AlwaysPullimage: true
+          command: "/bin/bash -cl"
+          args: "cat"
+          tty: true
+  Persistence:
+    Enabled: true
+    ## A manually managed Persistent Volume and Claim
+    ## Requires Persistence.Enabled: true
+    ## If defined, PVC must be created manually before volume will be bound
+    # ExistingClaim:
+
+    ## jenkins data Persistent Volume Storage Class
+    ## If defined, storageClassname: <storageClass>
+    ## If set to "-", storageClassname: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # StorageClass: "-"
+
+    AccessMode: ReadWriteOnce
+    Size: 30Gi
+    volumes:
+    #  - name: nothing
+    #    emptyDir: {}
+    mounts:
+  #  - mountPath: /var/nothing
+  #    name: nothing
+  #    readOnly: true
+
+  NetworkPolicy:
+    # Enable creation of NetworkPolicy resources.
+    Enabled: false
+    # For Kubernetes v1.4, v1.5 and v1.6, use 'extensions/v1beta1'
+    # For Kubernetes v1.7, use 'networking.k8s.io/v1'
+    ApiVersion: extensions/v1beta1
+
+  ## Install Default RBAC roles and bindings
+  rbac:
+    install: true
+    serviceAccountname: jenkins
+    # RBAC api version (currently either v1beta1 or v1alpha1)
+    apiVersion: v1beta1
+    # Cluster role reference
+    roleRef: cluster-admin
+
 ingress:
   annotations:
 #      kubernetes.io/ingress.class: nginx
+
+nexusServiceLink:
+  enabled: false
+
+  # specify the external name here for where the nexus should point
+  externalname: ""
+
+teamRoles:
+  viewer:
+    enabled: true
+  team-admin:
+    enabled: true
+
+versions:
+  # TODO update with latest builders version
+  builders: latest
+
+# standard YAML files for jx boot:
+secrets:
+  adminUser:
+    username: "admin"
+    password: ""
+  chartMuseum:
+    username: ""
+    password: ""
+  featureFlagAPIKey: ""
+  dockerConfig: "{}"
+  gpg:
+    pubring: ""
+    secjenkins: ""
+    secring: ""
+    trustdb: ""
+  kanikoSecret: ""
+  mavenSettings: ""
+  npmToken: ""
+  pipelineUser:
+    username: ""
+    email: ""
+    token: ""
+  tektonBucket: ""
 
 jxRequirements:
   autoUpdate:
@@ -29,13 +1405,13 @@ jxRequirements:
     schedule: ""
   bootConfigURL: https://github.com/jenkins-x/jenkins-x-boot-config.git
   cluster:
-    clusterName: mycluster
+    clustername: mycluster
     devEnvApprovers:
-    - someone
+      - someone
     environmentGitOwner: myorg
     environmentGitPublic: true
     gitKind: github
-    gitName: github
+    gitname: github
     gitPublic: true
     gitServer: https://github.com
     namespace: jx
@@ -43,8 +1419,8 @@ jxRequirements:
     provider: gke
     zone: europe-west1-c
   environments:
-  - key: dev
-    repository: environment-mycluster-dev
+    - key: dev
+      repository: environment-mycluster-dev
   gitops: true
   ingress:
     domain: ""

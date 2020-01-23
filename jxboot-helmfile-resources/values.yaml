@@ -1,3 +1,28 @@
+versions:
+  # TODO update with latest builders version
+  builders: latest
+
+# TODO we want to remove exposecontroller at some point
+exposer: Ingress
+
+# imported from the global secrets?
+secrets:
+  tektonBucket: ""
+  featureFlagAPIKey: ""
+  chartMuseumPassword: ""
+  chartMuseumUsername: ""
+  pipelineUser:
+    username: ""
+    email: ""
+    token: ""
+
+docker-registry:
+  enabled: false
+
+ingress:
+  annotations:
+#      kubernetes.io/ingress.class: nginx
+
 jxRequirements:
   autoUpdate:
     enabled: false

@@ -23,6 +23,8 @@ spec:
     gitPublic: true
     helmTemplate: true
     kubeProvider: "gke"
+    pipelineUsername: ""
+    pipelineUserEmail: ""
     prowConfig: Scheduler
     importMode: YAML
     promotionEngine: Prow

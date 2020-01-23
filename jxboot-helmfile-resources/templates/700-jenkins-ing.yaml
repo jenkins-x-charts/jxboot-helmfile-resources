@@ -1,0 +1,31 @@
+{{- if eq "jenkins" .Values.jxRequirements.webhook }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-secret: jx-basic-auth
+    nginx.ingress.kubernetes.io/auth-type: basic
+{{- if .Values.ingress.annotations }}
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+  name: jenkins
+spec:
+  rules:
+  - host: jenkins{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    http:
+      paths:
+      - backend:
+          serviceName: jenkins
+          servicePort: 8080
+{{- if .Values.jxRequirements.ingress.tls.enabled }}
+  tls:
+  - hosts:
+    - jenkins{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- if .Values.jxRequirements.ingress.tls.production }}
+    secretName: "tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p"
+{{- else }}
+    secretName: "tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-s"
+{{- end }}
+{{- end }}
+{{- end }}

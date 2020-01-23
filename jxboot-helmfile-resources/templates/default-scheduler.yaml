@@ -20,7 +20,7 @@ spec:
       skipUnknownContexts: false
     prStatusBaseUrl: ""
     squashLabel: ""
-    targetUrl: http://deck{{ .Values.jxRequirements.cluster.namespaceSubDomain }}{{ .Values.jxRequirements.cluster.domain }}
+    targetUrl: http://deck{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   plugins:
     entries:
     - approve

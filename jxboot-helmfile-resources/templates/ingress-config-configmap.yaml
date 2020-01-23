@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  domain: {{ .Values.jxRequirements.ingress.domain | quote }}
+  email: ""
+  exposer: {{ .Values.exposer | quote }}
+  issuer: ""
+  tls: {{ .Values.jxRequirements.ingress.tls.enabled | quote }}
+kind: ConfigMap
+metadata:
+  name: ingress-config

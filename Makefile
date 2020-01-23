@@ -45,3 +45,6 @@ endif
 
 test:
 	cd tests && go test -v
+
+test-regen:
+	cd tests && export HELM_UNIT_REGENERATE_EXPECTED=true && go test -v

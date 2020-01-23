@@ -14,6 +14,172 @@ chartmuseumServiceLink:
   # specify the external name here for where the chartmuseum should be
   externalname: ""
 
+controllerbuild:
+  enabled: false
+  serviceaccount:
+    enabled: true
+  deployment:
+    enabled: true
+  probe:
+    path: ""
+  restartPolicy: Always
+  args:
+  - "controller"
+  - "build"
+  - "--batch-mode"
+  - "--git-credentials"
+  - "--verbose"
+  image:
+    repository: gcr.io/jenkinsxio/builder-go
+    tag: 2.0.876-229
+  env:
+    GIT_AUTHOR_NAME: "jenkins-x-bot"
+    GIT_AUTHOR_EMAIL: "jenkins-x@googlegroups.com"
+    XDG_CONFIG_HOME: "/home/jenkins"
+  clusterrole:
+    enabled: true
+    rules:
+    - apiGroups:
+      - ""
+      resources:
+      - namespaces
+      verbs:
+      - get
+      - list
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - get
+      - create
+      - patch
+      - update
+      - list
+    - apiGroups:
+      - tekton.dev
+      resources:
+      - pipelines
+      - pipelinereources
+      - pipelineruns
+      - tasks
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      verbs:
+      - get
+      - list
+      - watch
+  role:
+    enabled: true
+    rules:
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - pipelineactivities
+      - pipelinestructures
+      - sourcerepositories
+      verbs:
+      - list
+      - get
+      - watch
+      - create
+      - update
+      - patch
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - environments
+      - plugins
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      - pods/log
+      - secrets
+      verbs:
+      - get
+      - list
+      - watch
+
+controllerrole:
+  enabled: true
+  serviceaccount:
+    enabled: true
+  deployment:
+    enabled: true
+  probe:
+    path: ""
+  restartPolicy: Always
+  args:
+  - "controller"
+  - "role"
+  image:
+    repository: gcr.io/jenkinsxio/builder-jx
+    tag: 2.0.876-229
+  clusterrole:
+    enabled: true
+    rules:
+    - apiGroups:
+      - ""
+      - extensions
+      - apps
+      - rbac.authorization.k8s.io
+      - batch
+      - jenkins.io
+      resources:
+      - "*"
+      - "pods/*"
+      verbs:
+      - list
+      - get
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - get
+      - create
+      - patch
+      - update
+      - list
+  role:
+    enabled: true
+    rules:
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - environmentrolebindings
+      verbs:
+      - list
+      - get
+      - watch
+      - create
+      - patch
+      - update
+    - apiGroups:
+      - tekton.dev
+      resources:
+      - '*'
+      verbs:
+      - list
+      - get
+      - watch
+
 docker-registry:
   enabled: false
 
@@ -22,6 +188,305 @@ exposer: Ingress
 
 extensions:
   enabled: true
+
+gcpreviews:
+  serviceaccount:
+    enabled: true
+  cronjob:
+    enabled: true
+    schedule: "0 */3 * * *"
+  args:
+    - "gc"
+    - "previews"
+    - "--batch-mode"
+  image:
+    repository: gcr.io/jenkinsxio/builder-jx
+    tag: 2.0.876-229
+  role:
+    enabled: true
+    rules:
+      - apiGroups:
+        - jenkins.io
+        resources:
+        - environments
+        - releases
+        - facts
+        - pipelineactivities
+        - commitstatuses
+        - schedulers
+        - extensions
+        - users
+        - teams
+        - pipelinestructures
+        - plugins
+        - buildpacks
+        - apps
+        - sourcerepositories
+        - gitservices
+        - workflows
+        - environmentrolebindings
+        - sourcerepositorygroups
+        verbs:
+        - list
+        - get
+        - patch
+        - update
+        - delete
+      - apiGroups:
+        - ""
+        resources:
+        - secrets
+        - services
+        - replicationcontrollers
+        - persistentvolumeclaims
+        - configmaps
+        - serviceaccounts
+        verbs:
+        - list
+        - get
+        - watch
+      - apiGroups:
+        - apps
+        resources:
+        - daemonsets
+        - deployments
+        - replicasets
+        - statefulsets
+        verbs:
+        - list
+        - get
+        - watch
+      - apiGroups:
+        - autoscaling
+        resources:
+        - horizontalpodautoscalers
+        verbs:
+        - list
+        - get
+        - watch
+      - apiGroups:
+        - batch
+        resources:
+        - jobs
+        - cronjobs
+        verbs:
+        - list
+        - get
+        - watch
+      - apiGroups:
+        - tekton.dev
+        resources:
+        - pipelines
+        - taskruns
+        - tasks
+        - clustertasks
+        - pipelineresources
+        - pipelineruns
+        verbs:
+        - list
+        - get
+        - watch
+      - apiGroups:
+        - rbac.authorization.k8s.io
+        resources:
+        - roles
+        - rolebindings
+        verbs:
+        - list
+        - get
+      - apiGroups:
+        - vault.banzaicloud.com
+        resources:
+        - vaults
+        verbs:
+        - list
+        - get
+      - apiGroups:
+        - extensions
+        resources:
+        - ingresses
+        verbs:
+        - list
+        - get
+  clusterrole:
+    enabled: true
+    rules:
+    - apiGroups:
+      - ""
+      resources:
+      - namespaces
+      verbs:
+      - get
+      - list
+      - delete
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      - pods/portforward
+      verbs:
+      - get
+      - create
+      - list
+      - delete
+    - apiGroups:
+      - rbac.authorization.k8s.io
+      resources:
+      - clusterroles
+      - clusterrolebindings
+      - customresourcedefinitions
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - rbac.authorization.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - create
+    - apiGroups:
+      - tekton.dev
+      resources:
+      - clustertasks
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+
+gcactivities:
+  serviceaccount:
+    enabled: true
+  cronjob:
+    enabled: true
+    schedule: "0/30 */3 * * *"
+  args:
+  - "gc"
+  - "activities"
+  - "--batch-mode"
+  image:
+    repository: gcr.io/jenkinsxio/builder-jx
+    tag: 2.0.876-229
+  role:
+    enabled: true
+    rules:
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - pipelineactivities
+      verbs:
+      - list
+      - delete
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - environments
+      verbs:
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - plugins
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - secrets
+      - services
+      verbs:
+      - get
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      verbs:
+      - get
+    - apiGroups:
+      - tekton.dev
+      resources:
+      - pipelineruns
+      verbs:
+      - get
+      - list
+      - watch
+      - delete
+  clusterrole:
+    enabled: true
+    rules:
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - get
+      - create
+      - patch
+      - update
+    - apiGroups:
+      - ""
+      resources:
+      - namespaces
+      verbs:
+      - get
+      - delete
+      - list
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      verbs:
+      - get
+
+gcpods:
+  serviceaccount:
+    enabled: true
+  cronjob:
+    enabled: true
+    schedule: "0/30 */3 * * *"
+  args:
+  - "gc"
+  - "pods"
+  - "--batch-mode"
+  image:
+    repository: gcr.io/jenkinsxio/builder-jx
+    tag: 2.0.876-229
+  role:
+    enabled: true
+    rules:
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - environments
+      - plugins
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      verbs:
+      - get
+      - delete
+      - list
 
 podTemplates:
   enabled: true

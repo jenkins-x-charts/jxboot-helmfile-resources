@@ -14,10 +14,10 @@ metadata:
     team: {{ $env.namespace | default "jx" }}
   name: "{{ $env.key }}"
 spec:
-{{- if and (hasKey $env "repo") (hasKey $env "owner") }}
+{{- if hasKey $env "repository" }}
   source:
     ref: "master"
-    url: {{ $jx.cluster.gitServer | default "https://github.com" }}{{ $gitUrlPathPrefix }}/{{ $env.owner }}/{{ $env.repo }}.git
+    url: {{ $jx.cluster.gitServer | default "https://github.com" }}{{ $gitUrlPathPrefix }}/{{ $env.owner | default $jx.cluster.environmentGitOwner }}/{{ $env.repository }}.git
 {{- end }}
 
 {{- if eq "dev" $env.key }}

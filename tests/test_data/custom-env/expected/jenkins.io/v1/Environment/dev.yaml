@@ -6,6 +6,9 @@ metadata:
     team: jx
   name: "dev"
 spec:
+  source:
+    ref: "master"
+    url: https://github.com/myorg/environment-mycluster-dev.git
   kind: Development
   label: Development
   namespace: jx

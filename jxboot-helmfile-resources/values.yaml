@@ -15,7 +15,7 @@ chartmuseumServiceLink:
   externalname: ""
 
 controllerbuild:
-  enabled: false
+  enabled: true
   serviceaccount:
     enabled: true
   deployment:

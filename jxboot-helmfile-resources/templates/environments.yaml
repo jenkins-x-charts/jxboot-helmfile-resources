@@ -25,7 +25,7 @@ spec:
   label: Development
   namespace: {{ $env.namespace | default "jx" }}
   promotionStrategy: Never
-  webHookEngine: {{ $jx.webhook | default "lighthouse" | quote }}
+  webHookEngine: {{ $jx.webhook | default "lighthouse" | title | quote }}
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io
 {{- if hasKey $jx "buildPackName" }}

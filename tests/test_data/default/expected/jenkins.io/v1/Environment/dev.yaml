@@ -10,7 +10,7 @@ spec:
   label: Development
   namespace: jx
   promotionStrategy: Never
-  webHookEngine: "lighthouse"
+  webHookEngine: "Lighthouse"
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io
     defaultScheduler:

@@ -28,10 +28,11 @@ controllerbuild:
   - "build"
   - "--batch-mode"
   - "--git-credentials"
+  - "--git-reporting"
   - "--verbose"
   image:
     repository: gcr.io/jenkinsxio/builder-go
-    tag: 2.0.876-229
+    tag: 2.0.1150-482
   env:
     GIT_AUTHOR_NAME: "jenkins-x-bot"
     GIT_AUTHOR_EMAIL: "jenkins-x@googlegroups.com"

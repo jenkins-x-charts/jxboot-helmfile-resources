@@ -1,0 +1,16 @@
+apiVersion: jenkins.io/v1
+kind: Environment
+metadata:
+  labels:
+    env: "production"
+    team: jx
+  name: "production"
+spec:
+  source:
+    ref: "master"
+    url: https://github.com/myorg/environment-mycluster-production.git
+  kind: Permanent
+  label: Production
+  promotionStrategy: "Manual"
+  namespace: "jx-production"
+  remoteCluster: true

@@ -16,7 +16,11 @@ spec:
   scheduler:
     kind: Scheduler
 {{- if $env.remoteCluster }}
+  {{- if eq "dev" $env.key }}
+    name: "release-only"
+  {{- else }}
     name: "pr-only"
+  {{- end -}}
 {{- else }}
     name: "environment"
 {{- end -}}

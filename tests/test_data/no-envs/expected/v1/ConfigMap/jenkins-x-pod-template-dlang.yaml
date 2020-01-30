@@ -25,7 +25,7 @@ data:
           secretName: jenkins-docker-cfg
       containers:
       - name: dlang
-        image: gcr.io/jenkinsxio/builder-dlang:2.0.876-229
+        image: gcr.io/jenkinsxio/builder-dlang:2.0.1171-507
         args:
         - cat
         command:

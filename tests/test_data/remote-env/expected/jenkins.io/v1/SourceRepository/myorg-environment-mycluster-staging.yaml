@@ -1,0 +1,15 @@
+apiVersion: jenkins.io/v1
+kind: SourceRepository
+metadata:
+  name: "myorg-environment-mycluster-staging"
+  labels:
+    jenkins.io/gitSync: "false"
+spec:
+  provider: "https://github.com"
+  providerName: 'github'
+  org: "myorg"
+  repo: "environment-mycluster-staging"
+  description: "the git repository for the Staging environment"
+  scheduler:
+    kind: Scheduler
+    name: "pr-only"

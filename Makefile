@@ -11,7 +11,9 @@ init:
 setup: init
 	helm repo add jenkinsxio http://chartmuseum.jenkins-x.io
 
-build: clean setup
+build: setup build-nosetup
+
+build-nosetup: clean
 	helm dependency build jxboot-helmfile-resources
 	helm lint jxboot-helmfile-resources
 

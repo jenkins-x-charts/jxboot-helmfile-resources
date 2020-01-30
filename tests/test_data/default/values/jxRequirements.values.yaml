@@ -9,8 +9,9 @@ exposer: Ingress
 secrets:
   tektonBucket: ""
   featureFlagAPIKey: ""
-  chartMuseumPassword: ""
-  chartMuseumUsername: ""
+  chartMuseum:
+    username: ""
+    password: ""
   pipelineUser:
     username: ""
     email: ""

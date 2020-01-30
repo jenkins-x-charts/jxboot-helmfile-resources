@@ -99,4 +99,7 @@ spec:
   namespace: "jx-{{ $env.key }}"
 {{- end -}}
 {{- end -}}
+{{- if $env.remoteCluster }}
+  remoteCluster: true
+{{- end }}
 {{- end -}}

@@ -25,7 +25,7 @@ data:
           secretName: jenkins-docker-cfg
       containers:
       - name: machine-learning
-        image: gcr.io/jenkinsxio/builder-machine-learning-gpu:2.0.1171-507
+        image: gcr.io/jenkinsxio/builder-machine-learning-gpu:2.0.1177-516
         args:
         - cat
         command:

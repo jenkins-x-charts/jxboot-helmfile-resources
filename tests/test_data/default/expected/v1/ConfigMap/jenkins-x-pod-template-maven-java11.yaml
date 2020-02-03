@@ -31,7 +31,7 @@ data:
           secretName: jenkins-release-gpg
       containers:
       - name: maven
-        image: gcr.io/jenkinsxio/builder-maven-java11:2.0.1171-507
+        image: gcr.io/jenkinsxio/builder-maven-java11:2.0.1177-516
         args:
         - cat
         command:

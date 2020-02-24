@@ -5,7 +5,7 @@ buildPacks:
     gitRef: "master"
   "kubernetes-workloads":
     label: "Kubernetes Workloads: Automated CI+CD with GitOps Promotion"
-    gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-kubernetes.git"
+    gitUrl: "https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git"
     gitRef: "master"
 
 chartmuseumServiceLink:
@@ -1539,6 +1539,8 @@ jxRequirements:
     enabled: false
     schedule: ""
   bootConfigURL: https://github.com/jenkins-x/jenkins-x-boot-config.git
+  buildPackUrl: https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git
+  buildPackRef: master
   cluster:
     clustername: mycluster
     devEnvApprovers:

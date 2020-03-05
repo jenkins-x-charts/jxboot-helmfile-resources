@@ -4,5 +4,5 @@ metadata:
   name: "kubernetes-workloads"
 spec:
   label: "Kubernetes Workloads: Automated CI+CD with GitOps Promotion"
-  gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-kubernetes.git"
+  gitUrl: "https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git"
   gitRef: "master"

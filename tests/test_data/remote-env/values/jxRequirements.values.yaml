@@ -43,9 +43,19 @@ jxRequirements:
   - key: staging
     repository: environment-mycluster-staging
     remoteCluster: true
+    requirementsYaml: |-
+      cluster:
+        clusterName: mystagingcluster
+        provider: gke
+        namespace: jx-staging
   - key: production
     repository: environment-mycluster-production
     remoteCluster: true
+    requirementsYaml: |-
+      cluster:
+        clusterName: myproductioncluster
+        provider: gke
+        namespace: jx-production
   gitops: true
   ingress:
     domain: ""

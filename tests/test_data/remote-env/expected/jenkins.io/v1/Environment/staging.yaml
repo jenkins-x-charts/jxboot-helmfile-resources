@@ -13,4 +13,11 @@ spec:
   label: Staging
   namespace: jx-staging
   promotionStrategy: "Auto"
+  teamSettings:
+    bootRequirements:     |-
+      cluster:
+        clusterName: mystagingcluster
+        provider: gke
+        namespace: jx-staging
+    
   remoteCluster: true

@@ -89,10 +89,18 @@ spec:
   label: Staging
   namespace: {{ $env.namespace | default "jx-staging" }}
   promotionStrategy: "Auto"
+  {{- if hasKey $env "requirementsYaml" }}
+  teamSettings:
+    bootRequirements: {{ toYaml $env.requirementsYaml | indent 4 }}
+  {{- end }}
 {{- else }}
   kind: Permanent
   label: {{ title $env.key }}
   promotionStrategy: "Manual"
+{{- if hasKey $env "requirementsYaml" }}
+  teamSettings:
+    bootRequirements: {{ toYaml $env.requirementsYaml | indent 4 }}
+{{- end }}
 {{- if $env.namespace }}
   namespace: "{{ $env.namespace }}"
 {{- else }}

@@ -12,5 +12,12 @@ spec:
   kind: Permanent
   label: Production
   promotionStrategy: "Manual"
+  teamSettings:
+    bootRequirements:     |-
+      cluster:
+        clusterName: myproductioncluster
+        provider: gke
+        namespace: jx-production
+    
   namespace: "jx-production"
   remoteCluster: true

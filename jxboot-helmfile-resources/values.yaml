@@ -1567,6 +1567,7 @@ jxRequirements:
       email: ""
       enabled: false
       production: false
+      secretName: ""
   repository: nexus
   secretStorage: local
   storage:

@@ -5,4 +5,8 @@ metadata:
   annotations:
     expose.config.fabric8.io/clusterip-port-if-empty-key: docker.registry
 data:
+{{- if eq "gke" .Values.jxRequirements.cluster.provider }}
   docker.registry: {{ .Values.jxRequirements.cluster.registry | default "gcr.io" }}
+{{- else }}
+  docker.registry: {{ .Values.jxRequirements.cluster.registry | default "docker-registry" }}
+{{- end }}

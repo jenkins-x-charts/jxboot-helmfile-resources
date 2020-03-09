@@ -27,7 +27,7 @@ spec:
     gitServer: https://github.com
     gitPublic: true
     helmTemplate: true
-    kubeProvider: "gke"
+    kubeProvider: "kubernetes"
     pipelineUsername: ""
     pipelineUserEmail: ""
     prowConfig: Scheduler

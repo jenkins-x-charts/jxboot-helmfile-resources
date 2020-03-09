@@ -1,0 +1,16 @@
+# Source: jxboot-helmfile-resources/templates/700-hook-ing.yaml
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hook
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: hook-jx.
+    http:
+      paths:
+      - backend:
+          serviceName: hook
+          servicePort: 80

@@ -22,7 +22,7 @@ data:
         emptyDir: {}
       containers:
       - name: promote
-        image: gcr.io/jenkinsxio/builder-jx:2.0.1231-569
+        image: gcr.io/jenkinsxio/builder-jx:2.0.1232-570
         args:
         - cat
         command:

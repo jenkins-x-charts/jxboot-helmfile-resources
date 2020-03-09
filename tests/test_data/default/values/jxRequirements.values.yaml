@@ -23,7 +23,6 @@ jxRequirements:
     schedule: ""
   bootConfigURL: https://github.com/jenkins-x/jenkins-x-boot-config.git
   cluster:
-    clusterName: mycluster
     devEnvApprovers:
     - someone
     environmentGitOwner: myorg
@@ -33,9 +32,7 @@ jxRequirements:
     gitPublic: true
     gitServer: https://github.com
     namespace: jx
-    project: myproject
-    provider: gke
-    zone: europe-west1-c
+    provider: kubernetes
   environments:
   - key: dev
     repository: environment-mycluster-dev

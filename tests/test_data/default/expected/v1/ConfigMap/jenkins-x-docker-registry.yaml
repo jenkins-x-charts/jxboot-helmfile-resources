@@ -6,4 +6,4 @@ metadata:
   annotations:
     expose.config.fabric8.io/clusterip-port-if-empty-key: docker.registry
 data:
-  docker.registry: gcr.io
+  docker.registry: docker-registry

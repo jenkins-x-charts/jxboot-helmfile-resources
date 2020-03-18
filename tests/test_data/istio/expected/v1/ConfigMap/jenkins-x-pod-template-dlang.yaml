@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "jenkins-x-pod-template-dlang"
+  labels:
+    jenkins.io/kind: podTemplate
+data:
+  pod: |-
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: jenkins-dlang
+      labels:
+        jenkins.io/kind: build-pod
+      annotations:
+        jenkins-x.io/devpodPorts: 8080
+    spec:
+      serviceAccount: tekton-sa
+      nodeSelector:
+      volumes:
+      - name: workspace-volume
+        emptyDir: {}
+      containers:
+      - name: dlang
+        image: gcr.io/jenkinsxio/builder-dlang:2.0.1244-581
+        args:
+        - cat
+        command:
+        - /bin/sh
+        - -c
+        workingDir: /home/jenkins
+        securityContext:
+          privileged: true
+        tty: true
+        env:
+        - name: DOCKER_REGISTRY
+          valueFrom:
+            configMapKeyRef:
+              name: jenkins-x-docker-registry
+              key: docker.registry
+        - name: GIT_AUTHOR_EMAIL
+          value: jenkins-x@googlegroups.com
+        - name: GIT_AUTHOR_NAME
+          value: jenkins-x-bot
+        - name: GIT_COMMITTER_EMAIL
+          value: jenkins-x@googlegroups.com
+        - name: GIT_COMMITTER_NAME
+          value: jenkins-x-bot
+        - name: XDG_CONFIG_HOME
+          value: /home/jenkins
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1024Mi
+          limits:
+        volumeMounts:
+          - mountPath: /home/jenkins
+            name: workspace-volume

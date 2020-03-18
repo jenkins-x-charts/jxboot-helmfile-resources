@@ -1,0 +1,32 @@
+{{- if and (eq "nexus" .Values.jxRequirements.repository) (eq "istio" .Values.jxRequirements.ingress.kind) }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: nexus
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - nexus{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: nexus
+spec:
+  gateways:
+  - nexus
+  hosts:
+    - nexus{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  http:
+  - route:
+    - destination:
+        host: nexus
+      weight: 100
+{{- end }}

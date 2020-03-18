@@ -1,0 +1,32 @@
+{{- if and (or (eq "lighthouse" .Values.jxRequirements.webhook) (eq "prow" .Values.jxRequirements.webhook)) (eq "istio" .Values.jxRequirements.ingress.kind) }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: hook
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - hook{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hook
+spec:
+  gateways:
+  - hook
+  hosts:
+    - hook{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  http:
+  - route:
+    - destination:
+        host: hook
+      weight: 100
+{{- end }}

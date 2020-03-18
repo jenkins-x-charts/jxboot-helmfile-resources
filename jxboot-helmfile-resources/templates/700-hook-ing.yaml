@@ -1,4 +1,4 @@
-{{- if or (eq "lighthouse" .Values.jxRequirements.webhook) (eq "prow" .Values.jxRequirements.webhook) }}
+{{- if and (or (eq "lighthouse" .Values.jxRequirements.webhook) (eq "prow" .Values.jxRequirements.webhook)) (not (eq "istio" .Values.jxRequirements.ingress.kind))  }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

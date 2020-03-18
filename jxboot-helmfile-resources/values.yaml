@@ -1562,6 +1562,7 @@ jxRequirements:
   ingress:
     domain: ""
     externalDNS: false
+    kind: ""
     namespaceSubDomain: -jx.
     tls:
       email: ""

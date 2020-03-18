@@ -1,0 +1,32 @@
+{{- if and (eq "bucketrepo" .Values.jxRequirements.repository) (eq "istio" .Values.jxRequirements.ingress.kind) }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: bucketrepo
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - bucketrepo{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: bucketrepo
+spec:
+  gateways:
+  - bucketrepo
+  hosts:
+    - bucketrepo{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  http:
+  - route:
+    - destination:
+        host: bucketrepo
+      weight: 100
+{{- end }}

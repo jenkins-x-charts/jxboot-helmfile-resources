@@ -22,7 +22,7 @@ data:
         emptyDir: {}
       containers:
       - name: jx-base
-        image: gcr.io/jenkinsxio/builder-jx:2.0.1232-570
+        image: gcr.io/jenkinsxio/builder-jx:2.0.1244-581
         args:
         - cat
         command:

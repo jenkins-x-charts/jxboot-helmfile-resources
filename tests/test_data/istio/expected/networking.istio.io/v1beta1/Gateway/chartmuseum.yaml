@@ -1,0 +1,16 @@
+# Source: jxboot-helmfile-resources/templates/700-chartmuseum-vs.yaml
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: chartmuseum
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - chartmuseum-jx.mydomain.com
+    port:
+      name: http
+      number: 80
+      protocol: HTTP

@@ -1,0 +1,15 @@
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: chartmuseum
+spec:
+  gateways:
+  - chartmuseum
+  hosts:
+    - chartmuseum-jx.mydomain.com
+  http:
+  - route:
+    - destination:
+        host: chartmuseum
+      weight: 100

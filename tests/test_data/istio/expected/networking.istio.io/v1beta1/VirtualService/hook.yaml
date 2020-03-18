@@ -1,0 +1,15 @@
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hook
+spec:
+  gateways:
+  - hook
+  hosts:
+    - hook-jx.mydomain.com
+  http:
+  - route:
+    - destination:
+        host: hook
+      weight: 100

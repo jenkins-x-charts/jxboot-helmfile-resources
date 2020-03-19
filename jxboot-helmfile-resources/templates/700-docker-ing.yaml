@@ -1,4 +1,4 @@
-{{- if and (index .Values "docker-registry" "enabled") (not (eq "istio" .Values.jxRequirements.ingress.kind))  }}
+{{- if (index .Values "docker-registry" "enabled")  }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

@@ -1,4 +1,4 @@
-{{- if and (eq "bucketrepo" .Values.jxRequirements.repository) (not (eq "istio" .Values.jxRequirements.ingress.kind)) }}
+{{- if (eq "bucketrepo" .Values.jxRequirements.repository) }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

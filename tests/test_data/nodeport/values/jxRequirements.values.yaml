@@ -1,0 +1,73 @@
+versions:
+  # TODO update with latest builders version
+  builders: latest
+
+# TODO we want to remove exposecontroller at some point
+exposer: Ingress
+
+# imported from the global secrets?
+secrets:
+  tektonBucket: ""
+  featureFlagAPIKey: ""
+  chartMuseum:
+    username: ""
+    password: ""
+  pipelineUser:
+    username: ""
+    email: ""
+    token: ""
+
+jxRequirements:
+  autoUpdate:
+    enabled: false
+    schedule: ""
+  bootConfigURL: https://github.com/jenkins-x/jenkins-x-boot-config.git
+  cluster:
+    clusterName: mycluster
+    devEnvApprovers:
+    - someone
+    environmentGitOwner: myorg
+    environmentGitPublic: true
+    gitKind: github
+    gitName: github
+    gitPublic: true
+    gitServer: https://github.com
+    namespace: jx
+    project: myproject
+    provider: kubernetes
+  environments:
+  - key: dev
+    repository: environment-mycluster-dev
+  - key: staging
+    repository: environment-mycluster-staging
+  - key: production
+    repository: environment-mycluster-production
+  gitops: true
+  ingress:
+    domain: "1.2.3.4:30123"
+    serviceType: NodePort
+    externalDNS: false
+    namespaceSubDomain: -jx.
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  repository: nexus
+  secretStorage: local
+  storage:
+    backup:
+      enabled: false
+      url: ""
+    logs:
+      enabled: false
+      url: ""
+    reports:
+      enabled: false
+      url: ""
+    repository:
+      enabled: false
+      url: ""
+  versionStream:
+    ref: master
+    url: https://github.com/jenkins-x/jenkins-x-versions.git
+  webhook: lighthouse

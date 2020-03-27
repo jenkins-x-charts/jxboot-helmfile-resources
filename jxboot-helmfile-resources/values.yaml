@@ -1564,6 +1564,7 @@ jxRequirements:
     externalDNS: false
     kind: ""
     namespaceSubDomain: -jx.
+    serviceType: ""
     tls:
       email: ""
       enabled: false

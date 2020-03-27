@@ -8,8 +8,7 @@ metadata:
   name: nexus
 spec:
   rules:
-  - host: nexus-jx.
-    http:
+  - http:
       paths:
       - backend:
           serviceName: nexus

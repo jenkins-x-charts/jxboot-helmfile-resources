@@ -8,12 +8,12 @@ metadata:
   name: nexus
 spec:
   rules:
-  - host: nexus-jx.mydomain.com
-    http:
+  - http:
       paths:
       - backend:
           serviceName: nexus
           servicePort: 80
+    host: nexus-jx.mydomain.com
   tls:
   - hosts:
     - nexus-jx.mydomain.com

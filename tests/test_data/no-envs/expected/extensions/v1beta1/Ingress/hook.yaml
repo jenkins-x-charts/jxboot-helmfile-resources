@@ -8,8 +8,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: hook-jx.
-    http:
+  - http:
       paths:
       - backend:
           serviceName: hook

@@ -8,8 +8,7 @@ metadata:
   name: chartmuseum
 spec:
   rules:
-  - host: chartmuseum-jx.
-    http:
+  - http:
       paths:
       - backend:
           serviceName: jenkins-x-chartmuseum

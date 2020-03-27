@@ -6,18 +6,25 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/auth-secret: jx-basic-auth
     nginx.ingress.kubernetes.io/auth-type: basic
+{{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
+    jenkins.io/host: "{{ .Values.jxRequirements.ingress.domain }}"
+{{- end }}
 {{- if .Values.ingress.annotations }}
 {{ toYaml .Values.ingress.annotations | indent 4 }}
 {{- end }}
   name: docker-registry
 spec:
   rules:
-  - host: docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
-    http:
+  - http:
       paths:
       - backend:
           serviceName: jenkins-x-docker-registry
           servicePort: 5000
+{{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
+        path: "/{{ .Release.Namespace }}/docker-registry"
+{{- else if .Values.jxRequirements.ingress.domain }}
+    host: docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:

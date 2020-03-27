@@ -22,7 +22,7 @@ data:
         emptyDir: {}
       containers:
       - name: python
-        image: gcr.io/jenkinsxio/builder-python2:2.0.1245-582
+        image: gcr.io/jenkinsxio/builder-python2:2.0.1246-583
         args:
         - cat
         command:

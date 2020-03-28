@@ -19,7 +19,7 @@ spec:
           serviceName: hook
           servicePort: 80
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
-        path: "/{{ .Release.Namespace }}/hook"
+        path: "/hook"
 {{- else if .Values.jxRequirements.ingress.domain }}
     host: hook{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}

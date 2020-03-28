@@ -21,7 +21,7 @@ spec:
           serviceName: jenkins-x-docker-registry
           servicePort: 5000
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
-        path: "/{{ .Release.Namespace }}/docker-registry"
+        path: "/docker-registry"
 {{- else if .Values.jxRequirements.ingress.domain }}
     host: docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}

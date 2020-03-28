@@ -19,7 +19,7 @@ spec:
           serviceName: nexus
           servicePort: 80
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
-        path: "/{{ .Release.Namespace }}/nexus"
+        path: "/nexus"
 {{- else if .Values.jxRequirements.ingress.domain }}
     host: nexus{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}

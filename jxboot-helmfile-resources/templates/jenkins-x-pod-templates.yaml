@@ -39,6 +39,11 @@ data:
       volumes:
       - name: workspace-volume
         emptyDir: {}
+{{- if $agent.dockerConfig }}
+      - name: jenkins-docker-cfg
+        secret:
+          secretName: jenkins-docker-cfg
+{{- end }}
 {{- if $agent.dockerHostPath }}
       - name: docker-daemon
         hostPath:
@@ -106,6 +111,10 @@ data:
         volumeMounts:
           - mountPath: /home/jenkins
             name: workspace-volume
+  {{- if $agent.dockerConfig }}
+          - name: jenkins-docker-cfg
+            mountPath: /kaniko/.docker
+  {{- end }}
   {{- if $agent.dockerHostPath }}
           - name: docker-daemon
             mountPath: {{ $agent.dockerMountPath }}

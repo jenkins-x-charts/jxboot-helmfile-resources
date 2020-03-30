@@ -494,6 +494,7 @@ podTemplates:
   agent:
     dockerHostPath: ""
     dockerMountPath: ""
+    dockerConfig: false
   templates:
     aws-cdk:
       name: aws-cdk

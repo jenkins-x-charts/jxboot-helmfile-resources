@@ -42,9 +42,9 @@ spec:
       kind: Scheduler
       name: default
 {{- if hasKey $jx.cluster "dockerRegistryOrg" }}
-    dockerRegistryOrg: {{ $jx.cluster.dockerRegistryOrg }}
+    dockerRegistryOrg: "{{ $jx.cluster.dockerRegistryOrg }}"
 {{- else }}
-    dockerRegistryOrg: {{ $jx.cluster.project }}
+    dockerRegistryOrg: "{{ $jx.cluster.project }}"
 {{- end }}
     envOrganisation: {{ $jx.cluster.environmentGitOwner }}
     gitServer: https://github.com

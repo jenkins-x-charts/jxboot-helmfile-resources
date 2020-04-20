@@ -14,4 +14,4 @@ spec:
       - backend:
           serviceName: hook
           servicePort: 80
-        path: "/jx/hook"
+        path: "/hook"

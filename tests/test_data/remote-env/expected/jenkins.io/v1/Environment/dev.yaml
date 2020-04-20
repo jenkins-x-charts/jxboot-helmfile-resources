@@ -17,12 +17,12 @@ spec:
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io
     buildPackRef: "master"
-    buildPackUrl: "https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git"
+    buildPackURL: "https://github.com/jenkins-x/jxr-packs-kubernetes.git"
     defaultScheduler:
       apiVersion: jenkins.io/v1
       kind: Scheduler
       name: default
-    dockerRegistryOrg: myproject
+    dockerRegistryOrg: "myproject"
     envOrganisation: myorg
     gitServer: https://github.com
     gitPublic: true

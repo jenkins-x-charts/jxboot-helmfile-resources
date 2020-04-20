@@ -17,4 +17,4 @@ spec:
   tls:
   - hosts:
     - nexus-jx.mydomain.com
-    secretName: ""
+    secretName: "tls-mydomain-com-s"

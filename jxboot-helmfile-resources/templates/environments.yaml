@@ -34,8 +34,8 @@ spec:
 {{- if hasKey $jx "buildPackRef" }}
     buildPackRef: "{{ $jx.buildPackRef }}"
 {{- end }}
-{{- if hasKey $jx "buildPackUrl" }}
-    buildPackUrl: "{{ $jx.buildPackUrl }}"
+{{- if hasKey $jx "buildPackURL" }}
+    buildPackURL: "{{ $jx.buildPackURL }}"
 {{- end }}
     defaultScheduler:
       apiVersion: jenkins.io/v1

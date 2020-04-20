@@ -14,4 +14,4 @@ spec:
       - backend:
           serviceName: nexus
           servicePort: 80
-        path: "/jx/nexus"
+        path: "/nexus"

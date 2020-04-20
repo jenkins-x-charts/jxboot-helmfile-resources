@@ -22,7 +22,7 @@ data:
         emptyDir: {}
       containers:
       - name: nodejs
-        image: gcr.io/jenkinsxio/builder-nodejs12x:2.0.1246-583
+        image: gcr.io/jenkinsxio/builder-nodejs12x:2.1.2-628
         args:
         - cat
         command:

@@ -1539,8 +1539,8 @@ jxRequirements:
   autoUpdate:
     enabled: false
     schedule: ""
-  bootConfigURL: https://github.com/jenkins-x/jenkins-x-boot-config.git
-  buildPackUrl: https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git
+  bootConfigURL: https://github.com/jenkins-x/jxr-boot-config.git
+  buildPackURL: https://github.com/jenkins-x/jxr-packs-kubernetes.git
   buildPackRef: master
   cluster:
     clustername: mycluster

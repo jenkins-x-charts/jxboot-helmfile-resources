@@ -66,9 +66,10 @@ spec:
     promotionEngine: Prow
     prowEngine: Tekton
 {{- end }}
-    versionStreamUrl: "{{ $jx.versionStream.url }}"
-    versionStreamRef: "{{ $jx.versionStream.ref }}"
     useGitOps: true
+    versionStream:
+      url: "{{ $jx.versionStream.url }}"
+      ref: "{{ $jx.versionStream.ref }}"
 {{- if or $jx.storage.logs.url $jx.storage.reports.url }}
     storageLocations:
 {{- end }}

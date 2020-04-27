@@ -181,8 +181,31 @@ controllerrole:
       - get
       - watch
 
+bucketrepo:
+  ingress:
+    tls:
+      secretName: ""
+
+chartmuseum:
+  ingress:
+    tls:
+      secretName: ""
+
 docker-registry:
   enabled: false
+  ingress:
+    tls:
+      secretName: ""
+
+hook:
+  ingress:
+    tls:
+      secretName: ""
+
+nexus:
+  ingress:
+    tls:
+      secretName: ""
 
 # TODO we want to remove exposecontroller at some point
 exposer: Ingress

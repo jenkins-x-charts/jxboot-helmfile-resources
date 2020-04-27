@@ -29,7 +29,9 @@ spec:
   tls:
   - hosts:
     - docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
-{{- if .Values.jxRequirements.ingress.tls.secretName }}
+{{- if index .Values "docker-registry" "ingress" "tls" "secretName" }}
+    secretName: "{{ index .Values "docker-registry" "ingress" "tls" "secretName" }}"
+{{- else if .Values.jxRequirements.ingress.tls.secretName }}
     secretName: "{{ .Values.jxRequirements.ingress.tls.secretName }}"
 {{- else if .Values.jxRequirements.ingress.tls.production }}
     secretName: "tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p"

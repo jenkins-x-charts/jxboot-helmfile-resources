@@ -27,7 +27,9 @@ spec:
   tls:
   - hosts:
     - nexus{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
-{{- if .Values.jxRequirements.ingress.tls.secretName }}
+{{- if .Values.nexus.ingress.tls.secretName }}
+    secretName: "{{ .Values.nexus.ingress.tls.secretName }}"
+{{- else if .Values.jxRequirements.ingress.tls.secretName }}
     secretName: "{{ .Values.jxRequirements.ingress.tls.secretName }}"
 {{- else if .Values.jxRequirements.ingress.tls.production }}
     secretName: "tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p"

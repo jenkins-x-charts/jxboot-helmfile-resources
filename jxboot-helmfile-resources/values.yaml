@@ -1517,6 +1517,10 @@ podTemplates:
 ingress:
   annotations:
 #      kubernetes.io/ingress.class: nginx
+  apiVersion: networking.k8s.io/v1beta1
+
+  # on old clusters use:
+  #apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1beta1" }}
 
 nexusServiceLink:
   enabled: false

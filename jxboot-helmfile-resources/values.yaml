@@ -1534,6 +1534,9 @@ versions:
   # TODO update with latest builders version
   builders: latest
 
+  # TODO update with latest builders version
+  jxl: 0.0.91
+
 # standard YAML files for jx boot:
 secrets:
   adminUser:

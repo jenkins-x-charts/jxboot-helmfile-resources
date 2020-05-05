@@ -3,8 +3,9 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: jx-boot-upgrade
-labels:
-  app: jenkins-x-upgrade-processor
+  labels:
+    app: jenkins-x-upgrade-processor
+    release: jx
 spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1

@@ -22,12 +22,11 @@ spec:
         spec:
           containers:
           - args:
-            - upgrade
             - boot
-            - --latest-release=true
+            - upgrade
             command:
-            - jx
-            image: gcr.io/jenkinsxio/builder-go:{{ .Values.versions.builders }}
+            - jxl
+            image: gcr.io/jenkinsxio-labs-private/jxl:{{ .Values.versions.jxl }}
             imagePullPolicy: Always
             name: jenkins-x-upgrade-processor
             resources: {}

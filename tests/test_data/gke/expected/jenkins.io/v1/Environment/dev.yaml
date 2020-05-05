@@ -1,3 +1,4 @@
+# Source: jxboot-helmfile-resources/templates/environments.yaml
 apiVersion: jenkins.io/v1
 kind: Environment
 metadata:
@@ -17,7 +18,7 @@ spec:
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io
     buildPackRef: "master"
-    buildPackURL: "https://github.com/jenkins-x/jxr-packs-kubernetes.git"
+    buildPackUrl: "https://github.com/jenkins-x/jxr-packs-kubernetes.git"
     defaultScheduler:
       apiVersion: jenkins.io/v1
       kind: Scheduler

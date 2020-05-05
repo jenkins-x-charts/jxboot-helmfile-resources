@@ -1,3 +1,4 @@
+# Source: jxboot-helmfile-resources/templates/jenkins-x-pod-templates.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -22,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: rust
-        image: gcr.io/jenkinsxio/builder-rust:2.1.2-628
+        image: gcr.io/jenkinsxio/builder-rust:2.1.22-649
         args:
         - cat
         command:

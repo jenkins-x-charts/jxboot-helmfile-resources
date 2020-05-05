@@ -1,5 +1,4 @@
 # Source: jxboot-helmfile-resources/templates/700-chartmuseum-vs.yaml
-
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:

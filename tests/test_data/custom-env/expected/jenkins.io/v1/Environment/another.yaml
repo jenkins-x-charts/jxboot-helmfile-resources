@@ -1,3 +1,4 @@
+# Source: jxboot-helmfile-resources/templates/environments.yaml
 apiVersion: jenkins.io/v1
 kind: Environment
 metadata:

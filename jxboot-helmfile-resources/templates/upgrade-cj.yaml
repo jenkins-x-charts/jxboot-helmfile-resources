@@ -25,8 +25,12 @@ spec:
             - boot
             - upgrade
             - --git-credentials
+            - --batch-mode
             command:
             - jxl
+            env:
+            - name: HOME
+              value: /home
             image: gcr.io/jenkinsxio-labs-private/jxl:{{ .Values.versions.jxl }}
             imagePullPolicy: Always
             name: jenkins-x-upgrade-processor

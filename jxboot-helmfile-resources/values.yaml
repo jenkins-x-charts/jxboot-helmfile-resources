@@ -1539,7 +1539,7 @@ versions:
   builders: latest
 
   # TODO update with latest builders version
-  jxl: 0.0.91
+  jxl: 0.0.93
 
 # standard YAML files for jx boot:
 secrets:

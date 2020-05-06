@@ -24,6 +24,7 @@ spec:
           - args:
             - boot
             - upgrade
+            - --git-credentials
             command:
             - jxl
             image: gcr.io/jenkinsxio-labs-private/jxl:{{ .Values.versions.jxl }}

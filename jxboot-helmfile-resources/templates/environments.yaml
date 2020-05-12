@@ -37,6 +37,15 @@ spec:
 {{- if hasKey $jx "buildPackURL" }}
     buildPackUrl: "{{ $jx.buildPackURL }}"
 {{- end }}
+{{- if and (hasKey $jx "deployOptions") (or ($jx.deployOptions.canary) ($jx.deployOptions.hpa)) }}
+    deployOptions:
+{{- if $jx.deployOptions.canary }}
+      canary: true
+{{- end }}
+{{- if $jx.deployOptions.hpa }}
+      hpa: true
+{{- end }}
+{{- end }}
     defaultScheduler:
       apiVersion: jenkins.io/v1
       kind: Scheduler

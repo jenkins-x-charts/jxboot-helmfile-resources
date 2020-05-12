@@ -36,6 +36,9 @@ jxRequirements:
     project: myproject
     provider: gke
     zone: europe-west1-c
+  deployOptions:
+    canary: true
+    hpa: true
   environments:
   - key: dev
     repository: environment-mycluster-dev

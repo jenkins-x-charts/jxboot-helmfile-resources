@@ -23,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: swift
-        image: gcr.io/jenkinsxio/builder-swift:2.1.22-649
+        image: gcr.io/jenkinsxio/builder-swift:2.1.32-662
         args:
         - cat
         command:

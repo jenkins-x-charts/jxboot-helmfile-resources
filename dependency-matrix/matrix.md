@@ -2,4 +2,4 @@
 
 Dependency | Sources | Version | Mismatched versions
 ---------- | ------- | ------- | -------------------
-[jenkins-x/jenkins-x-builders](https://github.com/jenkins-x/jenkins-x-builders) |  | [2.1.57-689]() | 
+[jenkins-x/jenkins-x-builders](https://github.com/jenkins-x/jenkins-x-builders) |  | [2.1.58-690]() | 

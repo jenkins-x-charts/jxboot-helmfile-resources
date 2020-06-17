@@ -2,15 +2,15 @@
 apiVersion: jenkins.io/v1
 kind: SourceRepository
 metadata:
-  name: "myorg-environment-mycluster-staging"
+  name: "another"
   labels:
     jenkins.io/gitSync: "false"
 spec:
   provider: "https://github.com"
   providerName: 'github'
   org: "myorg"
-  repo: "environment-mycluster-staging"
-  description: "the git repository for the Staging environment"
+  repo: "environment-mycluster-another"
+  description: "the git repository for the Another environment"
   scheduler:
     kind: Scheduler
     name: "environment"

@@ -2,7 +2,7 @@
 apiVersion: jenkins.io/v1
 kind: SourceRepository
 metadata:
-  name: "myorg-environment-mycluster-dev"
+  name: "dev"
   labels:
     jenkins.io/gitSync: "false"
 spec:

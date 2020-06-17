@@ -2,15 +2,15 @@
 apiVersion: jenkins.io/v1
 kind: SourceRepository
 metadata:
-  name: "myorg-environment-mycluster-production"
+  name: "custom"
   labels:
     jenkins.io/gitSync: "false"
 spec:
   provider: "https://github.com"
   providerName: 'github'
   org: "myorg"
-  repo: "environment-mycluster-production"
-  description: "the git repository for the Production environment"
+  repo: "environment-mycluster-custom"
+  description: "the git repository for the Custom environment"
   scheduler:
     kind: Scheduler
     name: "environment"

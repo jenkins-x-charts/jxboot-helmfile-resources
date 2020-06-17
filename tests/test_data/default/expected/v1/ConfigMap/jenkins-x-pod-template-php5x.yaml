@@ -23,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: nodejs
-        image: gcr.io/jenkinsxio/builder-php5x:2.1.32-662
+        image: gcr.io/jenkinsxio/builder-php5x:2.1.69-700
         args:
         - cat
         command:

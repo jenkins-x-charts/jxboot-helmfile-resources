@@ -4,7 +4,7 @@
 apiVersion: jenkins.io/v1
 kind: SourceRepository
 metadata:
-  name: "{{ $env.owner | default $jx.cluster.environmentGitOwner | lower }}-{{ $env.repository }}"
+  name: "{{ $env.key }}"
   labels:
     jenkins.io/gitSync: "false"
 spec:

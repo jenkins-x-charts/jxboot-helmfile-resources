@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/jenkins-x/helm-unit-tester/pkg"
-	"github.com/jenkins-x/jx/pkg/apis/jenkins.io/v1"
+	"github.com/jenkins-x/jx/v2/pkg/apis/jenkins.io/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"sigs.k8s.io/yaml"
@@ -45,7 +45,7 @@ func TestChartsWithDifferentValues(t *testing.T) {
 		}
 
 		for _, e := range envs {
-			file := filepath.Join(dir, "SourceRepository", "myorg-environment-mycluster-"+e+".yaml")
+			file := filepath.Join(dir, "SourceRepository", e+".yaml")
 			assert.FileExists(t, file)
 			data, err := ioutil.ReadFile(file)
 			require.NoError(t, err, "failed to load file %s", file)

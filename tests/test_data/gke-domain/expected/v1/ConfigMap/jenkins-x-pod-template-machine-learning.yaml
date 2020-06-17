@@ -23,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: machine-learning
-        image: gcr.io/jenkinsxio/builder-machine-learning:2.1.32-662
+        image: gcr.io/jenkinsxio/builder-machine-learning:2.1.69-700
         args:
         - cat
         command:

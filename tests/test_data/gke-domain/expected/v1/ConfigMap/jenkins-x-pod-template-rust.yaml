@@ -23,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: rust
-        image: gcr.io/jenkinsxio/builder-rust:2.1.32-662
+        image: gcr.io/jenkinsxio/builder-rust:2.1.69-700
         args:
         - cat
         command:

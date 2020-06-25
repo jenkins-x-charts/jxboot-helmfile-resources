@@ -28,14 +28,16 @@ spec:
   webHookEngine: {{ $jx.webhook | default "lighthouse" | title | quote }}
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io
-{{- if hasKey $jx "buildPackName" }}
-    buildPackName: "{{ $jx.buildPackName }}"
+{{- if and (hasKey $jx "buildPacks") (hasKey $jx.buildPacks "buildPackLibrary") }}
+{{- if hasKey $jx.buildPacks.buildPackLibrary "name" }}
+    buildPackName: "{{ $jx.buildPacks.buildPackLibrary.name }}"
 {{- end }}
-{{- if hasKey $jx "buildPackRef" }}
-    buildPackRef: "{{ $jx.buildPackRef }}"
+{{- if hasKey $jx.buildPacks.buildPackLibrary "gitRef" }}
+    buildPackRef: "{{ $jx.buildPacks.buildPackLibrary.gitRef }}"
 {{- end }}
-{{- if hasKey $jx "buildPackURL" }}
-    buildPackUrl: "{{ $jx.buildPackURL }}"
+{{- if hasKey $jx.buildPacks.buildPackLibrary "gitURL" }}
+    buildPackUrl: "{{ $jx.buildPacks.buildPackLibrary.gitURL }}"
+{{- end }}
 {{- end }}
 {{- if and (hasKey $jx "deployOptions") (or ($jx.deployOptions.canary) ($jx.deployOptions.hpa)) }}
     deployOptions:

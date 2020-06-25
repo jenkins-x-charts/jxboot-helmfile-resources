@@ -29,7 +29,7 @@ data:
           secretName: jenkins-release-gpg
       containers:
       - name: aws-cdk
-        image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.69-700
+        image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.84-714
         args:
         - cat
         command:

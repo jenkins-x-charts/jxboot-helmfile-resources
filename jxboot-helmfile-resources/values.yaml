@@ -1570,8 +1570,10 @@ jxRequirements:
     enabled: false
     schedule: ""
   bootConfigURL: https://github.com/jenkins-x/jxr-boot-config.git
-  buildPackURL: https://github.com/jenkins-x/jxr-packs-kubernetes.git
-  buildPackRef: master
+  buildPacks:
+    buildPackLibrary:
+      gitRef: master
+      gitURL: https://github.com/jenkins-x/jxr-packs-kubernetes.git
   cluster:
     clustername: mycluster
     devEnvApprovers:

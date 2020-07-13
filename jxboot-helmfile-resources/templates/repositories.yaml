@@ -1,5 +1,6 @@
 {{- $jx := .Values.jxRequirements -}}
 {{- range $key, $env := .Values.jxRequirements.environments }}
+{{- if $env.repository }}
 ---
 apiVersion: jenkins.io/v1
 kind: SourceRepository
@@ -23,5 +24,6 @@ spec:
   {{- end -}}
 {{- else }}
     name: "environment"
+{{- end -}}
 {{- end -}}
 {{- end -}}

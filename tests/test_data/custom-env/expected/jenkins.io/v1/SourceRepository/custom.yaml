@@ -6,11 +6,13 @@ metadata:
   labels:
     jenkins.io/gitSync: "false"
 spec:
+  description: "the git repository for the Custom environment"
   provider: "https://github.com"
   providerName: 'github'
   org: "myorg"
   repo: "environment-mycluster-custom"
-  description: "the git repository for the Custom environment"
+  httpCloneURL: "https://github.com/myorg/environment-mycluster-custom.git"
+  url: "https://github.com/myorg/environment-mycluster-custom.git"
   scheduler:
     kind: Scheduler
     name: "environment"

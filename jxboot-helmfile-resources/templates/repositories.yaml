@@ -9,11 +9,13 @@ metadata:
   labels:
     jenkins.io/gitSync: "false"
 spec:
+  description: "the git repository for the {{ title $env.key }} environment"
   provider: {{ $jx.cluster.gitServer | default "https://github.com" | quote }}
   providerName: '{{ $jx.cluster.gitKind | default "github" }}'
   org: "{{ $env.owner | default $jx.cluster.environmentGitOwner }}"
   repo: "{{ $env.repository }}"
-  description: "the git repository for the {{ title $env.key }} environment"
+  httpCloneURL: "{{ $jx.cluster.gitServer | default "https://github.com" }}/{{ $env.owner | default $jx.cluster.environmentGitOwner }}/{{ $env.repository }}.git"
+  url: "{{ $jx.cluster.gitServer | default "https://github.com" }}/{{ $env.owner | default $jx.cluster.environmentGitOwner }}/{{ $env.repository }}.git"
   scheduler:
     kind: Scheduler
 {{- if $env.remoteCluster }}

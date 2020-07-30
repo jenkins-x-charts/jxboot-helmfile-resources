@@ -23,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: newman
-        image: gcr.io/jenkinsxio/builder-newman:2.1.98-727
+        image: gcr.io/jenkinsxio/builder-newman:2.1.120-739
         args:
         - cat
         command:

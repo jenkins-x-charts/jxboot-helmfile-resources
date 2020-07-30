@@ -13,8 +13,6 @@ secrets:
     password: "secretchartmuseumpwd"
     username: "myuser"
   pipelineUser:
-    username: "myuser"
-    email: "myuser@bar.com"
     token: "myusertoken"
 
 jxRequirements:
@@ -53,6 +51,9 @@ jxRequirements:
       enabled: true
       email: ""
       production: false
+  pipelineUser:
+    username: "myuser"
+    email: "myuser@bar.com"
   repository: nexus
   secretStorage: local
   storage:

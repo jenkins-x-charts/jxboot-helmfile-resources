@@ -49,6 +49,9 @@ jxRequirements:
       email: ""
       enabled: false
       production: false
+  pipelineUser:
+    username: ""
+    email: ""
   repository: nexus
   secretStorage: local
   storage:

@@ -64,10 +64,8 @@ spec:
 {{- end }}
     helmTemplate: true
     kubeProvider: "{{ $jx.cluster.provider }}"
-{{- if hasKey $secrets "pipelineUser" }}
-    pipelineUsername: "{{ $secrets.pipelineUser.username }}"
-    pipelineUserEmail: "{{ $secrets.pipelineUser.email }}"
-{{- end }}
+    pipelineUsername: "{{ $jx.pipelineUser.username | default "jenkins-x-labs-bot" }}"
+    pipelineUserEmail: "{{ $jx.pipelineUser.email | default "jenkins-x@googlegroups.com" }}"
     prowConfig: Scheduler
 {{- if eq $jx.webhook "jenkins" }}
     promotionEngine: Jenkins

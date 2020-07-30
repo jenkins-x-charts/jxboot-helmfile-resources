@@ -1606,6 +1606,9 @@ jxRequirements:
       enabled: false
       production: false
       secretName: ""
+  pipelineUser:
+    username: ""
+    email: ""
   repository: nexus
   secretStorage: local
   storage:

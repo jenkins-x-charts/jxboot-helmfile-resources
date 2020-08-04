@@ -540,7 +540,7 @@ podTemplates:
       serviceAccount: tekton-sa
       containers:
         aws-cdk:
-          image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -585,7 +585,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Maven:
-          image: gcr.io/jenkinsxio/builder-maven:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-maven:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -630,7 +630,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Maven:
-          image: gcr.io/jenkinsxio/builder-maven-java11:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-maven-java11:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -675,7 +675,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Maven:
-          image: gcr.io/jenkinsxio/builder-maven-graalvm:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-maven-graalvm:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "2Gi"
@@ -714,7 +714,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Gradle:
-          image: gcr.io/jenkinsxio/builder-gradle:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-gradle:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -756,7 +756,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Scala:
-          image: gcr.io/jenkinsxio/builder-scala:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-scala:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -790,7 +790,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Go:
-          image: gcr.io/jenkinsxio/builder-go:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-go:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "600Mi"
@@ -823,7 +823,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Terraform:
-          image: gcr.io/jenkinsxio/builder-terraform:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-terraform:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "600Mi"
@@ -857,7 +857,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Rust:
-          image: gcr.io/jenkinsxio/builder-rust:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-rust:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -891,7 +891,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Newman:
-          image: gcr.io/jenkinsxio/builder-newman:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-newman:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -925,7 +925,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Nodejs:
-          image: gcr.io/jenkinsxio/builder-nodejs8x:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-nodejs8x:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -959,7 +959,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Nodejs:
-          image: gcr.io/jenkinsxio/builder-nodejs10x:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-nodejs10x:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -983,7 +983,7 @@ podTemplates:
       serviceAccount: tekton-sa
       containers:
         Nodejs:
-          image: gcr.io/jenkinsxio/builder-nodejs12x:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-nodejs12x:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1007,7 +1007,7 @@ podTemplates:
       serviceAccount: tekton-sa
       containers:
         Nodejs:
-          image: gcr.io/jenkinsxio/builder-php5x:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-php5x:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1031,7 +1031,7 @@ podTemplates:
       serviceAccount: tekton-sa
       containers:
         Nodejs:
-          image: gcr.io/jenkinsxio/builder-php7x:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-php7x:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1065,7 +1065,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Nodejs:
-          image: gcr.io/jenkinsxio/builder-nodejs:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-nodejs:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1097,7 +1097,7 @@ podTemplates:
       serviceAccount: tekton-sa
       containers:
         MavenNodejs:
-          image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1128,7 +1128,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         JX-base:
-          image: gcr.io/jenkinsxio/builder-jx:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-jx:2.1.125-744
           privileged: true
           requestCpu: "200m"
           requestMemory: "256Mi"
@@ -1161,7 +1161,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Promote:
-          image: gcr.io/jenkinsxio/builder-jx:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-jx:2.1.125-744
           privileged: true
           requestCpu: "200m"
           requestMemory: "100Mi"
@@ -1223,7 +1223,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Python:
-          image: gcr.io/jenkinsxio/builder-python2:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-python2:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1257,7 +1257,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Python:
-          image: gcr.io/jenkinsxio/builder-python:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-python:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1291,7 +1291,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Python:
-          image: gcr.io/jenkinsxio/builder-python37:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-python37:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1325,7 +1325,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Ruby:
-          image: gcr.io/jenkinsxio/builder-ruby:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-ruby:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1359,7 +1359,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Swift:
-          image: gcr.io/jenkinsxio/builder-swift:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-swift:2.1.125-744
           privileged: true
           requestCpu: "400m"
           requestMemory: "512Mi"
@@ -1393,7 +1393,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Dlang:
-          image: gcr.io/jenkinsxio/builder-dlang:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-dlang:2.1.125-744
           privileged: true
           requestCpu: "500m"
           requestMemory: "1024Mi"
@@ -1427,7 +1427,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Machine-Learning:
-          image: gcr.io/jenkinsxio/builder-machine-learning:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-machine-learning:2.1.125-744
           privileged: true
           requestCpu: "2000m"
           requestMemory: "4Gi"
@@ -1461,7 +1461,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Machine-Learning:
-          image: gcr.io/jenkinsxio/builder-machine-learning-gpu:2.1.124-743
+          image: gcr.io/jenkinsxio/builder-machine-learning-gpu:2.1.125-744
           privileged: true
           requestCpu: "1000m"
           requestMemory: "1Gi"

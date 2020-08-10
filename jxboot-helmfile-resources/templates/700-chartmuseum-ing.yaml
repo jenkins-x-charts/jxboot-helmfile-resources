@@ -28,7 +28,11 @@ spec:
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
-    - chartmuseum{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- if .Values.ingress.customHosts.chartmuseum }}
+    - {{ .Values.ingress.customHosts.chartmuseum }}
+  {{- else }}
+    - {{ .Values.ingress.prefix.chartmuseum }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- end }}
 {{- if .Values.chartmuseum.ingress.tls.secretName }}
     secretName: "{{ .Values.chartmuseum.ingress.tls.secretName }}"
 {{- else if .Values.jxRequirements.ingress.tls.secretName }}

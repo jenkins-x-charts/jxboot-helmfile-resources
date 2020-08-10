@@ -30,7 +30,11 @@ spec:
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
-    - docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- if .Values.ingress.customHosts.dockerRegistry }}
+    - {{ .Values.ingress.customHosts.dockerRegistry }}
+  {{- else }}
+    - {{ .Values.ingress.prefix.dockerRegistry }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- end }}
 {{- if index .Values "docker-registry" "ingress" "tls" "secretName" }}
     secretName: "{{ index .Values "docker-registry" "ingress" "tls" "secretName" }}"
 {{- else if .Values.jxRequirements.ingress.tls.secretName }}

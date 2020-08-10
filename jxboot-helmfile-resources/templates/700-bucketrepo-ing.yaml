@@ -28,7 +28,11 @@ spec:
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
+  {{- if .Values.ingress.customHosts.bucketrepo }}
+    - {{ .Values.ingress.customHosts.bucketrepo }}
+  {{- else }}
     - {{ .Values.ingress.prefix.bucketrepo }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- end }}
 {{- if .Values.bucketrepo.ingress.tls.secretName }}
     secretName: "{{ .Values.bucketrepo.ingress.tls.secretName }}"
 {{- else if .Values.jxRequirements.ingress.tls.secretName }}

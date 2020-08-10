@@ -28,7 +28,11 @@ spec:
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
-    - hook{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- if .Values.ingress.customHosts.hook }}
+    - {{ .Values.ingress.customHosts.hook }}
+  {{- else }}
+    - {{ .Values.ingress.prefix.hook }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- end }}
 {{- if .Values.hook.ingress.tls.secretName }}
     secretName: "{{ .Values.hook.ingress.tls.secretName }}"
 {{- else if .Values.jxRequirements.ingress.tls.secretName }}

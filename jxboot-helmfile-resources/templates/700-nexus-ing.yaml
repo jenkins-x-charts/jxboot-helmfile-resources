@@ -20,13 +20,19 @@ spec:
           servicePort: 80
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/nexus"
+{{- else if .Values.ingress.customHosts.nexus }}
+    host: {{ .Values.ingress.customHosts.nexus }}
 {{- else if .Values.jxRequirements.ingress.domain }}
-    host: {{ .Values.ingress.prefix.dockerRegistry }}{{ .Values.ingress.prefix.nexus }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    host: {{ .Values.ingress.prefix.nexus }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
-    - nexus{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- if .Values.ingress.customHosts.nexus }}
+    - {{ .Values.ingress.customHosts.nexus }}
+  {{- else }}
+    - {{ .Values.ingress.prefix.nexus }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+  {{- end }}
 {{- if .Values.nexus.ingress.tls.secretName }}
     secretName: "{{ .Values.nexus.ingress.tls.secretName }}"
 {{- else if .Values.jxRequirements.ingress.tls.secretName }}

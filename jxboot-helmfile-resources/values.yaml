@@ -1530,6 +1530,14 @@ ingress:
     nexus: nexus
     dockerRegistry: docker-registry
 
+  # allows you to specify custom hosts
+  customHosts:
+    bucketrepo: ""
+    chartmuseum: ""
+    hook: ""
+    nexus: ""
+    dockerRegistry: ""
+
 nexusServiceLink:
   enabled: false
 

@@ -20,6 +20,8 @@ spec:
           servicePort: 8080
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/chartmuseum"
+{{- else if .Values.ingress.customHosts.chartmuseum }}
+    host: {{ .Values.ingress.customHosts.chartmuseum }}
 {{- else if .Values.jxRequirements.ingress.domain }}
     host: {{ .Values.ingress.prefix.chartmuseum }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}

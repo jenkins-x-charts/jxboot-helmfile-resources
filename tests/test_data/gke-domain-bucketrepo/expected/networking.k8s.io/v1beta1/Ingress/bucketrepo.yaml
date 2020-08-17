@@ -12,6 +12,7 @@ spec:
       - backend:
           serviceName: bucketrepo
           servicePort: 80
+        path: "/"
     host: bucketrepo-jx.mydomain.com
   tls:
   - hosts:

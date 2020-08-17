@@ -12,7 +12,7 @@ spec:
       - backend:
           serviceName: nexus
           servicePort: 80
-      path: "/"
+        path: "/"
     host: nexus-jx.mydomain.com
   tls:
   - hosts:

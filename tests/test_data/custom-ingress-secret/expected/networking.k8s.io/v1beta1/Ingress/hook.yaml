@@ -12,7 +12,7 @@ spec:
       - backend:
           serviceName: hook
           servicePort: 80
-      path: "/"
+        path: "/"
     host: hook-jx.mydomain.com
   tls:
   - hosts:

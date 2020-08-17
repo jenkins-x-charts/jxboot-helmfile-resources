@@ -6,4 +6,5 @@ metadata:
   annotations:
     expose.config.fabric8.io/clusterip-port-if-empty-key: docker.registry
 data:
+  kaniko.flags: ""
   docker.registry: gcr.io

@@ -12,6 +12,7 @@ spec:
       - backend:
           serviceName: hook
           servicePort: 80
+        path: "/"
     host: myhost.acme.com
   tls:
   - hosts:

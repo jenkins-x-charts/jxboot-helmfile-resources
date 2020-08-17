@@ -12,6 +12,7 @@ spec:
       - backend:
           serviceName: jenkins-x-chartmuseum
           servicePort: 8080
+      path: "/"
     host: chartmuseum-jx.mydomain.com
   tls:
   - hosts:

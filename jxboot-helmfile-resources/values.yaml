@@ -1431,7 +1431,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Machine-Learning:
-          image: gcr.io/jenkinsxio/builder-machine-learning:2.1.132-751
+          image: gcr.io/jenkinsxio/builder-machine-learning:0.1.1300
           privileged: true
           requestCpu: "2000m"
           requestMemory: "4Gi"
@@ -1465,7 +1465,7 @@ podTemplates:
       #   value: jenkins-x-builder
       containers:
         Machine-Learning:
-          image: gcr.io/jenkinsxio/builder-machine-learning-gpu:2.1.132-751
+          image: gcr.io/jenkinsxio/builder-machine-learning-gpu:0.1.1300
           privileged: true
           requestCpu: "1000m"
           requestMemory: "1Gi"

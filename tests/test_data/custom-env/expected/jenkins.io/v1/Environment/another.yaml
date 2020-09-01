@@ -12,5 +12,5 @@ spec:
     url: https://github.com/myorg/environment-mycluster-another.git
   kind: Permanent
   label: Another
-  promotionStrategy: "Manual"
+  promotionStrategy: "Auto"
   namespace: "jx-another"

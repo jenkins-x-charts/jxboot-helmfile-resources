@@ -39,8 +39,10 @@ jxRequirements:
     repository: environment-mycluster-dev
   - key: custom
     repository: environment-mycluster-custom
+    promotionStrategy: Manual
   - key: another
     repository: environment-mycluster-another
+    promotionStrategy: Auto
   - key: production
     repository: environment-mycluster-production
   gitops: true

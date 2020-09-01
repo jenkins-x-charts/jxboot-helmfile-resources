@@ -13,7 +13,7 @@ spec:
   kind: Development
   label: Development
   namespace: jx
-  promotionStrategy: Never
+  promotionStrategy: "Never"
   webHookEngine: "Lighthouse"
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io

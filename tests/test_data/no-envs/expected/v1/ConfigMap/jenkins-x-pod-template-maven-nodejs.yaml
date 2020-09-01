@@ -29,7 +29,7 @@ data:
           secretName: jenkins-release-gpg
       containers:
       - name: mavennodejs
-        image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.132-751
+        image: gcr.io/jenkinsxio/builder-maven-nodejs:2.1.138-757
         args:
         - cat
         command:

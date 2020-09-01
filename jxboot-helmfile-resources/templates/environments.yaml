@@ -24,7 +24,7 @@ spec:
   kind: Development
   label: Development
   namespace: {{ $env.namespace | default "jx" }}
-  promotionStrategy: Never
+  promotionStrategy: "{{ $env.promotionStrategy | default "Never" }}"
   webHookEngine: {{ $jx.webhook | default "lighthouse" | title | quote }}
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io
@@ -97,7 +97,7 @@ spec:
   kind: Permanent
   label: Staging
   namespace: {{ $env.namespace | default "jx-staging" }}
-  promotionStrategy: "Auto"
+  promotionStrategy: "{{ $env.promotionStrategy | default "Auto" }}"
   {{- if hasKey $env "requirementsYaml" }}
   teamSettings:
     bootRequirements: {{ toYaml $env.requirementsYaml | indent 4 }}
@@ -105,7 +105,7 @@ spec:
 {{- else }}
   kind: Permanent
   label: {{ title $env.key }}
-  promotionStrategy: "Manual"
+  promotionStrategy: "{{ $env.promotionStrategy | default "Manual" }}"
 {{- if hasKey $env "requirementsYaml" }}
   teamSettings:
     bootRequirements: {{ toYaml $env.requirementsYaml | indent 4 }}

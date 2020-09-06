@@ -1595,19 +1595,19 @@ jxRequirements:
       gitRef: master
       gitURL: https://github.com/jenkins-x/jxr-packs-kubernetes.git
   cluster:
-    clustername: mycluster
+    clustername: ""
     devEnvApprovers:
       - someone
-    environmentGitOwner: myorg
+    environmentGitOwner: ""
     environmentGitPublic: true
     gitKind: github
     gitname: github
     gitPublic: true
     gitServer: https://github.com
     namespace: jx
-    project: myproject
-    provider: gke
-    zone: europe-west1-c
+    project: ""
+    provider: "kubernetes"
+    zone: ""
   deployOptions:
     canary: false
     hpa: false

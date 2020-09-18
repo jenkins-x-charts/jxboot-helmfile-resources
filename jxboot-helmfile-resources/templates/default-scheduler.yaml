@@ -1,3 +1,4 @@
+{{- if .Values.schedulers.default }}
 apiVersion: jenkins.io/v1
 kind: Scheduler
 metadata:
@@ -115,3 +116,4 @@ spec:
     trustedOrg: {{ .Values.jxRequirements.cluster.environmentGitOwner }}
   welcome:
   - message_template: Welcome
+{{- end }}

@@ -18,6 +18,10 @@ kaniko:
   # lets you specify additional kaniko flags such as "--insecure" for insecure registries etc
   flags: ""
 
+schedulers:
+  # to enable/disable the default scheduler
+  default: true
+
 controllerbuild:
   enabled: true
   serviceaccount:

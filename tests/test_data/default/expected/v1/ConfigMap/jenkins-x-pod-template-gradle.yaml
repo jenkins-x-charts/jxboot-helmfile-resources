@@ -26,7 +26,7 @@ data:
           secretName: jenkins-release-gpg
       containers:
       - name: gradle
-        image: gcr.io/jenkinsxio/builder-gradle:2.1.138-757
+        image: gcr.io/jenkinsxio/builder-gradle:2.1.148-767
         args:
         - cat
         command:

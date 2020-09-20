@@ -9,7 +9,7 @@ metadata:
 spec:
   source:
     ref: "master"
-    url: https://github.com/myorg/environment-mycluster-dev.git
+    url: https://github.com//environment-mycluster-dev.git
   kind: Development
   label: Development
   namespace: jx
@@ -23,12 +23,12 @@ spec:
       apiVersion: jenkins.io/v1
       kind: Scheduler
       name: default
-    dockerRegistryOrg: "myproject"
-    envOrganisation: myorg
+    dockerRegistryOrg: ""
+    envOrganisation: 
     gitServer: https://github.com
     gitPublic: true
     helmTemplate: true
-    kubeProvider: "gke"
+    kubeProvider: "kubernetes"
     pipelineUsername: "jenkins-x-labs-bot"
     pipelineUserEmail: "jenkins-x@googlegroups.com"
     prowConfig: Scheduler

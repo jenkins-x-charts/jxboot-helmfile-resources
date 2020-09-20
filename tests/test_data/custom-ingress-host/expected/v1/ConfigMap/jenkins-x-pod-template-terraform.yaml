@@ -23,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: terraform
-        image: gcr.io/jenkinsxio/builder-terraform:2.1.138-757
+        image: gcr.io/jenkinsxio/builder-terraform:2.1.148-767
         args:
         - cat
         command:

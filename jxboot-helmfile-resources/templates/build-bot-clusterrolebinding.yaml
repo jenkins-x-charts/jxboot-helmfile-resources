@@ -1,0 +1,14 @@
+{{- if and (.Values.pipeline.rbac.cluster) (eq .Values.lighthouseEngine "tekton") }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name:  "{{ .Values.pipeline.serviceAccount.name | default "tekton-bot" }}-{{ .Release.Namespace }}"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name:  {{ .Values.pipeline.serviceAccount.name | default "tekton-bot" | quote }}
+  namespace: {{ .Release.Namespace }}
+{{- end -}}

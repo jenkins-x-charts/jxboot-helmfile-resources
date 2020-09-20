@@ -22,6 +22,33 @@ schedulers:
   # to enable/disable the default scheduler
   default: true
 
+lighthouseEngine: jx
+
+pipeline:
+  rbac:
+    cluster: true
+  serviceAccount:
+    name: "tekton-bot"
+    annotations: {}
+
+  auth:
+    git:
+      username: "myuser"
+      password: "mypwd"
+      url: https://github.com
+    docker:
+      # if specified use the docker config.json style secret like this:
+      # https://github.com/tektoncd/pipeline/blob/master/docs/auth.md#configuring-docker-authentication-for-docker
+      configJson: "{}"
+
+      # otherwise use basic auth style secret
+      username:
+      password:
+      url: https://index.docker.io/v1/
+      # url: https://gcr.io
+      host: docker.io
+      email: jenkins-x@googlecloud.com
+
 controllerbuild:
   enabled: true
   serviceaccount:

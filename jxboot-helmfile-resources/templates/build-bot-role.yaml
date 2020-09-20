@@ -1,0 +1,13 @@
+{{- if eq .Values.lighthouseEngine "tekton" }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Values.pipeline.serviceAccount.name | default "tekton-bot" | quote }}
+rules:
+- apiGroups:
+  - "*"
+  resources:
+  - "*"
+  verbs:
+  - "*"
+{{- end -}}

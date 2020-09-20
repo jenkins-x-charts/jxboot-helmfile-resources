@@ -61,6 +61,6 @@ spec:
     ignoreOkToTest: false
     joinOrgUrl: ""
     onlyOrgMembers: false
-    trustedOrg: myorg
+    trustedOrg: 
   welcome:
   - message_template: Welcome

@@ -98,6 +98,7 @@ spec:
   label: Staging
   namespace: {{ $env.namespace | default "jx-staging" }}
   promotionStrategy: "{{ $env.promotionStrategy | default "Auto" }}"
+  order: 100
   {{- if hasKey $env "requirementsYaml" }}
   teamSettings:
     bootRequirements: {{ toYaml $env.requirementsYaml | indent 4 }}
@@ -107,6 +108,7 @@ spec:
   label: {{ title $env.key }}
   promotionStrategy: "{{ $env.promotionStrategy | default "Manual" }}"
 {{- if hasKey $env "requirementsYaml" }}
+  order: 500
   teamSettings:
     bootRequirements: {{ toYaml $env.requirementsYaml | indent 4 }}
 {{- end }}

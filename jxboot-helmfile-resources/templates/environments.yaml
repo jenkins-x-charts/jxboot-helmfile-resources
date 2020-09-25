@@ -106,9 +106,9 @@ spec:
 {{- else }}
   kind: Permanent
   label: {{ title $env.key }}
+  order: 500
   promotionStrategy: "{{ $env.promotionStrategy | default "Manual" }}"
 {{- if hasKey $env "requirementsYaml" }}
-  order: 500
   teamSettings:
     bootRequirements: {{ toYaml $env.requirementsYaml | indent 4 }}
 {{- end }}

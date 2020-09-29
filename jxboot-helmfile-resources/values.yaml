@@ -1632,7 +1632,7 @@ jxRequirements:
     environmentGitOwner: ""
     environmentGitPublic: true
     gitKind: github
-    gitname: github
+    gitName: github
     gitPublic: true
     gitServer: https://github.com
     namespace: jx

@@ -12,5 +12,6 @@ spec:
     url: https://github.com/myorg/environment-mycluster-custom.git
   kind: Permanent
   label: Custom
+  order: 500
   promotionStrategy: "Manual"
   namespace: "jx-custom"

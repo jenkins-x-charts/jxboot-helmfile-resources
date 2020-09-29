@@ -8,6 +8,7 @@ metadata:
 spec:
   description: "the git repository for the Staging environment"
   provider: "https://github.com"
+  providerKind: 'github'
   providerName: 'github'
   org: "myorg"
   repo: "environment-mycluster-staging"

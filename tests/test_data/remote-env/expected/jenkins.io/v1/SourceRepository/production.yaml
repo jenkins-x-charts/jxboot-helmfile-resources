@@ -16,4 +16,4 @@ spec:
   url: "https://github.com/myorg/environment-mycluster-production.git"
   scheduler:
     kind: Scheduler
-    name: "pr-only"
+    name: "environment"

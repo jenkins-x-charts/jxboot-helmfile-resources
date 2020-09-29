@@ -53,12 +53,8 @@ func TestChartsWithDifferentValues(t *testing.T) {
 			err = yaml.Unmarshal(data, sr)
 			require.NoError(t, err, "failed to parse file %s", file)
 
-			if tc.Name == "remote-env" {
-				if e == "dev" {
-					expectedScheduler = "release-only"
-				} else {
-					expectedScheduler = "pr-only"
-				}
+			if tc.Name == "lighthouse-tekton" {
+				expectedScheduler = "in-repo"
 			}
 
 			assert.Equal(t, expectedScheduler, sr.Spec.Scheduler.Name, "sr.Spec.Scheduler.Name for environment: %s", sr)

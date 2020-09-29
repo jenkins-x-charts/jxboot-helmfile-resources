@@ -1,3 +1,4 @@
+{{- $lighthouseEngine := .Values.lighthouseEngine -}}
 {{- $jx := .Values.jxRequirements -}}
 {{- range $key, $env := .Values.jxRequirements.environments }}
 {{- if $env.repository }}
@@ -19,12 +20,8 @@ spec:
   url: "{{ $jx.cluster.gitServer | default "https://github.com" }}/{{ $env.owner | default $jx.cluster.environmentGitOwner }}/{{ $env.repository }}.git"
   scheduler:
     kind: Scheduler
-{{- if $env.remoteCluster }}
-  {{- if eq "dev" $env.key }}
-    name: "release-only"
-  {{- else }}
-    name: "pr-only"
-  {{- end -}}
+{{- if eq $lighthouseEngine "tekton" }}
+    name: "in-repo"
 {{- else }}
     name: "environment"
 {{- end -}}

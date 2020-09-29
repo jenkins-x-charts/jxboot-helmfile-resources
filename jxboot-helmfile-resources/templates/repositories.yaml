@@ -11,7 +11,8 @@ metadata:
 spec:
   description: "the git repository for the {{ title $env.key }} environment"
   provider: {{ $jx.cluster.gitServer | default "https://github.com" | quote }}
-  providerName: '{{ $jx.cluster.gitKind | default "github" }}'
+  providerKind: '{{ $jx.cluster.gitKind | default "github" }}'
+  providerName: '{{ $jx.cluster.gitName | default "github" }}'
   org: "{{ $env.owner | default $jx.cluster.environmentGitOwner }}"
   repo: "{{ $env.repository }}"
   httpCloneURL: "{{ $jx.cluster.gitServer | default "https://github.com" }}/{{ $env.owner | default $jx.cluster.environmentGitOwner }}/{{ $env.repository }}.git"

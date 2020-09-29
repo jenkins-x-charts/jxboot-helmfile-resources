@@ -23,7 +23,7 @@ data:
         emptyDir: {}
       containers:
       - name: ruby
-        image: gcr.io/jenkinsxio/builder-ruby:2.1.148-767
+        image: gcr.io/jenkinsxio/builder-ruby:2.1.150-769
         args:
         - cat
         command:

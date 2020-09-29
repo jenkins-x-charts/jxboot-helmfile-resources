@@ -12,5 +12,6 @@ spec:
     url: https://github.com/myorg/environment-mycluster-production.git
   kind: Permanent
   label: Production
+  order: 500
   promotionStrategy: "Manual"
   namespace: "jx-production"

@@ -1,0 +1,17 @@
+# Source: jxboot-helmfile-resources/templates/environments.yaml
+apiVersion: jenkins.io/v1
+kind: Environment
+metadata:
+  labels:
+    env: "production"
+    team: jx
+  name: "production"
+spec:
+  source:
+    ref: "master"
+    url: https://mygitlab.com/myorg/environment-mycluster-production.git
+  kind: Permanent
+  label: Production
+  order: 500
+  promotionStrategy: "Manual"
+  namespace: "jx-production"

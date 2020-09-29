@@ -8,6 +8,7 @@ metadata:
 spec:
   description: "the git repository for the Custom environment"
   provider: "https://github.com"
+  providerKind: 'github'
   providerName: 'github'
   org: "myorg"
   repo: "environment-mycluster-custom"

@@ -1,9 +1,0 @@
-# Source: jxboot-helmfile-resources/templates/buildpacks.yaml
-apiVersion: jenkins.io/v1
-kind: BuildPack
-metadata:
-  name: "classic-workloads"
-spec:
-  label: "Library Workloads: CI+Release but no CD"
-  gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-classic.git"
-  gitRef: "master"

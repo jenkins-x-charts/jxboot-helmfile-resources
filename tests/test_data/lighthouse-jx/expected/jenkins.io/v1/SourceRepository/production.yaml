@@ -1,0 +1,19 @@
+# Source: jxboot-helmfile-resources/templates/repositories.yaml
+apiVersion: jenkins.io/v1
+kind: SourceRepository
+metadata:
+  name: "production"
+  labels:
+    jenkins.io/gitSync: "false"
+spec:
+  description: "the git repository for the Production environment"
+  provider: "https://github.com"
+  providerKind: 'github'
+  providerName: 'github'
+  org: "myorg"
+  repo: "environment-mycluster-production"
+  httpCloneURL: "https://github.com/myorg/environment-mycluster-production.git"
+  url: "https://github.com/myorg/environment-mycluster-production.git"
+  scheduler:
+    kind: Scheduler
+    name: "environment"

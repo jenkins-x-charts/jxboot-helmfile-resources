@@ -22,7 +22,7 @@ schedulers:
   # to enable/disable the default scheduler
   default: true
 
-lighthouseEngine: jx
+lighthouseEngine: tekton
 
 pipeline:
   rbac:

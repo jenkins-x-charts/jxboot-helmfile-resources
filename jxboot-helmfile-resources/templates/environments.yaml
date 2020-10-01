@@ -1,5 +1,6 @@
 {{- $jx := .Values.jxRequirements -}}
 {{- $secrets := .Values.secrets -}}
+{{- $lighthouseEngine := .Values.lighthouseEngine -}}
 {{- range $key, $env := .Values.jxRequirements.environments }}
 {{- $gitUrlPathPrefix := "" -}}
 {{- if eq "bitbucketserver" $jx.cluster.gitKind }}
@@ -51,7 +52,11 @@ spec:
     defaultScheduler:
       apiVersion: jenkins.io/v1
       kind: Scheduler
+{{- if eq $lighthouseEngine "tekton" }}
+      name: jx-meta-pipeline
+{{- else }}
       name: default
+{{- end -}}
 {{- if hasKey $jx.cluster "dockerRegistryOrg" }}
     dockerRegistryOrg: "{{ $jx.cluster.dockerRegistryOrg }}"
 {{- else }}

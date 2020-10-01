@@ -1,0 +1,19 @@
+# Source: jxboot-helmfile-resources/templates/repositories.yaml
+apiVersion: jenkins.io/v1
+kind: SourceRepository
+metadata:
+  name: "staging"
+  labels:
+    jenkins.io/gitSync: "false"
+spec:
+  description: "the git repository for the Staging environment"
+  provider: "https://github.com"
+  providerKind: 'github'
+  providerName: 'github'
+  org: "myorg"
+  repo: "environment-mycluster-staging"
+  httpCloneURL: "https://github.com/myorg/environment-mycluster-staging.git"
+  url: "https://github.com/myorg/environment-mycluster-staging.git"
+  scheduler:
+    kind: Scheduler
+    name: "environment"

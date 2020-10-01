@@ -21,7 +21,13 @@ func TestChartsWithDifferentValues(t *testing.T) {
 
 	for _, tc := range testcases {
 		remoteCluster := false
-		expectedScheduler := "environment"
+		expectedEnvironmentScheduler := "in-repo"
+		expectedDefaultScheduler := "jx-meta-pipeline"
+
+		if tc.Name == "lighthouse-jx" {
+			expectedEnvironmentScheduler = "environment"
+			expectedDefaultScheduler = "default"
+		}
 
 		switch tc.Name {
 		case "remote-env":
@@ -41,6 +47,10 @@ func TestChartsWithDifferentValues(t *testing.T) {
 			err = yaml.Unmarshal(data, env)
 			require.NoError(t, err, "failed to parse file %s", file)
 
+			if env.Name == "dev" {
+				assert.Equal(t, expectedDefaultScheduler, env.Spec.TeamSettings.DefaultScheduler.Name, "env.Spec.TeamSettings.DefaultScheduler.Name: %s", env.Name)
+			}
+
 			assert.Equal(t, remoteCluster, env.Spec.RemoteCluster, "env.Spec.RemoteCluster for environment %s", env)
 		}
 
@@ -53,11 +63,7 @@ func TestChartsWithDifferentValues(t *testing.T) {
 			err = yaml.Unmarshal(data, sr)
 			require.NoError(t, err, "failed to parse file %s", file)
 
-			if tc.Name == "lighthouse-tekton" {
-				expectedScheduler = "in-repo"
-			}
-
-			assert.Equal(t, expectedScheduler, sr.Spec.Scheduler.Name, "sr.Spec.Scheduler.Name for environment: %s", sr)
+			assert.Equal(t, expectedEnvironmentScheduler, sr.Spec.Scheduler.Name, "sr.Spec.Scheduler.Name for environment: %s", sr)
 		}
 	}
 }

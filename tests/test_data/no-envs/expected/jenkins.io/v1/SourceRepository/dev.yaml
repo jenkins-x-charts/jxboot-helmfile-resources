@@ -16,4 +16,4 @@ spec:
   url: "https://github.com//environment-mycluster-dev.git"
   scheduler:
     kind: Scheduler
-    name: "environment"
+    name: "in-repo"

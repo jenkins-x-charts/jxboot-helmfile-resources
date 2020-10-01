@@ -1,9 +1,0 @@
-# Source: jxboot-helmfile-resources/templates/buildpacks.yaml
-apiVersion: jenkins.io/v1
-kind: BuildPack
-metadata:
-  name: "kubernetes-workloads"
-spec:
-  label: "Kubernetes Workloads: Automated CI+CD with GitOps Promotion"
-  gitUrl: "https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git"
-  gitRef: "master"

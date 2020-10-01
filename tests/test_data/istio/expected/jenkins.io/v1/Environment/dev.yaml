@@ -25,7 +25,7 @@ spec:
     defaultScheduler:
       apiVersion: jenkins.io/v1
       kind: Scheduler
-      name: default
+      name: jx-meta-pipeline
     dockerRegistryOrg: "myproject"
     envOrganisation: myorg
     gitServer: https://github.com

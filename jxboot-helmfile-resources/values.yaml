@@ -1,12 +1,9 @@
-buildPacks:
-  "classic-workloads":
-    label: "Library Workloads: CI+Release but no CD"
-    gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-classic.git"
-    gitRef: "master"
-  "kubernetes-workloads":
-    label: "Kubernetes Workloads: Automated CI+CD with GitOps Promotion"
-    gitUrl: "https://github.com/jenkins-x-labs/jenkins-x-kubernetes.git"
-    gitRef: "master"
+buildPacks: {}
+
+#  "classic-workloads":
+#    label: "Library Workloads: CI+Release but no CD"
+#    gitUrl: "https://github.com/jenkins-x-buildpacks/jenkins-x-classic.git"
+#    gitRef: "master"
 
 chartmuseumServiceLink:
   enabled: false
@@ -22,7 +19,7 @@ schedulers:
   # to enable/disable the default scheduler
   default: true
 
-lighthouseEngine: jx
+lighthouseEngine: tekton
 
 pipeline:
   rbac:

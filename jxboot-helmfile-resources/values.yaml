@@ -59,16 +59,12 @@ controllerbuild:
   probe:
     path: ""
   restartPolicy: Always
-  args:
-  - "controller"
-  - "build"
-  - "--batch-mode"
-  - "--git-credentials"
-  - "--git-reporting"
-  - "--verbose"
+  cmd:
+  - jx-build-controller
+  args: []
   image:
-    repository: gcr.io/jenkinsxio-labs/jxl
-    tag: 0.0.127
+    repository: gcr.io/jenkinsxio/jx-build-controller
+    tag: 0.0.2
   env:
     GIT_AUTHOR_NAME: "jenkins-x-bot"
     GIT_AUTHOR_EMAIL: "jenkins-x@googlegroups.com"
@@ -97,7 +93,6 @@ controllerbuild:
       - tekton.dev
       resources:
       - pipelines
-      - pipelinereources
       - pipelineruns
       - tasks
       verbs:
@@ -119,7 +114,6 @@ controllerbuild:
       - jenkins.io
       resources:
       - pipelineactivities
-      - pipelinestructures
       - sourcerepositories
       verbs:
       - list

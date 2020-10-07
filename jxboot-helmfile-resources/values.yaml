@@ -21,6 +21,10 @@ schedulers:
 
 lighthouseEngine: tekton
 
+
+basicAuthSecrets:
+  enabled: true
+  
 pipeline:
   rbac:
     cluster: true

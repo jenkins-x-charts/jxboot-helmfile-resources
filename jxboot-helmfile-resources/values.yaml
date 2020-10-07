@@ -59,7 +59,7 @@ controllerbuild:
   probe:
     path: ""
   restartPolicy: Always
-  cmd:
+  command:
   - jx-build-controller
   args: []
   image:

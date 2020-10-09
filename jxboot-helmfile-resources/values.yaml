@@ -75,19 +75,19 @@ controllerbuild:
     - apiGroups:
       - ""
       resources:
-      - namespaces
+      - pods
+      - pods/log
+      - secrets
       verbs:
       - get
       - list
+      - watch
     - apiGroups:
-      - apiextensions.k8s.io
+      - ""
       resources:
-      - customresourcedefinitions
+      - namespaces
       verbs:
       - get
-      - create
-      - patch
-      - update
       - list
     - apiGroups:
       - tekton.dev
@@ -95,6 +95,7 @@ controllerbuild:
       - pipelines
       - pipelineruns
       - tasks
+      - taskruns
       verbs:
       - get
       - list
@@ -137,6 +138,17 @@ controllerbuild:
       - pods
       - pods/log
       - secrets
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - tekton.dev
+      resources:
+      - pipelines
+      - pipelineruns
+      - tasks
+      - taskruns
       verbs:
       - get
       - list

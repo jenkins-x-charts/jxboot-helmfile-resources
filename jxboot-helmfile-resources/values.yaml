@@ -75,6 +75,8 @@ controllerbuild:
     - apiGroups:
       - ""
       resources:
+      - pods
+      - pods/log
       - secrets
       verbs:
       - get
@@ -93,7 +95,7 @@ controllerbuild:
       - pipelines
       - pipelineruns
       - tasks
-      - taskrus
+      - taskruns
       verbs:
       - get
       - list
@@ -136,6 +138,17 @@ controllerbuild:
       - pods
       - pods/log
       - secrets
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - tekton.dev
+      resources:
+      - pipelines
+      - pipelineruns
+      - tasks
+      - taskruns
       verbs:
       - get
       - list

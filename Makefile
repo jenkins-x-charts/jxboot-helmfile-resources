@@ -17,6 +17,10 @@ build-nosetup: clean
 	helm dependency build jxboot-helmfile-resources
 	helm lint jxboot-helmfile-resources
 
+build-no-dep: 
+	helm dependency build jxboot-helmfile-resources
+	helm lint jxboot-helmfile-resources
+
 install: clean build
 	helm upgrade ${NAME} jxboot-helmfile-resources --install
 

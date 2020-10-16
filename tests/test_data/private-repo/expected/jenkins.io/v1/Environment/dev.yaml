@@ -9,7 +9,7 @@ metadata:
 spec:
   source:
     ref: "master"
-    url: https://github.com//environment-mycluster-dev.git
+    url: https://github.com/myorg/environment-mycluster-dev.git
   kind: Development
   label: Development
   namespace: jx
@@ -24,7 +24,7 @@ spec:
       kind: Scheduler
       name: jx-meta-pipeline
     dockerRegistryOrg: ""
-    envOrganisation: 
+    envOrganisation: myorg
     gitServer: https://github.com
     helmTemplate: true
     kubeProvider: "kubernetes"

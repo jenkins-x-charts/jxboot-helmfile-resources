@@ -1637,10 +1637,10 @@ jxRequirements:
     devEnvApprovers:
       - someone
     environmentGitOwner: ""
-    environmentGitPublic: true
+    environmentGitPublic: false
     gitKind: github
     gitName: github
-    gitPublic: true
+    gitPublic: false
     gitServer: https://github.com
     namespace: jx
     project: ""

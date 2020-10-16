@@ -29,7 +29,6 @@ jxRequirements:
     environmentGitPublic: false
     gitKind: github
     gitName: github
-    gitPublic: false
     gitServer: https://github.com
     namespace: jx
     provider: kubernetes

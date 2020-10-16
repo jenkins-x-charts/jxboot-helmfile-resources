@@ -26,7 +26,6 @@ spec:
     dockerRegistryOrg: ""
     envOrganisation: 
     gitServer: https://github.com
-    gitPublic: true
     helmTemplate: true
     kubeProvider: "kubernetes"
     pipelineUsername: "jenkins-x-labs-bot"

@@ -29,7 +29,7 @@ data:
           secretName: jenkins-release-gpg
       containers:
       - name: scala
-        image: gcr.io/jenkinsxio/builder-scala:2.1.150-769
+        image: gcr.io/jenkinsxio/builder-scala:2.1.150-770
         args:
         - cat
         command:

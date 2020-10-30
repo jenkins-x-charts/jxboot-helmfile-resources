@@ -20,6 +20,8 @@ ingress:
   customHosts:
     bucketrepo: myrepo.com
     hook: myhost.acme.com
+  customIngressClass:
+    hook: cheese
 
 jxRequirements:
   autoUpdate:

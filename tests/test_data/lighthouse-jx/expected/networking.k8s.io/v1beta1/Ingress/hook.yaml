@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: hook
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - http:

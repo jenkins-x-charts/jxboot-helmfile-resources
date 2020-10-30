@@ -1232,6 +1232,14 @@ ingress:
     nexus: ""
     dockerRegistry: ""
 
+  # allows you to specify custom ingress class
+  customIngressClass:
+    bucketrepo: ""
+    chartmuseum: ""
+    hook: ""
+    nexus: ""
+    dockerRegistry: ""
+
 nexusServiceLink:
   enabled: false
 

@@ -1346,3 +1346,7 @@ jxRequirements:
     ref: master
     url: https://github.com/jenkins-x/jenkins-x-versions.git
   webhook: lighthouse
+
+npm:
+  secret:
+    enabled: false

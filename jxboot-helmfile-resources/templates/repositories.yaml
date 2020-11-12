@@ -18,5 +18,12 @@ spec:
   repo: "{{ $env.repository }}"
   httpCloneURL: "{{ $jx.cluster.gitServer | default "https://github.com" }}/{{ $env.owner | default $jx.cluster.environmentGitOwner }}/{{ $env.repository }}.git"
   url: "{{ $jx.cluster.gitServer | default "https://github.com" }}/{{ $env.owner | default $jx.cluster.environmentGitOwner }}/{{ $env.repository }}.git"
+  scheduler:
+    kind: Scheduler
+{{- if eq $lighthouseEngine "tekton" }}
+    name: "in-repo"
+{{- else }}
+    name: "environment"
+{{- end -}}
 {{- end -}}
 {{- end -}}

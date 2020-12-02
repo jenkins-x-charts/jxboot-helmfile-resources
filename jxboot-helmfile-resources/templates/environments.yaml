@@ -83,17 +83,20 @@ spec:
     versionStreamUrl: "{{ $jx.versionStream.url }}"
     versionStreamRef: "{{ $jx.versionStream.ref }}"
     useGitOps: true
-{{- if or $jx.storage.logs.url $jx.storage.reports.url }}
+{{- if $jx.storage }}
     storageLocations:
-{{- end }}
-{{- if $jx.storage.logs.url }}
-    - bucketUrl: {{ $jx.storage.logs.url }}
+{{- range $key, $val := $jx.storage }}
+{{- if eq "logs" $val.name }}
+    - bucketUrl: {{ $val.url }}
       classifier: logs
 {{- end }}
-{{- if $jx.storage.reports.url }}
-    - bucketUrl: {{ $jx.storage.reports.url }}
+{{- if eq "reports" $val.name }}
+    - bucketUrl: {{ $val.url }}
       classifier: reports
 {{- end }}
+{{- end }}
+{{- end }}
+
 {{- if $jx.quickstartLocations }}
     quickstartLocations:
 {{ toYaml $jx.quickstartLocations | indent 6 }}

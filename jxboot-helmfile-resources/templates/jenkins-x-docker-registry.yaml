@@ -11,3 +11,6 @@ data:
 {{- else }}
   docker.registry: {{ .Values.jxRequirements.cluster.registry | default "docker-registry" }}
 {{- end }}
+{{- if .Values.jxRequirements.cluster.dockerRegistryOrg }}
+  docker.registry.org: {{ .Values.jxRequirements.cluster.dockerRegistryOrg }}
+{{- end }}

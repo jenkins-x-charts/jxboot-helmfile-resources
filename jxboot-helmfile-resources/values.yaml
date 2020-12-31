@@ -330,3 +330,9 @@ jxRequirements:
 npm:
   secret:
     enabled: false
+
+istio:
+  enabled: false
+  apiVersion: networking.istio.io/v1beta1
+  gateway:
+    additionalHosts: []

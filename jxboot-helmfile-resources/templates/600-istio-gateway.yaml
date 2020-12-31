@@ -1,0 +1,68 @@
+{{- if .Values.istio.enabled }}
+apiVersion: {{ .Values.istio.apiVersion }}
+kind: Gateway
+metadata:
+  name: jx-gateway
+spec:
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  servers:
+  - hosts:
+{{- if (eq "bucketrepo" .Values.jxRequirements.repository) }}
+    - bucketrepo{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if (eq "nexus" .Values.jxRequirements.repository) }}
+    - chartmuseum{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    - nexus{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if (index .Values "docker-registry" "enabled") }}
+    - docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if (or (eq "lighthouse" .Values.jxRequirements.webhook) (eq "prow" .Values.jxRequirements.webhook)) }}
+    - hook{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if .Values.istio.gateway.additionalHosts }}
+  {{- range .Values.istio.gateway.additionalHosts }}
+    - {{.}}
+  {{- end }}
+{{- end}}
+    port:
+      number: 80
+      name: http
+      protocol: HTTP
+{{- if .Values.jxRequirements.ingress.tls.enabled }}
+    tls:
+      httpsRedirect: true
+  - hosts:
+{{- if (eq "bucketrepo" .Values.jxRequirements.repository) }}
+    - bucketrepo{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if (eq "nexus" .Values.jxRequirements.repository) }}
+    - chartmuseum{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    - nexus{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if (index .Values "docker-registry" "enabled") }}
+    - docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if (or (eq "lighthouse" .Values.jxRequirements.webhook) (eq "prow" .Values.jxRequirements.webhook)) }}
+    - hook{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end }}
+{{- if .Values.istio.gateway.additionalHosts }}
+  {{- range .Values.istio.gateway.additionalHosts }}
+    - {{.}}
+  {{- end }}
+{{- end}}
+    port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+{{- if .Values.istio.gateway.tlsCertSecret }}
+      credentialName: {{ .Values.istio.gateway.tlsCertSecret }}
+{{- else }}
+      credentialName: tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p
+{{- end }}
+      mode: SIMPLE
+{{- end }}
+{{- end }}

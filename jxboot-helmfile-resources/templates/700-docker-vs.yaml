@@ -1,27 +1,11 @@
-{{- if and (index .Values "docker-registry" "enabled") (eq "istio" .Values.jxRequirements.ingress.kind) }}
-apiVersion: networking.istio.io/v1beta1
-kind: Gateway
-metadata:
-  name: docker-registry
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - hosts:
-    - docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
-    port:
-      name: http
-      number: 80
-      protocol: HTTP
----
-
-apiVersion: networking.istio.io/v1beta1
+{{- if and (index .Values "docker-registry" "enabled") .Values.istio.enabled }}
+apiVersion: {{ .Values.istio.apiVersion }}
 kind: VirtualService
 metadata:
   name: docker-registry
 spec:
   gateways:
-  - docker-registry
+  - jx-gateway
   hosts:
     - docker-registry{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   http:

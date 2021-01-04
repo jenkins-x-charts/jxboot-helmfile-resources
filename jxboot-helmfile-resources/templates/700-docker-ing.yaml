@@ -1,4 +1,4 @@
-{{- if (index .Values "docker-registry" "enabled")  }}
+{{- if and (index .Values "docker-registry" "enabled") (not .Values.istio.enabled) }}
 apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1beta1" }}
 kind: Ingress
 metadata:

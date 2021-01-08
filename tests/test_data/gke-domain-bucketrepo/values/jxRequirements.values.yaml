@@ -35,6 +35,7 @@ jxRequirements:
     gitName: github
     gitPublic: true
     gitServer: https://github.com
+    kanikoFlags: "--insecure-registries"
     namespace: jx
     project: myproject
     provider: gke

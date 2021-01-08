@@ -319,7 +319,7 @@ jxRequirements:
     email: ""
   repository: nexus
   secretStorage: local
-  storage:
+  storage: []
   # - name: foo
   #   url: http://bar
   versionStream:

@@ -38,3 +38,8 @@ spec:
     versionStreamUrl: "https://github.com/jenkins-x/jenkins-x-versions.git"
     versionStreamRef: "master"
     useGitOps: true
+    storageLocations:
+    - bucketUrl: gs://mylogs
+      classifier: logs
+    - bucketUrl: gs://myreports
+      classifier: reports

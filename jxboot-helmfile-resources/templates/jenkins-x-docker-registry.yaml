@@ -5,7 +5,7 @@ metadata:
   annotations:
     expose.config.fabric8.io/clusterip-port-if-empty-key: docker.registry
 data:
-  kaniko.flags: "{{ .Values.kaniko.flags }}"
+  kaniko.flags: "{{ .Values.jxRequirements.cluster.kanikoFlags | default .Values.kaniko.flags }}"
 {{- if eq "gke" .Values.jxRequirements.cluster.provider }}
   docker.registry: {{ .Values.jxRequirements.cluster.registry | default "gcr.io" }}
 {{- else }}

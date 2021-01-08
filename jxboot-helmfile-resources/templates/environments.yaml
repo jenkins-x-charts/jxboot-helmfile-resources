@@ -1,11 +1,11 @@
 {{- $jx := .Values.jxRequirements -}}
 {{- $secrets := .Values.secrets -}}
-{{- $lighthouseEngine := .Values.lighthouseEngine -}}
-{{- range $key, $env := .Values.jxRequirements.environments }}
 {{- $gitUrlPathPrefix := "" -}}
 {{- if eq "bitbucketserver" $jx.cluster.gitKind }}
-{{- $gitUrlPathPrefix := "/scm" -}}
+{{- $gitUrlPathPrefix = "/scm" -}}
 {{- end }}
+{{- $lighthouseEngine := .Values.lighthouseEngine -}}
+{{- range $key, $env := .Values.jxRequirements.environments }}
 ---
 apiVersion: jenkins.io/v1
 kind: Environment

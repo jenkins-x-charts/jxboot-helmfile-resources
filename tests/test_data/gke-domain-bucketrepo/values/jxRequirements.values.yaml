@@ -5,9 +5,6 @@ versions:
 # TODO we want to remove exposecontroller at some point
 exposer: Ingress
 
-kaniko:
-  flags: "--insecure"
-
 # imported from the global secrets?
 secrets:
   tektonBucket: ""

@@ -286,6 +286,7 @@ jxRequirements:
     clustername: ""
     devEnvApprovers:
       - someone
+    dockerRegistryOrg: ""
     environmentGitOwner: ""
     environmentGitPublic: false
     gitKind: github

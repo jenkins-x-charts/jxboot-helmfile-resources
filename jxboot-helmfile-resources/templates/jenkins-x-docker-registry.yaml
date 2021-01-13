@@ -14,3 +14,9 @@ data:
 {{- if .Values.jxRequirements.cluster.dockerRegistryOrg }}
   docker.registry.org: {{ .Values.jxRequirements.cluster.dockerRegistryOrg }}
 {{- end }}
+
+{{- if .Values.jx.pipelineVariables }}
+  {{- range $key, $value := .Values.jx.pipelineVariables }}
+  {{ $key }}: {{ $value }}
+  {{- end }}
+{{- end }}

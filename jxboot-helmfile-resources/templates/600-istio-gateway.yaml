@@ -1,4 +1,5 @@
 {{- if .Values.istio.enabled }}
+{{- if .Values.istio.createGateway }}
 apiVersion: {{ .Values.istio.apiVersion }}
 kind: Gateway
 metadata:
@@ -64,5 +65,6 @@ spec:
       credentialName: tls-{{ .Values.jxRequirements.ingress.domain | replace "." "-" }}-p
 {{- end }}
       mode: SIMPLE
+{{- end }}
 {{- end }}
 {{- end }}

@@ -17,6 +17,6 @@ data:
 
 {{- if .Values.jx.pipelineVariables }}
   {{- range $key, $value := .Values.jx.pipelineVariables }}
-  {{ $key }}: {{ $value }}
+  {{ $key }}: {{ $value | quote }}
   {{- end }}
 {{- end }}

@@ -18,9 +18,8 @@ spec:
       - backend:
           serviceName: hook
           servicePort: 80
-{{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/hook"
-{{- else if .Values.ingress.customHosts.hook }}
+{{- if .Values.ingress.customHosts.hook }}
     host: {{ .Values.ingress.customHosts.hook }}
 {{- else if .Values.jxRequirements.ingress.domain }}
     host: {{ .Values.ingress.prefix.hook }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}

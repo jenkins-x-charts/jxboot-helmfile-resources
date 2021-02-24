@@ -45,7 +45,7 @@ jxRequirements:
   gitops: true
   ingress:
     domain: "1.2.3.4:30123"
-    serviceType: NodePort
+    serviceType: "NodePort"
     externalDNS: false
     namespaceSubDomain: -jx.
     tls:

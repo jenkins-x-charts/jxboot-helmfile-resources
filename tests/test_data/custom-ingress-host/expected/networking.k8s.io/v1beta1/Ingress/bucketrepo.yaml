@@ -3,7 +3,8 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: nginx
+    beer: stella
+    kubernetes.io/ingress.class: cheese
   name: bucketrepo
 spec:
   rules:

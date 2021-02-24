@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/jenkins-x/helm-unit-tester/pkg"
-	"github.com/jenkins-x/jx/v2/pkg/apis/jenkins.io/v1"
+	"github.com/jenkins-x/jx-api/v4/pkg/apis/jenkins.io/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"sigs.k8s.io/yaml"

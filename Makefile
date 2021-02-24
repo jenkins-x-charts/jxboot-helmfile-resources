@@ -53,4 +53,4 @@ test:
 	cd tests && go test -v
 
 test-regen:
-	cd tests && export HELM_UNIT_REGENERATE_EXPECTED=true && go test -v
+	cd tests && export HELM_UNIT_REGENERATE_EXPECTED=true && export HELM_NO_DEPENDENCIES="true" && go test -v

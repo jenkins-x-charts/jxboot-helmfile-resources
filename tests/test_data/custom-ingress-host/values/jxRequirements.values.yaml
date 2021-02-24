@@ -22,6 +22,8 @@ ingress:
     hook: myhost.acme.com
   customIngressClass:
     hook: cheese
+  annotations:
+    beer: stella
 
 jxRequirements:
   autoUpdate:

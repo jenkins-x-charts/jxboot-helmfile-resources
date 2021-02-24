@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: hook
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: nginx
+  name: hook
 spec:
   rules:
   - http:
@@ -12,3 +12,4 @@ spec:
       - backend:
           serviceName: hook
           servicePort: 80
+        path: "/hook"

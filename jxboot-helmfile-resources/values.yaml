@@ -199,8 +199,9 @@ gcpods:
       - list
 
 ingress:
-  annotations:
-#      kubernetes.io/ingress.class: nginx
+  annotations: {}
+
+  #      kubernetes.io/ingress.class: nginx
   apiVersion: networking.k8s.io/v1beta1
 
   # on old clusters use:
@@ -316,6 +317,7 @@ jxRequirements:
       enabled: false
       production: false
       secretName: ""
+    annotations: {}
   pipelineUser:
     username: ""
     email: ""

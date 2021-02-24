@@ -2,9 +2,10 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: hook
   annotations:
-    kubernetes.io/ingress.class: "cheese"
+    beer: stella
+    kubernetes.io/ingress.class: cheese
+  name: hook
 spec:
   rules:
   - http:
@@ -12,6 +13,7 @@ spec:
       - backend:
           serviceName: hook
           servicePort: 80
+        path: "/hook"
     host: myhost.acme.com
   tls:
   - hosts:

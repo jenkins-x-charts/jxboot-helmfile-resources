@@ -14,4 +14,3 @@ spec:
     branches:
     - ^main$
     - ^master$
-    -

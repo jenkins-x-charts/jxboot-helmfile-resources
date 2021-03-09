@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+    name: helm
+upstream:
+    type: git
+    git:
+        commit: 021d1c7d07fe8750e75a7512f3d6ea92b3dc0f3e
+        repo: https://github.com/jenkins-x/jx3-pipeline-catalog
+        directory: /tasks/helm
+        ref: master

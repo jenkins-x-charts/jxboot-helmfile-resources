@@ -1,6 +1,6 @@
-# jxboot-resources
+# jxboot-helmfile-resources
 
-Helm chart for resources used by [jx boot](https://jenkins-x.io/getting-started/boot/)
+Helm chart for resources used by [Jenkins X v3](https://jenkins-x.io/v3/)
 
 See chart [readme](./jxboot-resources/README.md) for install and config options.
 

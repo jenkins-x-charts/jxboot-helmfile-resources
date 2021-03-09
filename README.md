@@ -2,8 +2,7 @@
 
 Helm chart for resources used by [Jenkins X v3](https://jenkins-x.io/v3/)
 
-See chart [readme](./jxboot-resources/README.md) for install and config options.
-
+See chart [README](./jxboot-resources/README.md) for install and config options.
 
 ## Building
 

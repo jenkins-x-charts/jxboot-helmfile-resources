@@ -13,7 +13,7 @@ import (
 )
 
 func TestChartsWithDifferentValues(t *testing.T) {
-	chart := "../jxboot-helmfile-resources"
+	chart := filepath.Join("..", "charts", "jxboot-helmfile-resources")
 
 	_, testcases := pkg.RunTests(t, chart, filepath.Join("test_data"))
 

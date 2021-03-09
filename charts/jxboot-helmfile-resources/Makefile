@@ -1,4 +1,4 @@
-CHART_REPO := gs://chartmuseum.jenkins-x.io
+CHART_REPO := gs://jenkinsxio/charts
 CURRENT=$(pwd)
 GO_MOD := GO111MODULE=on go
 NAME := jxboot-helmfile-resources

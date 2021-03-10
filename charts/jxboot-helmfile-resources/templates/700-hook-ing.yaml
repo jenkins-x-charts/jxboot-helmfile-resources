@@ -4,6 +4,9 @@ kind: Ingress
 metadata:
   annotations:
 {{- template "ingressAnnotations" . }}
+{{- if .Values.ingress.customAnnotations.hook }}
+{{ toYaml .Values.ingress.customAnnotations.hook | indent 4}}
+{{- end }}
   name: hook
 spec:
   rules:

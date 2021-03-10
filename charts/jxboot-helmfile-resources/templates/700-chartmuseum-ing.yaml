@@ -4,6 +4,9 @@ kind: Ingress
 metadata:
   annotations:
   {{- template "ingressAnnotations" . }}
+{{- if .Values.ingress.customAnnotations.chartmuseum }}
+{{ toYaml .Values.ingress.customAnnotations.chartmuseum | indent 4}}
+{{- end }}
   name: chartmuseum
 spec:
   rules:
@@ -15,10 +18,10 @@ spec:
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/chartmuseum"
 {{- else if .Values.ingress.customHosts.chartmuseum }}
-        path: "/"
+        path: "/*"
     host: {{ .Values.ingress.customHosts.chartmuseum }}
 {{- else if .Values.jxRequirements.ingress.domain }}
-        path: "/"
+        path: "/*"
     host: {{ .Values.ingress.prefix.chartmuseum }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}
 {{- if .Values.jxRequirements.ingress.tls.enabled }}

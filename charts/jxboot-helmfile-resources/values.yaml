@@ -74,130 +74,6 @@ exposer: Ingress
 extensions:
   enabled: true
 
-gcactivities:
-  serviceaccount:
-    enabled: true
-  cronjob:
-    enabled: true
-    schedule: "0/30 */3 * * *"
-  args:
-  - "gc"
-  - "activities"
-  - "--batch-mode"
-  image:
-    repository: gcr.io/jenkinsxio-labs/jxl
-    tag: 0.0.127
-  role:
-    enabled: true
-    rules:
-    - apiGroups:
-      - jenkins.io
-      resources:
-      - pipelineactivities
-      verbs:
-      - list
-      - delete
-    - apiGroups:
-      - jenkins.io
-      resources:
-      - environments
-      verbs:
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - jenkins.io
-      resources:
-      - plugins
-      verbs:
-      - get
-      - list
-      - watch
-    - apiGroups:
-      - ""
-      resources:
-      - secrets
-      - services
-      verbs:
-      - get
-    - apiGroups:
-      - apps
-      resources:
-      - deployments
-      verbs:
-      - get
-    - apiGroups:
-      - tekton.dev
-      resources:
-      - pipelineruns
-      verbs:
-      - get
-      - list
-      - watch
-      - delete
-  clusterrole:
-    enabled: true
-    rules:
-    - apiGroups:
-      - apiextensions.k8s.io
-      resources:
-      - customresourcedefinitions
-      verbs:
-      - get
-      - create
-      - patch
-      - update
-    - apiGroups:
-      - ""
-      resources:
-      - namespaces
-      verbs:
-      - get
-      - delete
-      - list
-    - apiGroups:
-      - apps
-      resources:
-      - deployments
-      verbs:
-      - get
-
-gcpods:
-  serviceaccount:
-    enabled: true
-  cronjob:
-    enabled: true
-    schedule: "0/30 */3 * * *"
-  args:
-  - "gc"
-  - "pods"
-  - "--batch-mode"
-  image:
-    repository: gcr.io/jenkinsxio-labs/jxl
-    tag: 0.0.127
-  role:
-    enabled: true
-    rules:
-    - apiGroups:
-      - jenkins.io
-      resources:
-      - environments
-      - plugins
-      verbs:
-      - get
-      - list
-      - watch
-    - apiGroups:
-      - ""
-      resources:
-      - pods
-      verbs:
-      - get
-      - delete
-      - list
-
 ingress:
   annotations: {}
 
@@ -243,7 +119,15 @@ teamRoles:
   team-admin:
     enabled: true
 
+gc:
+  activities:
+    schedule: "0/30 */3 * * *"
+  pods:
+    schedule: "0/30 */3 * * *"
+
 versions:
+  jx: 3.1.304
+
   # TODO update with latest builders version
   builders: latest
 

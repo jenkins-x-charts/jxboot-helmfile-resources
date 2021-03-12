@@ -1,0 +1,36 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: jx-gcpods
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
+  schedule: {{ .Values.gc.pods.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: gcpods
+            release: jxboot-helmfile-resources
+        spec:
+          restartPolicy: Never
+          serviceAccountName: jx-gcpods
+          containers:
+            - name: gcpods
+              command: [jx]
+              args:
+                - gc
+                - pods
+                - --batch-mode
+              imagePullPolicy: IfNotPresent
+              image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
+              env:
+                - name: JX_LOG_FORMAT
+                  value: json
+                - name: JX_LOG_LEVEL
+                  value: info
+                - name: PIPELINE_KIND
+                  value: dummy
+              resources: {}

@@ -24,7 +24,6 @@ spec:
                 - gitops
                 - gc
                 - pods
-                - --batch-mode
               imagePullPolicy: IfNotPresent
               image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
               env:

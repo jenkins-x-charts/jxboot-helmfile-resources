@@ -21,6 +21,7 @@ spec:
             - name: gcactivities
               command: [jx]
               args:
+                - gitops
                 - gc
                 - activities
                 - --batch-mode

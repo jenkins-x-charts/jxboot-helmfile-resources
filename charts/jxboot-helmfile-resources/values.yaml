@@ -145,6 +145,7 @@ secrets:
   featureFlagAPIKey: ""
   dockerConfig: "{}"
   gpg:
+    enabled: false
     pubring: ""
     secjenkins: ""
     secring: ""

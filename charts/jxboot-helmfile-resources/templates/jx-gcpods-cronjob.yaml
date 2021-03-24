@@ -14,6 +14,10 @@ spec:
           labels:
             app: gcpods
             release: jxboot-helmfile-resources
+{{- if .Values.gc.pods.annotations }}
+          annotations:
+{{ toYaml .Values.gc.pods.annotations | indent 12 }}
+{{- end }}
         spec:
           restartPolicy: Never
           serviceAccountName: jx-gcpods

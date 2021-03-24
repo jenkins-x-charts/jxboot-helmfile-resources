@@ -14,6 +14,10 @@ spec:
           labels:
             app: gcactivities
             release: jxboot-helmfile-resources
+{{- if .Values.gc.activities.annotations }}
+          annotations:
+{{ toYaml .Values.gc.activities.annotations | indent 12 }}
+{{- end }}
         spec:
           restartPolicy: Never
           serviceAccountName: jx-gcactivities

@@ -126,13 +126,11 @@ gc:
     schedule: "0/30 */3 * * *"
 
 versions:
+  # jx is the version of the jx-boot image
   jx: 3.1.304
 
-  # TODO update with latest builders version
-  builders: latest
-
-  # TODO update with latest builders version
-  jxl: 0.0.94
+  # updatebot is the version of the jx-updatebot image
+  updatebot: 0.0.57
 
 # standard YAML files for jx boot:
 secrets:

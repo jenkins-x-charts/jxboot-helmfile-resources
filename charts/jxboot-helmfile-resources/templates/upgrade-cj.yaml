@@ -4,36 +4,30 @@ kind: CronJob
 metadata:
   name: jx-boot-upgrade
   labels:
-    app: jenkins-x-upgrade-processor
+    app: jenkins-x-updatebot
     release: jx
 spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
   jobTemplate:
-    metadata:
-      creationTimestamp: null
     spec:
       template:
         metadata:
-          creationTimestamp: null
           labels:
-            app: jenkins-x-upgrade-processor
-            release: jx
+            app: jenkins-x-updatebot
         spec:
           containers:
           - args:
-            - boot
-            - upgrade
-            - --git-credentials
-            - --batch-mode
+            - env
+            - --git-setup
             command:
-            - jxl
+            - jx-updatebot
             env:
             - name: HOME
               value: /home
-            image: gcr.io/jenkinsxio-labs-private/jxl:{{ .Values.versions.jxl }}
+            image: gcr.io/jenkinsxio/jx-updatebot:{{ .Values.versions.updatebot }}
             imagePullPolicy: Always
-            name: jenkins-x-upgrade-processor
+            name: updatebot
             resources: {}
             terminationMessagePath: /dev/termination-log
             terminationMessagePolicy: File
@@ -44,6 +38,6 @@ spec:
           terminationGracePeriodSeconds: 30
           serviceAccountName: tekton-bot
   successfulJobsHistoryLimit: 3
-  schedule: {{ .Values.jxRequirements.autoUpdate.schedule | default "0 12 */5 * *" | quote }}
+  schedule: {{ .Values.jxRequirements.autoUpdate.schedule | default "0 0 * * *" | quote }}
   suspend: false
 {{- end }}

@@ -20,6 +20,9 @@ spec:
           - args:
             - env
             - --git-setup
+{{- if .Values.jxRequirements.autoUpdate.autoMerge }}
+            - --auto-merge
+{{- end }}
             command:
             - jx-updatebot
             env:

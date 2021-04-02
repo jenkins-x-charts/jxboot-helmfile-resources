@@ -161,6 +161,7 @@ jxRequirements:
   autoUpdate:
     enabled: false
     schedule: ""
+    autoMerge: false
   bootConfigURL: https://github.com/jenkins-x/jxr-boot-config.git
   buildPacks:
     buildPackLibrary:

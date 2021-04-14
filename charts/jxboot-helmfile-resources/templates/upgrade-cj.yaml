@@ -16,6 +16,23 @@ spec:
           labels:
             app: jenkins-x-updatebot
         spec:
+          initContainers:
+            - command:
+              - jx
+              - secret
+              - copy
+              - --name
+              - jx-boot-job-env-vars
+              - --ns
+              - jx-git-operator
+              - --to
+              - jx
+              name: copy-secret
+              image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
+              imagePullPolicy: Always
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
           containers:
           - args:
             - env
@@ -28,7 +45,11 @@ spec:
             env:
             - name: HOME
               value: /home
-            image: gcr.io/jenkinsxio/jx-updatebot:{{ .Values.versions.updatebot }}
+            envFrom:
+            - secretRef:
+                name: jx-boot-job-env-vars
+                optional: true
+            image: "gcr.io/jenkinsxio/jx-updatebot:{{ .Values.versions.updatebot }}"
             imagePullPolicy: Always
             name: updatebot
             resources: {}

@@ -188,7 +188,7 @@ jxRequirements:
     hpa: false
   environments:
     - key: dev
-      repository: environment-mycluster-dev
+      repository: gcr.io/jenkinsxio/jxboot-helmfile-resources
   gitops: true
   ingress:
     domain: ""
@@ -205,7 +205,7 @@ jxRequirements:
   pipelineUser:
     username: ""
     email: ""
-  repository: nexus
+  repository: gcr.io/jenkinsxio/jxboot-helmfile-resources
   secretStorage: local
   storage: []
   # - name: foo

@@ -42,9 +42,6 @@ spec:
 {{- end }}
             command:
             - jx-updatebot
-            env:
-            - name: HOME
-              value: /home
             envFrom:
             - secretRef:
                 name: jx-boot-job-env-vars

@@ -127,10 +127,10 @@ gc:
 
 versions:
   # jx is the version of the jx-boot image
-  jx: 3.2.34
+  jx: 3.2.42
 
   # updatebot is the version of the jx-updatebot image
-  updatebot: 0.0.59
+  updatebot: 0.0.62
 
 # standard YAML files for jx boot:
 secrets:

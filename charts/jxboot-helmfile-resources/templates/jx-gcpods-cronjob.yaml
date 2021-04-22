@@ -7,6 +7,7 @@ spec:
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 3
   schedule: {{ .Values.gc.pods.schedule | quote }}
+  startingDeadlineSeconds: 4000
   jobTemplate:
     spec:
       template:

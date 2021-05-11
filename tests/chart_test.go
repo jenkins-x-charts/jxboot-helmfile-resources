@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"github.com/jenkins-x/jx-api/v4/pkg/util"
 	"io/ioutil"
 	"path/filepath"
 	"testing"
@@ -46,6 +47,14 @@ func TestChartsWithDifferentValues(t *testing.T) {
 			env := &v1.Environment{}
 			err = yaml.Unmarshal(data, env)
 			require.NoError(t, err, "failed to parse file %s", file)
+
+			validationErrors, err := util.ValidateYaml(env, data)
+			require.NoError(t, err, "failed to validate %s for test %s", file, tc.Name)
+
+			for _, ve := range validationErrors {
+				t.Logf("test %s file %s validation error: %s\n", tc.Name, file, ve)
+			}
+			assert.Emptyf(t, validationErrors, "validation errors for file %s for test %s", file, tc.Name)
 
 			if env.Name == "dev" {
 				assert.Equal(t, expectedDefaultScheduler, env.Spec.TeamSettings.DefaultScheduler.Name, "env.Spec.TeamSettings.DefaultScheduler.Name: %s", env.Name)

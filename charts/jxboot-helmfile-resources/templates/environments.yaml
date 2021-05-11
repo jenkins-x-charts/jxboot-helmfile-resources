@@ -29,17 +29,6 @@ spec:
   webHookEngine: {{ $jx.webhook | default "lighthouse" | title | quote }}
   teamSettings:
     appsRepository: http://chartmuseum.jenkins-x.io
-{{- if and (hasKey $jx "buildPacks") (hasKey $jx.buildPacks "buildPackLibrary") }}
-{{- if hasKey $jx.buildPacks.buildPackLibrary "name" }}
-    buildPackName: "{{ $jx.buildPacks.buildPackLibrary.name }}"
-{{- end }}
-{{- if hasKey $jx.buildPacks.buildPackLibrary "gitRef" }}
-    buildPackRef: "{{ $jx.buildPacks.buildPackLibrary.gitRef }}"
-{{- end }}
-{{- if hasKey $jx.buildPacks.buildPackLibrary "gitURL" }}
-    buildPackUrl: "{{ $jx.buildPacks.buildPackLibrary.gitURL }}"
-{{- end }}
-{{- end }}
 {{- if and (hasKey $jx "deployOptions") (or ($jx.deployOptions.canary) ($jx.deployOptions.hpa)) }}
     deployOptions:
 {{- if $jx.deployOptions.canary }}
@@ -67,22 +56,10 @@ spec:
 {{- if $jx.cluster.gitPublic }}
     gitPublic: true
 {{- end }}
-    helmTemplate: true
     kubeProvider: "{{ $jx.cluster.provider }}"
     pipelineUsername: "{{ $jx.pipelineUser.username | default "jenkins-x-labs-bot" }}"
     pipelineUserEmail: "{{ $jx.pipelineUser.email | default "jenkins-x@googlegroups.com" }}"
     prowConfig: Scheduler
-{{- if eq $jx.webhook "jenkins" }}
-    promotionEngine: Jenkins
-    importMode: Jenkinsfile
-{{- else }}
-    importMode: YAML
-    promotionEngine: Prow
-    prowEngine: Tekton
-{{- end }}
-    versionStreamUrl: "{{ $jx.versionStream.url }}"
-    versionStreamRef: "{{ $jx.versionStream.ref }}"
-    useGitOps: true
 {{- if $jx.storage }}
     storageLocations:
 {{- range $key, $val := $jx.storage }}

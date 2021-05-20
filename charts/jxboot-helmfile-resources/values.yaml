@@ -221,6 +221,9 @@ jx:
   # or during a pipeline by writing to the '.jx/variables.sh' file
   pipelineVariables: {}
 
+  # lets you define image pull secrets that are added to the tekton-bot ServiceAccount
+  imagePullSecrets: []
+
 npm:
   secret:
     enabled: false

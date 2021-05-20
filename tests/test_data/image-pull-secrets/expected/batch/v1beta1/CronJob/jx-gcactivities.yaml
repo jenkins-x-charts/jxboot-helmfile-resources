@@ -1,0 +1,38 @@
+# Source: jxboot-helmfile-resources/templates/jx-gcactivities-cronjob.yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: jx-gcactivities
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
+  schedule: "0/30 */3 * * *"
+  startingDeadlineSeconds: 4000
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: gcactivities
+            release: jxboot-helmfile-resources
+        spec:
+          restartPolicy: Never
+          serviceAccountName: jx-gcactivities
+          containers:
+            - name: gcactivities
+              command: [jx]
+              args:
+                - gitops
+                - gc
+                - activities
+              imagePullPolicy: IfNotPresent
+              image: "ghcr.io/jenkins-x/jx-boot:3.2.89"
+              env:
+                - name: JX_LOG_FORMAT
+                  value: json
+                - name: JX_LOG_LEVEL
+                  value: info
+                - name: PIPELINE_KIND
+                  value: dummy
+              resources: {}

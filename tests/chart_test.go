@@ -36,6 +36,18 @@ func TestChartsWithDifferentValues(t *testing.T) {
 
 		case "custom-env", "no-envs":
 			continue
+
+		case "gke-domain":
+			assertChartRepoIngress(t, tc, true, false)
+
+		case "gke-domain-bucketrepo":
+			assertChartRepoIngress(t, tc, false, true)
+
+		case "gke-domain-no-repo":
+			assertChartRepoIngress(t, tc, true, false)
+
+		case "gke-domain-none-repo":
+			assertChartRepoIngress(t, tc, true, false)
 		}
 
 		dir := filepath.Join(tc.OutDir, "results", "jenkins.io", "v1")
@@ -74,5 +86,22 @@ func TestChartsWithDifferentValues(t *testing.T) {
 
 			assert.Equal(t, expectedEnvironmentScheduler, sr.Spec.Scheduler.Name, "sr.Spec.Scheduler.Name for environment: %s", sr)
 		}
+	}
+}
+
+func assertChartRepoIngress(t *testing.T, tc *pkg.TestCase, expectChartMuseum bool, expectBucketRepo bool) {
+	dir := filepath.Join(tc.OutDir, "results", "networking.k8s.io", "v1beta1", "Ingress")
+
+	assertFileExists(t, expectChartMuseum, filepath.Join(dir, "chartmuseum.yaml"), tc.Name)
+	assertFileExists(t, expectBucketRepo, filepath.Join(dir, "bucketrepo.yaml"), tc.Name)
+}
+
+func assertFileExists(t *testing.T, exists bool, path, name string) {
+	if exists {
+		assert.FileExists(t, path)
+		t.Logf("expected file is created %s for test %s\n", path, name)
+	} else {
+		assert.NoFileExists(t, path)
+		t.Logf("no file is exist %s for test %s\n", path, name)
 	}
 }

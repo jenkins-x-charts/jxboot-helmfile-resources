@@ -6,5 +6,5 @@ metadata:
   annotations:
     expose.config.fabric8.io/clusterip-port-if-empty-key: docker.registry
 data:
-  kaniko.flags: ""
+  kaniko.flags: "--snapshotMode=redo"
   docker.registry: docker-registry

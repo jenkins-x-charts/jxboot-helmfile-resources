@@ -51,3 +51,10 @@ rules:
       - list
       - watch
       - delete
+  - apiGroups:
+    - lighthouse.jenkins.io
+    resources:
+      - lighthousejobs
+    verbs:
+      - list
+      - delete

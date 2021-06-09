@@ -1,4 +1,4 @@
-{{- if and (eq "nexus" .Values.jxRequirements.repository) .Values.istio.enabled }}
+{{- if and (not (or (eq "bucketrepo" .Values.jxRequirements.repository) (not .Values.jxRequirements.repository))) (.Values.istio.enabled) }}
 apiVersion: {{ .Values.istio.apiVersion }}
 kind: VirtualService
 metadata:

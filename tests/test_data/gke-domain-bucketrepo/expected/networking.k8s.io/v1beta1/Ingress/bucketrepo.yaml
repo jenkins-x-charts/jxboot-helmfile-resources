@@ -1,0 +1,20 @@
+# Source: jxboot-helmfile-resources/templates/700-bucketrepo-ing.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: bucketrepo
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: bucketrepo
+          servicePort: 80
+        path: "/"
+    host: bucketrepo-jx.mydomain.com
+  tls:
+  - hosts:
+    - bucketrepo-jx.mydomain.com
+    secretName: "tls-mydomain-com-s"

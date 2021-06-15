@@ -78,9 +78,9 @@ ingress:
   annotations: {}
 
   #      kubernetes.io/ingress.class: nginx
-  apiVersion: networking.k8s.io/v1
-  # on old clusters use:
-  #apiVersion: networking.k8s.io/v1beta1
+  # from v1.22 onwards:
+  #apiVersion: networking.k8s.io/v1
+  apiVersion: networking.k8s.io/v1beta1
 
   # define the ingress prefixes for the different services
   prefix:

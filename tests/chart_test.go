@@ -90,7 +90,7 @@ func TestChartsWithDifferentValues(t *testing.T) {
 }
 
 func assertChartRepoIngress(t *testing.T, tc *pkg.TestCase, expectChartMuseum bool, expectBucketRepo bool) {
-	dir := filepath.Join(tc.OutDir, "results", "networking.k8s.io", "v1beta1", "Ingress")
+	dir := filepath.Join(tc.OutDir, "results", "networking.k8s.io", "v1", "Ingress")
 
 	assertFileExists(t, expectChartMuseum, filepath.Join(dir, "chartmuseum.yaml"), tc.Name)
 	assertFileExists(t, expectBucketRepo, filepath.Join(dir, "bucketrepo.yaml"), tc.Name)

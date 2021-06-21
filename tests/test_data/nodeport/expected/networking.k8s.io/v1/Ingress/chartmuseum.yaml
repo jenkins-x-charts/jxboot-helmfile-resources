@@ -13,5 +13,6 @@ spec:
       - backend:
           service:
             name: jenkins-x-chartmuseum
-            port: 8080
+            port:
+              number: 8080
         path: "/chartmuseum"

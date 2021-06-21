@@ -12,7 +12,8 @@ spec:
       - backend:
           service:
             name: jenkins-x-docker-registry
-            port: 5000
+            port:
+              number: 5000
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/docker-registry"
 {{- else if .Values.ingress.customHosts.dockerRegistry }}

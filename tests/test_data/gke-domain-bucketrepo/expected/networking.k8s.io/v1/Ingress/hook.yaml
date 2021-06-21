@@ -9,7 +9,8 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
+      - pathType: ImplementationSpecific
+        backend:
           service:
             name: hook
             port:

@@ -10,7 +10,8 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
+      - pathType: ImplementationSpecific
+        backend:
           service:
             name: nexus
             port:

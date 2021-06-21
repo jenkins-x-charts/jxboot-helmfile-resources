@@ -9,7 +9,8 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
+      - pathType: {{ .Values.ingress.pathType | default "ImplementationSpecific" }}
+        backend:
           service:
             name: jenkins-x-docker-registry
             port:

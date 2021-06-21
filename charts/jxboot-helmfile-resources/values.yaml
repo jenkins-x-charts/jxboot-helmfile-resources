@@ -82,6 +82,10 @@ ingress:
   apiVersion: networking.k8s.io/v1
   #apiVersion: networking.k8s.io/v1beta1
 
+  # ingress path type
+  pathType: ImplementationSpecific
+
+
   # define the ingress prefixes for the different services
   prefix:
     bucketrepo: bucketrepo

@@ -1,0 +1,17 @@
+# Source: jxboot-helmfile-resources/templates/700-nexus-ing.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    jenkins.io/host: 1.2.3.4:30123
+    kubernetes.io/ingress.class: nginx
+  name: nexus
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: nexus
+            port: 80
+        path: "/nexus"

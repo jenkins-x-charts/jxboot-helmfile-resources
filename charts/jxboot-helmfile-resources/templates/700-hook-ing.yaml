@@ -1,5 +1,5 @@
 {{- if and (or (eq "lighthouse" .Values.jxRequirements.webhook) (eq "prow" .Values.jxRequirements.webhook)) (not .Values.istio.enabled) }}
-apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1beta1" }}
+apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1" }}
 kind: Ingress
 metadata:
   annotations:
@@ -10,8 +10,9 @@ spec:
   - http:
       paths:
       - backend:
-          serviceName: hook
-          servicePort: 80
+          service:
+            name: hook
+            port: 80
         path: "/hook"
 {{- if .Values.ingress.customHosts.hook }}
     host: {{ .Values.ingress.customHosts.hook }}

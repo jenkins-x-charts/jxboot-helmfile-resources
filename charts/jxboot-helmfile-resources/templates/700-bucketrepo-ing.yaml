@@ -12,7 +12,8 @@ spec:
       - backend:
           service:
             name: bucketrepo
-            port: 80
+            port:
+              number: 80
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/bucketrepo"
 {{- else if .Values.ingress.customHosts.bucketrepo }}

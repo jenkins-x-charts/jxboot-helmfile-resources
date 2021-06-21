@@ -12,7 +12,8 @@ spec:
       - backend:
           service:
             name: hook
-            port: 80
+            port:
+              number: 80
         path: "/hook"
 {{- if .Values.ingress.customHosts.hook }}
     host: {{ .Values.ingress.customHosts.hook }}

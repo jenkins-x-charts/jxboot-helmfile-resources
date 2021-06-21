@@ -12,7 +12,8 @@ spec:
       - backend:
           service:
             name: nexus
-            port: 80
+            port:
+              number: 80
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/nexus"
 {{- else if .Values.ingress.customHosts.nexus }}

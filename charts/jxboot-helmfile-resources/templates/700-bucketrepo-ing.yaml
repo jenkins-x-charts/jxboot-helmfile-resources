@@ -9,12 +9,18 @@ spec:
   rules:
   - http:
       paths:
+{{- if eq .Values.ingress.apiVersion "networking.k8s.io/v1beta1" }}
+      - backend:
+          serviceName: bucketrepo
+          servicePort: 80
+{{- else }}
       - pathType: {{ .Values.ingress.pathType | default "ImplementationSpecific" }}
         backend:
           service:
             name: bucketrepo
             port:
               number: 80
+{{- end }}
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/bucketrepo"
 {{- else if .Values.ingress.customHosts.bucketrepo }}

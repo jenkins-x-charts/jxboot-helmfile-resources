@@ -28,7 +28,7 @@ spec:
           resources: {}
         - name: promote-changelog
           resources: {}
-        - name: release-chart
+        - name: promote-helm-release
           resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot

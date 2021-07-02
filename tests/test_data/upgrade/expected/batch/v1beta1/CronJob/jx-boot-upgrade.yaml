@@ -47,7 +47,7 @@ spec:
             - secretRef:
                 name: jx-boot-job-env-vars
                 optional: true
-            image: "ghcr.io/jenkins-x/jx-updatebot:0.0.86"
+            image: "ghcr.io/jenkins-x/jx-updatebot:0.0.87"
             imagePullPolicy: Always
             name: updatebot
             resources: {}

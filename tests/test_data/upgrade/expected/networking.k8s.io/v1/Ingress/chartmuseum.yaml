@@ -1,0 +1,17 @@
+# Source: jxboot-helmfile-resources/templates/700-chartmuseum-ing.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: chartmuseum
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: jenkins-x-chartmuseum
+            port:
+              number: 8080

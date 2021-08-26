@@ -15,7 +15,6 @@ spec:
             name: nexus
             port:
               number: 80
-        path: "/"
     host: nexus-jx.mydomain.com
   tls:
   - hosts:

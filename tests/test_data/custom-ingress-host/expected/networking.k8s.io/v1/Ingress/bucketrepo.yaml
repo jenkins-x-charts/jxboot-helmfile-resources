@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   annotations:
     beer: stella
-    kubernetes.io/ingress.class: cheese
+    kubernetes.io/ingress.class: nginx
   name: bucketrepo
 spec:
   rules:
@@ -16,7 +16,6 @@ spec:
             name: bucketrepo
             port:
               number: 80
-        path: "/"
     host: myrepo.com
   tls:
   - hosts:

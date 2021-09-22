@@ -28,7 +28,7 @@ spec:
   promotionStrategy: "{{ $env.promotionStrategy | default "Never" }}"
   webHookEngine: {{ $jx.webhook | default "lighthouse" | title | quote }}
   teamSettings:
-    appsRepository: http://chartmuseum.jenkins-x.io
+    appsRepository: https://jenkins-x-charts.github.io/repo
 {{- if and (hasKey $jx "deployOptions") (or ($jx.deployOptions.canary) ($jx.deployOptions.hpa)) }}
     deployOptions:
 {{- if $jx.deployOptions.canary }}

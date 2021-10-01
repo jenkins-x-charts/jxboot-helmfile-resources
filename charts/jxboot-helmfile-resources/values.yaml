@@ -125,8 +125,11 @@ teamRoles:
 gc:
   activities:
     schedule: "0/30 */3 * * *"
+    # extraArgs: ["--release-age", "12h0m0s"] will run jx gitops gc activities --release-age 12h0m0s
+    extraArgs: []
   pods:
     schedule: "0/30 */3 * * *"
+    extraArgs: []
 
 versions:
   # jx is the version of the jx-boot image

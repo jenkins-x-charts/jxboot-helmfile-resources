@@ -6,7 +6,7 @@ spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 3
-  schedule: {{ .Values.gc.pods.schedule | quote }}
+  schedule: {{ .Values.gc.activities.schedule | quote }}
   startingDeadlineSeconds: 4000
   jobTemplate:
     spec:
@@ -29,6 +29,11 @@ spec:
                 - gitops
                 - gc
                 - activities
+            {{- if .Values.gc.activities.extraArgs }}
+              {{- range .Values.gc.activities.extraArgs }}
+                - {{.}}
+              {{- end }}
+            {{- end}}
               imagePullPolicy: IfNotPresent
               image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
               env:

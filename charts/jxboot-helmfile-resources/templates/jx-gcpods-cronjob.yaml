@@ -29,6 +29,11 @@ spec:
                 - gitops
                 - gc
                 - pods
+            {{- if .Values.gc.pods.extraArgs }}
+              {{- range .Values.gc.pods.extraArgs }}
+                - {{.}}
+              {{- end }}
+            {{- end}}
               imagePullPolicy: IfNotPresent
               image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
               env:

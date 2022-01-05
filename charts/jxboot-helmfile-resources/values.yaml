@@ -130,6 +130,9 @@ gc:
   pods:
     schedule: "0/30 */3 * * *"
     extraArgs: []
+  jobs:
+    schedule: "0/30 */3 * * *"
+    extraArgs: ["--namespace", "jx-git-operator"]
 
 versions:
   # jx is the version of the jx-boot image

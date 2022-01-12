@@ -2,16 +2,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: gcjobs
+  namespace: {{ .Values.gcbootjobs.role.ns | default "jx-git-operator" | quote }}
 rules:
-  - apiGroups:
-      - jenkins.io
-    resources:
-      - environments
-      - plugins
-    verbs:
-      - get
-      - list
-      - watch
   - apiGroups:
       - batch
     resources:

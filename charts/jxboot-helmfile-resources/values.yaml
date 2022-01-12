@@ -122,6 +122,16 @@ teamRoles:
   team-admin:
     enabled: true
 
+gcbootjobs:
+  rb:
+    ns: "jx-git-operator"
+  sa:
+    ns: "jx-git-operator"
+  role:
+    ns: "jx-git-operator"
+  cronjob:
+    ns: "jx-git-operator"
+
 gc:
   activities:
     schedule: "0/30 */3 * * *"

@@ -2,6 +2,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: jx-gcjobs
+  namespace: {{ .Values.gcbootjobs.cronjob.ns | default "jx-git-operator" | quote }}
 spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1

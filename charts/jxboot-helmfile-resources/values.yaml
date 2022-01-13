@@ -133,6 +133,14 @@ gc:
   jobs:
     schedule: "0/30 */3 * * *"
     extraArgs: ["--namespace", "jx-git-operator"]
+    rb:
+      ns: "jx-git-operator"
+    sa:
+      ns: "jx-git-operator"
+    role:
+      ns: "jx-git-operator"
+    cronjob:
+      ns: "jx-git-operator"
 
 versions:
   # jx is the version of the jx-boot image

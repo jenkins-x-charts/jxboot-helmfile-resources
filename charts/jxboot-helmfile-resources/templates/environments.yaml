@@ -63,14 +63,8 @@ spec:
 {{- if $jx.storage }}
     storageLocations:
 {{- range $key, $val := $jx.storage }}
-{{- if eq "logs" $val.name }}
-    - bucketUrl: {{ $val.url }}
-      classifier: logs
-{{- end }}
-{{- if eq "reports" $val.name }}
-    - bucketUrl: {{ $val.url }}
-      classifier: reports
-{{- end }}
+    - bucketUrl: {{ $val.url | quote }}
+      classifier: {{ $val.name | quote }}
 {{- end }}
 {{- end }}
 

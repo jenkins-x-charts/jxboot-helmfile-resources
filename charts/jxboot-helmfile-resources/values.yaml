@@ -124,10 +124,12 @@ teamRoles:
 
 gc:
   activities:
+    image: "ghcr.io/jenkins-x/jx-boot"
+    # tag: "latest"
+
     schedule: "0/30 */3 * * *"
     # extraArgs: ["--release-age", "12h0m0s"] will run jx gitops gc activities --release-age 12h0m0s
     extraArgs: []
-    image: "ghcr.io/jenkins-x/jx-boot"
   pods:
     schedule: "0/30 */3 * * *"
     extraArgs: []

@@ -36,7 +36,7 @@ spec:
               {{- end }}
             {{- end}}
               imagePullPolicy: IfNotPresent
-              image: "{{ .Values.gc.activities.image }}:{{ .Values.versions.jx }}"
+              image: "{{ .Values.gc.activities.image }}:{{ if .Values.gc.activities.tag }}{{ .Values.gc.activities.tag }}{{ else }}{{ .Values.versions.jx }}{{ end }}"
               env:
                 - name: JX_LOG_FORMAT
                   value: json

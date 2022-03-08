@@ -29,13 +29,14 @@ spec:
                 - gitops
                 - gc
                 - activities
+                - "--all-namespaces"
             {{- if .Values.gc.activities.extraArgs }}
               {{- range .Values.gc.activities.extraArgs }}
                 - {{.}}
               {{- end }}
             {{- end}}
               imagePullPolicy: IfNotPresent
-              image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
+              image: "{{ .Values.gc.activities.image }}:{{ .Values.versions.jx }}"
               env:
                 - name: JX_LOG_FORMAT
                   value: json

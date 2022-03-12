@@ -44,4 +44,3 @@ subjects:
     name: jx-gcpods
     namespace: {{ $.Release.Namespace }}
 {{- end }}
-g

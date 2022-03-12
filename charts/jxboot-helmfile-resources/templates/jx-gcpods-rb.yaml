@@ -1,12 +1,47 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gcpods
+  namespace: jx-git-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gcpods-per-namespace
+subjects:
+  - kind: ServiceAccount
+    name: jx-gcpods
+    namespace: {{ .Release.Namespace }}
+
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: gcpods
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: gcpods
+  kind: ClusterRole
+  name: gcpods-per-namespace
 subjects:
   - kind: ServiceAccount
     name: jx-gcpods
     namespace: {{ .Release.Namespace }}
+
+
+{{- range .Values.jxJobsNamespaces }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gcpods
+  namespace: {{ . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gcpods-per-namespace
+subjects:
+  - kind: ServiceAccount
+    name: jx-gcpods
+    namespace: {{ $.Release.Namespace }}
+{{- end }}
+g

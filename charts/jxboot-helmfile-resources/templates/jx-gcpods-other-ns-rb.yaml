@@ -3,7 +3,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: gcpods
+  name: gcpods-{{ . }}
   namespace: {{ . }}
   annotations:
     gitops.jenkins-x.io/namespaceChange: keep-namespace-move-file

@@ -10,4 +10,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: jx-gcjobs
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ .Values.gc.jobs.rb.ns | default "jx-git-operator" | quote }}

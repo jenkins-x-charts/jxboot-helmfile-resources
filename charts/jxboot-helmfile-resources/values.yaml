@@ -148,9 +148,9 @@ gc:
     cronjob:
       ns: "jx-git-operator"
 
-# add extra namespaces to allow garbage collection in those namespaces
-jxJobsNamespaces:
-  - jx
+# adding extra namespaces will allow garbage collection in those namespaces
+jxJobsNamespaces: []
+  #- my-team-ns-2
 
 versions:
   # jx is the version of the jx-boot image

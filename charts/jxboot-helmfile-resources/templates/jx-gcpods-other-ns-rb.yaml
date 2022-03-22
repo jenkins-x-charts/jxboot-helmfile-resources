@@ -1,8 +1,12 @@
+{{- range .Values.jxJobsNamespaces }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: gcpods
+  name: gcpods-{{ . }}
+  namespace: {{ . }}
+  annotations:
+    gitops.jenkins-x.io/namespaceChange: keep-namespace-move-file
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -10,4 +14,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: jx-gcpods
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ $.Release.Namespace }}
+{{- end }}

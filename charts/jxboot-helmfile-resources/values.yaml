@@ -154,7 +154,7 @@ jxJobsNamespaces: []
 
 versions:
   # jx is the version of the jx-boot image
-  jx: 3.2.265
+  jx: 3.2.266
 
   # updatebot is the version of the jx-updatebot image
   updatebot: 0.1.3

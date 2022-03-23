@@ -16,7 +16,7 @@ lighthouseEngine: tekton
 
 basicAuthSecrets:
   enabled: true
-
+  
 pipeline:
   rbac:
     cluster: true
@@ -124,16 +124,10 @@ teamRoles:
 
 gc:
   activities:
-    image: "ghcr.io/jenkins-x/jx-boot"
-    # tag: "latest"
-
     schedule: "0/30 */3 * * *"
     # extraArgs: ["--release-age", "12h0m0s"] will run jx gitops gc activities --release-age 12h0m0s
     extraArgs: []
   pods:
-    image: "ghcr.io/jenkins-x/jx-boot"
-    # tag: "latest"
-
     schedule: "0/30 */3 * * *"
     extraArgs: []
   jobs:
@@ -147,10 +141,6 @@ gc:
       ns: "jx-git-operator"
     cronjob:
       ns: "jx-git-operator"
-
-# adding extra namespaces will allow garbage collection in those namespaces
-jxJobsNamespaces: []
-  #- my-team-ns-2
 
 versions:
   # jx is the version of the jx-boot image

@@ -36,7 +36,7 @@ spec:
               {{- end }}
             {{- end}}
               imagePullPolicy: IfNotPresent
-              image: "{{ .Values.gc.pods.image }}:{{ if .Values.gc.pods.tag }}{{ .Values.gc.pods.tag }}{{ else }}{{ .Values.versions.jx }}{{ end }}"
+              image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
               env:
                 - name: JX_LOG_FORMAT
                   value: json

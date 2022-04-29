@@ -2,6 +2,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: jx-gcpods
+  namespace: {{ .Values.gc.pods.cronjob.ns | default "jx-git-operator" | quote }}
 spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1

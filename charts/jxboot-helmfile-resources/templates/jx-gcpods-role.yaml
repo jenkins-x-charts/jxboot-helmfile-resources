@@ -2,6 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: gcpods
+  namespace: {{ .Values.gc.pods.role.ns | default "jx-git-operator" | quote }}
 rules:
   - apiGroups:
       - jenkins.io

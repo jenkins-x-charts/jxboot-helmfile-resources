@@ -9,4 +9,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: jx-gcpods
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ .Values.gc.pods.rb.ns | default "jx-git-operator" | quote }}

@@ -122,6 +122,8 @@ teamRoles:
   team-admin:
     enabled: true
 
+# we are including the capability of specifying the pod and job namespace for
+# garbadge collection cronJobs
 gc:
   activities:
     schedule: "0/30 */3 * * *"
@@ -130,6 +132,14 @@ gc:
   pods:
     schedule: "0/30 */3 * * *"
     extraArgs: []
+    rb:
+      ns: "jx-git-operator"
+    sa:
+      ns: "jx-git-operator"
+    role:
+      ns: "jx-git-operator"
+    cronjob:
+      ns: "jx-git-operator"
   jobs:
     schedule: "0/30 */3 * * *"
     extraArgs: ["--namespace", "jx-git-operator"]

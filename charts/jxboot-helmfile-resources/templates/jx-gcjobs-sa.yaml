@@ -2,4 +2,3 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: jx-gcjobs
-  namespace: {{ .Values.gc.jobs.sa.ns | default "jx-git-operator" | quote }}

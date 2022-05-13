@@ -15,8 +15,11 @@ spec:
           labels:
             app: gcjobs
             release: jxboot-helmfile-resources
-{{- if .Values.gc.jobs.annotations }}
           annotations:
+{{- if .Values.istio.enabled }}
+            sidecar.istio.io/inject: "false"
+{{- end }}
+{{- if .Values.gc.jobs.annotations }}
 {{ toYaml .Values.gc.jobs.annotations | indent 12 }}
 {{- end }}
         spec:

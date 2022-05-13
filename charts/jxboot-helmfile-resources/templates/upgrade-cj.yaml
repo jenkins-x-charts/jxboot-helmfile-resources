@@ -16,6 +16,10 @@ spec:
         metadata:
           labels:
             app: jenkins-x-updatebot
+          annotations:
+{{- if .Values.istio.enabled }}
+            sidecar.istio.io/inject: "false"
+{{- end }}
         spec:
           initContainers:
             - command:

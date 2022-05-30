@@ -15,8 +15,11 @@ spec:
           labels:
             app: gcactivities
             release: jxboot-helmfile-resources
-{{- if .Values.gc.activities.annotations }}
           annotations:
+{{- if .Values.istio.enabled }}
+            sidecar.istio.io/inject: "false"
+{{- end }}
+{{- if .Values.gc.activities.annotations }}
 {{ toYaml .Values.gc.activities.annotations | indent 12 }}
 {{- end }}
         spec:

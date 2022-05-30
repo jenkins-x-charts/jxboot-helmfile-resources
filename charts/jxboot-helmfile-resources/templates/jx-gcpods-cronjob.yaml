@@ -15,8 +15,11 @@ spec:
           labels:
             app: gcpods
             release: jxboot-helmfile-resources
-{{- if .Values.gc.pods.annotations }}
           annotations:
+{{- if .Values.istio.enabled }}
+            sidecar.istio.io/inject: "false"
+{{- end }}
+{{- if .Values.gc.pods.annotations }}
 {{ toYaml .Values.gc.pods.annotations | indent 12 }}
 {{- end }}
         spec:

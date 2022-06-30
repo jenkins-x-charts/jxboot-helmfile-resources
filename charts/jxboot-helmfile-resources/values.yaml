@@ -139,7 +139,7 @@ versions:
   jx: 3.2.402
 
   # updatebot is the version of the jx-updatebot image
-  updatebot: 0.1.8
+  updatebot: 0.2.0
 
 # standard YAML files for jx boot:
 secrets:

@@ -136,7 +136,7 @@ gc:
 
 versions:
   # jx is the version of the jx-boot image
-  jx: 3.7.2
+  jx: 3.7.3
 
   # updatebot is the version of the jx-updatebot image
   updatebot: 0.3.1

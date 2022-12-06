@@ -1,0 +1,14 @@
+# Source: jxboot-helmfile-resources/templates/jx-gcjobs-cr.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gcjobs
+rules:
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+    verbs:
+      - get
+      - delete
+      - list

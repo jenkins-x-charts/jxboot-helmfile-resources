@@ -16,7 +16,7 @@ spec:
   promotionStrategy: "Never"
   webHookEngine: "Lighthouse"
   teamSettings:
-    appsRepository: http://chartmuseum.jenkins-x.io
+    appsRepository: https://jenkins-x-charts.github.io/repo
     defaultScheduler:
       apiVersion: jenkins.io/v1
       kind: Scheduler
@@ -30,7 +30,9 @@ spec:
     pipelineUserEmail: "myuser@bar.com"
     prowConfig: Scheduler
     storageLocations:
-    - bucketUrl: gs://mylogs
-      classifier: logs
-    - bucketUrl: gs://myreports
-      classifier: reports
+    - bucketUrl: "gs://mylogs"
+      classifier: "logs"
+    - bucketUrl: "gs://myreports"
+      classifier: "reports"
+    - bucketUrl: "gs://myrepo"
+      classifier: "repository"

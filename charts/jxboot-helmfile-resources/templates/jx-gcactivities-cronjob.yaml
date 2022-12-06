@@ -34,7 +34,7 @@ spec:
                 - activities
             {{- if .Values.gc.activities.extraArgs }}
               {{- range .Values.gc.activities.extraArgs }}
-                - {{.}}
+                - {{ . | quote }}
               {{- end }}
             {{- end}}
               imagePullPolicy: IfNotPresent

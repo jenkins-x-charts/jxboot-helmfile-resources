@@ -1,0 +1,5 @@
+# Source: jxboot-helmfile-resources/templates/jx-gcjobs-sa.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jx-gcjobs

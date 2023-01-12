@@ -163,6 +163,10 @@ versions:
 
 # standard YAML files for jx boot:
 secrets:
+  # render k8s Secret objects or ExternalSecret CRs
+  kind: Secret
+  # kind: ExternalSecret
+
   adminUser:
     username: "admin"
     password: ""

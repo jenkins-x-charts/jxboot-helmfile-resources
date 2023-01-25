@@ -114,7 +114,7 @@ nexusServiceLink:
   enabled: false
 
   # specify the external name here for where the nexus should point
-  externalname: ""
+  externalName: ""
 
 teamRoles:
   viewer:

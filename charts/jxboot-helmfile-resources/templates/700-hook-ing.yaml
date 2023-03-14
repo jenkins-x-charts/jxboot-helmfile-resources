@@ -22,18 +22,22 @@ spec:
               number: 80
 {{- end }}
         path: "/hook"
-{{- if .Values.ingress.customHosts.hook }}
+{{- if .Values.hook.ingress.customHost }}
+    host: {{ .Values.hook.ingress.customHost }}
+{{- else if .Values.ingress.customHosts.hook }}
     host: {{ .Values.ingress.customHosts.hook }}
 {{- else if .Values.jxRequirements.ingress.domain }}
-    host: {{ .Values.ingress.prefix.hook }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    host: {{ .Values.ingress.prefix.hook | default .Values.hook.ingress.prefix }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
-  {{- if .Values.ingress.customHosts.hook }}
+  {{- if .Values.hook.ingress.customHost }}
+    - {{ .Values.hook.ingress.customHost }}
+  {{- else if .Values.ingress.customHosts.hook }}
     - {{ .Values.ingress.customHosts.hook }}
   {{- else }}
-    - {{ .Values.ingress.prefix.hook }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    - {{ .Values.ingress.prefix.hook | default .Values.hook.ingress.prefix }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   {{- end }}
 {{- if .Values.hook.ingress.tls.secretName }}
     secretName: "{{ .Values.hook.ingress.tls.secretName }}"

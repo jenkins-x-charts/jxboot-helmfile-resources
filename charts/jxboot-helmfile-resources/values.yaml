@@ -16,7 +16,7 @@ lighthouseEngine: tekton
 
 basicAuthSecrets:
   enabled: true
-  
+
 pipeline:
   rbac:
     cluster: true
@@ -44,27 +44,47 @@ pipeline:
 
 bucketrepo:
   ingress:
+    annotations: {}
+    customHost: "" # setting this will override the value from .Values.ingress.customHost.bucketrepo
+    customIngressClass: "" # setting this will override the value from .Values.ingress.customIngressClass.bucketrepo
+    prefix: bucketrepo
     tls:
       secretName: ""
 
 chartmuseum:
   ingress:
+    annotations: {}
+    customHost: "" # setting this will override the value from .Values.ingress.customHost.chartmuseum
+    customIngressClass: "" # setting this will override the value from .Values.ingress.customIngressClass.chartmuseum
+    prefix: chartmuseum
     tls:
       secretName: ""
 
 docker-registry:
   enabled: false
   ingress:
+    annotations: {}
+    customHost: "" # setting this will override the value from .Values.ingress.customHost.dockerRegistry
+    customIngressClass: "" # setting this will override the value from .Values.ingress.customIngressClass.dockerRegistry
+    prefix: docker-registry
     tls:
       secretName: ""
 
 hook:
   ingress:
+    annotations: {}
+    customHost: "" # setting this will override the value from .Values.ingress.customHost.hook
+    customIngressClass: "" # setting this will override the value from .Values.ingress.customIngressClass.hook
+    prefix: hook
     tls:
       secretName: ""
 
 nexus:
   ingress:
+    annotations: {}
+    customHost: "" # setting this will override the value from .Values.ingress.customHost.nexus
+    customIngressClass: "" # setting this will override the value from .Values.ingress.customIngressClass.nexus
+    prefix: nexus # setting this will override the value from .Values.ingress.prefix.nexus
     tls:
       secretName: ""
 
@@ -86,29 +106,29 @@ ingress:
   pathType: ImplementationSpecific
 
 
-  # define the ingress prefixes for the different services
-  prefix:
-    bucketrepo: bucketrepo
-    chartmuseum: chartmuseum
-    hook: hook
-    nexus: nexus
-    dockerRegistry: docker-registry
+  # define the ingress prefixes for the different services (deprecated in favour of .Values.<component>.ingress.prefix)
+  prefix: {}
+    # bucketrepo: bucketrepo
+    # chartmuseum: chartmuseum
+    # hook: hook
+    # nexus: nexus
+    # dockerRegistry: docker-registry
 
-  # allows you to specify custom hosts
-  customHosts:
-    bucketrepo: ""
-    chartmuseum: ""
-    hook: ""
-    nexus: ""
-    dockerRegistry: ""
+  # allows you to specify custom hosts (deprecated in favour of .Values.<component>.ingress.customHost)
+  customHosts: {}
+    # bucketrepo: ""
+    # chartmuseum: ""
+    # hook: ""
+    # nexus: ""
+    # dockerRegistry: ""
 
-  # allows you to specify custom ingress class
-  customIngressClass:
-    bucketrepo: ""
-    chartmuseum: ""
-    hook: ""
-    nexus: ""
-    dockerRegistry: ""
+  # allows you to specify custom ingress class (deprecated in favour of .Values.<component>.ingress.customIngressClass)
+  customIngressClass: {}
+  #   bucketrepo: ""
+  #   chartmuseum: ""
+  #   hook: ""
+  #   nexus: ""
+  #   dockerRegistry: ""
 
 nexusServiceLink:
   enabled: false

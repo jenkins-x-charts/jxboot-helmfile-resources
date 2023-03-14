@@ -23,18 +23,22 @@ spec:
 {{- end }}
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/nexus"
+{{- else if .Values.nexus.ingress.customHost }}
+    host: {{ .Values.nexus.ingress.customHost }}
 {{- else if .Values.ingress.customHosts.nexus }}
     host: {{ .Values.ingress.customHosts.nexus }}
 {{- else if .Values.jxRequirements.ingress.domain }}
-    host: {{ .Values.ingress.prefix.nexus }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    host: {{ .Values.ingress.prefix.nexus | default .Values.nexus.ingress.prefix }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
-  {{- if .Values.ingress.customHosts.nexus }}
+  {{- if .Values.nexus.ingress.customHost }}
+    - {{ .Values.nexus.ingress.customHost }}
+  {{- else if .Values.ingress.customHosts.nexus }}
     - {{ .Values.ingress.customHosts.nexus }}
   {{- else }}
-    - {{ .Values.ingress.prefix.nexus }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    - {{ .Values.ingress.prefix.nexus | default .Values.nexus.ingress.prefix }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   {{- end }}
 {{- if .Values.nexus.ingress.tls.secretName }}
     secretName: "{{ .Values.nexus.ingress.tls.secretName }}"

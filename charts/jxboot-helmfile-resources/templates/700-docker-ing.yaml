@@ -3,7 +3,7 @@ apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1" }}
 kind: Ingress
 metadata:
   annotations:
-{{- template "ingressAnnotations" (dict "Values" .Values "component" "dockerRegistry") }}
+{{- template "ingressAnnotations" (dict "Values" .Values "component" "docker-registry") }}
   name: docker-registry
 spec:
   rules:
@@ -23,18 +23,22 @@ spec:
 {{- end }}
 {{- if eq "NodePort" .Values.jxRequirements.ingress.serviceType }}
         path: "/docker-registry"
+{{- else if index .Values "docker-registry" "ingress" "customHost" }}
+    host: {{ index .Values "docker-registry" "ingress" "customHost" }}
 {{- else if .Values.ingress.customHosts.dockerRegistry }}
     host: {{ .Values.ingress.customHosts.dockerRegistry }}
 {{- else if .Values.jxRequirements.ingress.domain }}
-    host: {{ .Values.ingress.prefix.dockerRegistry }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    host: {{ .Values.ingress.prefix.dockerRegistry | default (index .Values "docker-registry" "ingress" "prefix") }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
 {{- end }}
 {{- if .Values.jxRequirements.ingress.tls.enabled }}
   tls:
   - hosts:
-  {{- if .Values.ingress.customHosts.dockerRegistry }}
+  {{- if index .Values "docker-registry" "ingress" "customHost" }}
+    - {{ index .Values "docker-registry" "ingress" "customHost" }}
+  {{- else if .Values.ingress.customHosts.dockerRegistry }}
     - {{ .Values.ingress.customHosts.dockerRegistry }}
   {{- else }}
-    - {{ .Values.ingress.prefix.dockerRegistry }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    - {{ .Values.ingress.prefix.dockerRegistry | default (index .Values "docker-registry" "ingress" "prefix") }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   {{- end }}
 {{- if index .Values "docker-registry" "ingress" "tls" "secretName" }}
     secretName: "{{ index .Values "docker-registry" "ingress" "tls" "secretName" }}"

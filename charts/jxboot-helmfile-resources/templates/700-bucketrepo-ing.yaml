@@ -38,7 +38,7 @@ spec:
   {{- else if .Values.ingress.customHosts.bucketrepo }}
     - {{ .Values.ingress.customHosts.bucketrepo }}
   {{- else }}
-    - {{ .Values.ingress.prefix.bucketrepo | default.Values.bucketrepo.ingress.prefix }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+    - {{ .Values.ingress.prefix.bucketrepo | default .Values.bucketrepo.ingress.prefix }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
   {{- end }}
 {{- if .Values.bucketrepo.ingress.tls.secretName }}
     secretName: "{{ .Values.bucketrepo.ingress.tls.secretName }}"

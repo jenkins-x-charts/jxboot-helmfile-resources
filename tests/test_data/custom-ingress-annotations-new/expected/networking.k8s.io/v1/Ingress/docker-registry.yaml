@@ -1,0 +1,24 @@
+# Source: jxboot-helmfile-resources/templates/700-docker-ing.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    beer: moretti-from-values
+    cheese: edam-from-requirements
+    kubernetes.io/ingress.class: docker-registry-ingress-class
+  name: docker-registry
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: jenkins-x-docker-registry
+            port:
+              number: 5000
+    host: docker-registry-jx.mydomain.com
+  tls:
+  - hosts:
+    - docker-registry-jx.mydomain.com
+    secretName: "tls-mydomain-com-s"

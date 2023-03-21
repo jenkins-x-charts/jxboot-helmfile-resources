@@ -1,0 +1,25 @@
+# Source: jxboot-helmfile-resources/templates/700-hook-ing.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    beer: moretti-from-hook-values
+    cheese: edam-from-requirements
+    kubernetes.io/ingress.class: hook-ingress-class
+  name: hook
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: hook
+            port:
+              number: 80
+        path: "/hook"
+    host: myhost.acme.com
+  tls:
+  - hosts:
+    - myhost.acme.com
+    secretName: "tls-mydomain-com-s"

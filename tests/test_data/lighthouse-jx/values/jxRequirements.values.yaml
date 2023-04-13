@@ -8,6 +8,11 @@ pipeline:
 versions:
   # TODO update with latest builders version
   builders: latest
+  # we set the versions of jx & updatebot to TESTVAL
+  # in order to ensure tests are deterministic
+  # (templated file content doesn't change just because new versions are released)
+  jx: TESTVAL
+  updatebot: TESTVAL
 
 # TODO we want to remove exposecontroller at some point
 exposer: Ingress

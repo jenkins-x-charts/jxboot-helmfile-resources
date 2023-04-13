@@ -1,0 +1,8 @@
+versions:
+  # we only set this value to ensure that the CronJob definitions are deterministic
+  # (since the version number for the jx-boot pod changes regularly)
+  # we set the versions of jx & updatebot to TESTVAL
+  # in order to ensure tests are deterministic
+  # (templated file content doesn't change just because new versions are released)
+  jx: TESTVAL
+  updatebot: TESTVAL

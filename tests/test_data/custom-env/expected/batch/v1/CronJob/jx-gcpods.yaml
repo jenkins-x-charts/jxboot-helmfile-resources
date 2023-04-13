@@ -28,7 +28,7 @@ spec:
                 - gc
                 - pods
               imagePullPolicy: IfNotPresent
-              image: "ghcr.io/jenkins-x/jx-boot:3.10.70"
+              image: "ghcr.io/jenkins-x/jx-boot:TESTVAL"
               env:
                 - name: JX_LOG_FORMAT
                   value: json

@@ -1,4 +1,4 @@
-{{- if and (not (or (eq "bucketrepo" .Values.jxRequirements.repository) (not .Values.jxRequirements.repository))) (not .Values.istio.enabled) }}
+{{- if and (not (or (eq "bucketrepo" .Values.jxRequirements.repository) (not .Values.jxRequirements.repository) (eq "none" .Values.jxRequirements.repository))) (not .Values.istio.enabled) }}
 apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1" }}
 kind: Ingress
 metadata:

@@ -6,6 +6,7 @@ metadata:
 {{- template "ingressAnnotations" (dict "Values" .Values "component" "docker-registry") }}
   name: docker-registry
 spec:
+  ingressClassName: {{ .Values.ingress.customIngressClass | default "nginx" }}
   rules:
   - http:
       paths:

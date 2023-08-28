@@ -6,6 +6,7 @@ metadata:
 {{- template "ingressAnnotations" (dict "Values" .Values "component" "bucketrepo") }}
   name: bucketrepo
 spec:
+  ingressClassName: {{ .Values.ingress.customIngressClass | default "nginx" }}
   rules:
   - http:
       paths:

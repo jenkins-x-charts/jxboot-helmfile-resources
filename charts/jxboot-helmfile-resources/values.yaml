@@ -1,29 +1,22 @@
 chartmuseumServiceLink:
   enabled: false
-
   # specify the external name here for where the chartmuseum should be
   externalname: ""
-
 kaniko:
   # lets you specify additional kaniko flags such as "--insecure" for insecure registries etc
   flags: "--skip-unused-stages --snapshotMode=redo"
-
 schedulers:
   # to enable/disable the default scheduler
   default: true
-
 lighthouseEngine: tekton
-
 basicAuthSecrets:
   enabled: true
-
 pipeline:
   rbac:
     cluster: true
   serviceAccount:
     name: "tekton-bot"
     annotations: {}
-
   auth:
     git:
       username: "myuser"
@@ -33,7 +26,6 @@ pipeline:
       # if specified use the docker config.json style secret like this:
       # https://github.com/tektoncd/pipeline/blob/master/docs/auth.md#configuring-docker-authentication-for-docker
       configJson: "{}"
-
       # otherwise use basic auth style secret
       username:
       password:
@@ -41,7 +33,6 @@ pipeline:
       # url: https://gcr.io
       host: docker.io
       email: jenkins-x@googlecloud.com
-
 bucketrepo:
   ingress:
     annotations: {}
@@ -50,7 +41,6 @@ bucketrepo:
     prefix: bucketrepo
     tls:
       secretName: ""
-
 chartmuseum:
   ingress:
     annotations: {}
@@ -59,7 +49,6 @@ chartmuseum:
     prefix: chartmuseum
     tls:
       secretName: ""
-
 docker-registry:
   enabled: false
   ingress:
@@ -69,7 +58,6 @@ docker-registry:
     prefix: docker-registry
     tls:
       secretName: ""
-
 hook:
   ingress:
     annotations: {}
@@ -78,7 +66,6 @@ hook:
     prefix: hook
     tls:
       secretName: ""
-
 nexus:
   ingress:
     annotations: {}
@@ -87,16 +74,12 @@ nexus:
     prefix: nexus # setting this will override the value from .Values.ingress.prefix.nexus
     tls:
       secretName: ""
-
 # TODO we want to remove exposecontroller at some point
 exposer: Ingress
-
 extensions:
   enabled: true
-
 ingress:
   annotations: {}
-
   #      kubernetes.io/ingress.class: nginx
   # from v1.22 onwards:
   apiVersion: networking.k8s.io/v1
@@ -104,23 +87,21 @@ ingress:
 
   # ingress path type
   pathType: ImplementationSpecific
-
-
   # define the ingress prefixes for the different services (deprecated in favour of .Values.<component>.ingress.prefix)
   prefix: {}
-    # bucketrepo: bucketrepo
-    # chartmuseum: chartmuseum
-    # hook: hook
-    # nexus: nexus
-    # dockerRegistry: docker-registry
+  # bucketrepo: bucketrepo
+  # chartmuseum: chartmuseum
+  # hook: hook
+  # nexus: nexus
+  # dockerRegistry: docker-registry
 
   # allows you to specify custom hosts (deprecated in favour of .Values.<component>.ingress.customHost)
   customHosts: {}
-    # bucketrepo: ""
-    # chartmuseum: ""
-    # hook: ""
-    # nexus: ""
-    # dockerRegistry: ""
+  # bucketrepo: ""
+  # chartmuseum: ""
+  # hook: ""
+  # nexus: ""
+  # dockerRegistry: ""
 
   # allows you to specify custom ingress class (deprecated in favour of .Values.<component>.ingress.customIngressClass)
   customIngressClass: {}
@@ -129,19 +110,15 @@ ingress:
   #   hook: ""
   #   nexus: ""
   #   dockerRegistry: ""
-
 nexusServiceLink:
   enabled: false
-
   # specify the external name here for where the nexus should point
   externalName: ""
-
 teamRoles:
   viewer:
     enabled: true
   team-admin:
     enabled: true
-
 gc:
   activities:
     schedule: "0/30 */3 * * *"
@@ -153,14 +130,11 @@ gc:
   jobs:
     schedule: "0/30 */3 * * *"
     extraArgs: ["--namespace", "jx-git-operator"]
-
 versions:
   # jx is the version of the jx-boot image
   jx: 3.10.146
-
   # updatebot is the version of the jx-updatebot image
   updatebot: 0.4.22
-
 # standard YAML files for jx boot:
 secrets:
   adminUser:
@@ -185,7 +159,6 @@ secrets:
     email: ""
     token: ""
   tektonBucket: ""
-
 jxRequirements:
   autoUpdate:
     enabled: false
@@ -199,7 +172,7 @@ jxRequirements:
   cluster:
     clustername: ""
     devEnvApprovers:
-      - someone
+    - someone
     dockerRegistryOrg: ""
     environmentGitOwner: ""
     environmentGitPublic: false
@@ -216,8 +189,8 @@ jxRequirements:
     canary: false
     hpa: false
   environments:
-    - key: dev
-      repository: environment-mycluster-dev
+  - key: dev
+    repository: environment-mycluster-dev
   gitops: true
   ingress:
     domain: ""
@@ -243,23 +216,22 @@ jxRequirements:
     ref: master
     url: https://github.com/jenkins-x/jenkins-x-versions.git
   webhook: lighthouse
-
 jx:
   # these variables are used by 'jx gitops variables' to default environment variables
   # into the .jx/variables.sh file which can be overriden on a pre repository basis
   # or during a pipeline by writing to the '.jx/variables.sh' file
   pipelineVariables: {}
-
   # lets you define image pull secrets that are added to the tekton-bot ServiceAccount
   imagePullSecrets: []
-
 npm:
   secret:
     enabled: false
-
 istio:
   enabled: false
   apiVersion: networking.istio.io/v1beta1
   createGateway: true
   gateway:
     additionalHosts: []
+image:
+  repository: ghcr.io/jenkins-x/jxboot-helmfile-resources
+  tag: 1.1.372

@@ -47,7 +47,7 @@ func TestChartsWithDifferentValues(t *testing.T) {
 			assertChartRepoIngress(t, tc, true, false)
 
 		case "gke-domain-none-repo":
-			assertChartRepoIngress(t, tc, true, false)
+			assertChartRepoIngress(t, tc, false, false)
 		}
 
 		dir := filepath.Join(tc.OutDir, "results", "jenkins.io", "v1")

@@ -45,6 +45,9 @@ spec:
 {{- if .Values.jxRequirements.autoUpdate.autoMerge }}
             - --auto-merge
 {{- end }}
+{{- if .Values.jxRequirements.autoUpdate.reusePullRequest }}
+            - --reuse-pull-request
+{{- end }}
             command:
             - jx-updatebot
             env:

@@ -161,19 +161,15 @@ versions:
   # updatebot is the version of the jx-updatebot image
   updatebot: 0.8.10
 
-# Image configuration
-image:
-  parentRepository: ghcr.io/jenkins-x
-
 # JX Boot image configuration
 jxBoot:
   image:
-    repository: "{{ .Values.image.parentRepository }}/jx-boot"
+    repository: ghcr.io/jenkins-x/jx-boot
 
 # Updatebot image configuration
 updatebot:
   image:
-    repository: "{{ .Values.image.parentRepository }}/jx-updatebot"
+    repository: ghcr.io/jenkins-x/jx-updatebot
 
 # standard YAML files for jx boot:
 secrets:

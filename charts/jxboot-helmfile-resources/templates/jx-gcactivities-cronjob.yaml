@@ -38,7 +38,7 @@ spec:
               {{- end }}
             {{- end}}
               imagePullPolicy: IfNotPresent
-              image: "{{ .Values.image.parentRepository }}/jx-boot:{{ .Values.versions.jx }}"
+              image: "{{ .Values.jxBoot.image.repository }}:{{ .Values.versions.jx }}"
               env:
                 - name: JX_LOG_FORMAT
                   value: json

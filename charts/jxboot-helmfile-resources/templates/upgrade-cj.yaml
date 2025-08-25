@@ -33,7 +33,7 @@ spec:
               - --to
               - jx
               name: copy-secret
-              image: "ghcr.io/jenkins-x/jx-boot:{{ .Values.versions.jx }}"
+              image: "{{ .Values.jxBoot.image.repository }}:{{ .Values.versions.jx }}"
               imagePullPolicy: Always
               resources: {}
               terminationMessagePath: /dev/termination-log
@@ -57,7 +57,7 @@ spec:
             - secretRef:
                 name: jx-boot-job-env-vars
                 optional: true
-            image: "ghcr.io/jenkins-x/jx-updatebot:{{ .Values.versions.updatebot }}"
+            image: "{{ .Values.updatebot.image.repository }}:{{ .Values.versions.updatebot }}"
             imagePullPolicy: Always
             name: updatebot
             resources: {}

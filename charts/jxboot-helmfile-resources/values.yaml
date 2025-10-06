@@ -23,6 +23,7 @@ pipeline:
   serviceAccount:
     name: "tekton-bot"
     annotations: {}
+    extraSecrets: []  # additional Secret names to attach to the Tekton SA
 
   auth:
     git:

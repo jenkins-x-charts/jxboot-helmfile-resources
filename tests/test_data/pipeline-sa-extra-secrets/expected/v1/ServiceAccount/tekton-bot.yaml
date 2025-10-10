@@ -1,0 +1,12 @@
+# Source: jxboot-helmfile-resources/templates/build-bot-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "tekton-bot"
+secrets:
+- name: tekton-container-registry-auth
+- name: tekton-git
+- name: "ssh-auth-1"
+- name: "ssh-auth-2"
+- name: "dockerconfig-1"
+- name: "dockerconfig-2"

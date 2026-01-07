@@ -160,7 +160,7 @@ versions:
   jx: 3.16.43
 
   # updatebot is the version of the jx-updatebot image
-  updatebot: 0.8.11
+  updatebot: 0.8.13
 
 # JX Boot image configuration
 jxBoot:

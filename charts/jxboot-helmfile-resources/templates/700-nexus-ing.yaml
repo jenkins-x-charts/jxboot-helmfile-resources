@@ -1,4 +1,4 @@
-{{- if and (eq "nexus" .Values.jxRequirements.repository) (not .Values.istio.enabled) }}
+{{- if and (eq "nexus" .Values.jxRequirements.repository) (not .Values.istio.enabled) (ne "httproute" .Values.nexus.ingressType) }}
 apiVersion: {{ .Values.ingress.apiVersion | default "networking.k8s.io/v1" }}
 kind: Ingress
 metadata:

@@ -37,6 +37,18 @@
 {{- end }}
 
 {{- /*
+ingressKind returns the effective ingress kind for a component: the per-component
+<component>.ingressType when set, otherwise the cluster-wide
+jxRequirements.ingress.kind. Anything other than "httproute" (including the
+all-empty case) means a traditional Ingress. Call with
+(dict "Values" .Values "component" "<name>").
+*/ -}}
+{{- define "ingressKind" -}}
+{{- $spec := index .Values .component -}}
+{{- $spec.ingressType | default .Values.jxRequirements.ingress.kind -}}
+{{- end }}
+
+{{- /*
 httpRouteParentRefs renders the parentRefs list for an HTTPRoute.
 
 When jxRequirements.ingress.kind is "httproute" the default envoy-gateway "http"
@@ -53,7 +65,7 @@ Call with (dict "Values" .Values "component" "<name>").
 {{- define "httpRouteParentRefs" -}}
 {{- $spec := index .Values .component -}}
 {{- $refs := list -}}
-{{- if eq "httproute" .Values.jxRequirements.ingress.kind -}}
+{{- if eq "httproute" (include "ingressKind" (dict "Values" .Values "component" .component)) -}}
 {{- $refs = append $refs (dict "name" "envoy-gateway" "namespace" "envoy-gateway-system" "sectionName" "http") -}}
 {{- if .Values.jxRequirements.ingress.tls.enabled -}}
 {{- $refs = append $refs (dict "name" "envoy-gateway" "namespace" "envoy-gateway-system" "sectionName" "https") -}}

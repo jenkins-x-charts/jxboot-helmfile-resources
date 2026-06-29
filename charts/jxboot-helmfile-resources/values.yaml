@@ -44,6 +44,7 @@ pipeline:
       email: jenkins-x@googlecloud.com
 
 bucketrepo:
+  ingressType: "" # overrides jxRequirements.ingress.kind for this component; options: "", ingress, httproute
   ingress:
     annotations: {}
     customHost: "" # setting this will override the value from .Values.ingress.customHost.bucketrepo
@@ -51,8 +52,14 @@ bucketrepo:
     prefix: bucketrepo
     tls:
       secretName: ""
+  httpRoute:
+    annotations: {}
+    customHost: ""
+    prefix: bucketrepo
+    customParentRefs: []
 
 chartmuseum:
+  ingressType: "" # overrides jxRequirements.ingress.kind for this component; options: "", ingress, httproute
   ingress:
     annotations: {}
     customHost: "" # setting this will override the value from .Values.ingress.customHost.chartmuseum
@@ -60,9 +67,15 @@ chartmuseum:
     prefix: chartmuseum
     tls:
       secretName: ""
+  httpRoute:
+    annotations: {}
+    customHost: ""
+    prefix: chartmuseum
+    customParentRefs: []
 
 docker-registry:
   enabled: false
+  ingressType: "" # overrides jxRequirements.ingress.kind for this component; options: "", ingress, httproute
   ingress:
     annotations: {}
     customHost: "" # setting this will override the value from .Values.ingress.customHost.dockerRegistry
@@ -70,8 +83,14 @@ docker-registry:
     prefix: docker-registry
     tls:
       secretName: ""
+  httpRoute:
+    annotations: {}
+    customHost: ""
+    prefix: docker-registry
+    customParentRefs: []
 
 hook:
+  ingressType: "" # overrides jxRequirements.ingress.kind for this component; options: "", ingress, httproute
   ingress:
     annotations: {}
     customHost: "" # setting this will override the value from .Values.ingress.customHost.hook
@@ -79,8 +98,14 @@ hook:
     prefix: hook
     tls:
       secretName: ""
+  httpRoute:
+    annotations: {}
+    customHost: ""
+    prefix: hook
+    customParentRefs: []
 
 nexus:
+  ingressType: "" # overrides jxRequirements.ingress.kind for this component; options: "", ingress, httproute
   ingress:
     annotations: {}
     customHost: "" # setting this will override the value from .Values.ingress.customHost.nexus
@@ -88,6 +113,10 @@ nexus:
     prefix: nexus # setting this will override the value from .Values.ingress.prefix.nexus
     tls:
       secretName: ""
+  httpRoute:
+    annotations: {}
+    customHost: ""
+    customParentRefs: []
 
 # TODO we want to remove exposecontroller at some point
 exposer: Ingress
@@ -233,7 +262,7 @@ jxRequirements:
   ingress:
     domain: ""
     externalDNS: false
-    kind: ""
+    kind: "" # cluster ingress strategy; options: "" / ingress (Ingress), httproute (Gateway API HTTPRoute)
     namespaceSubDomain: -jx.
     serviceType: ""
     tls:

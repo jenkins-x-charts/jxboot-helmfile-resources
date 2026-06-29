@@ -35,3 +35,76 @@
 {{ toYaml $annotations | indent 4 }}
   {{- end }}
 {{- end }}
+
+{{- /*
+ingressKind returns the effective ingress kind for a component: the per-component
+<component>.ingressType when set, otherwise the cluster-wide
+jxRequirements.ingress.kind. Anything other than "httproute" (including the
+all-empty case) means a traditional Ingress. Call with
+(dict "Values" .Values "component" "<name>").
+*/ -}}
+{{- define "ingressKind" -}}
+{{- $spec := index .Values .component -}}
+{{- $spec.ingressType | default .Values.jxRequirements.ingress.kind -}}
+{{- end }}
+
+{{- /*
+httpRouteParentRefs renders the parentRefs list for an HTTPRoute.
+
+When jxRequirements.ingress.kind is "httproute" the default envoy-gateway "http"
+listener is attached, plus the "https" listener when
+jxRequirements.ingress.tls.enabled is true. Any per-component
+httpRoute.customParentRefs are then appended.
+
+When ingress.kind is anything other than "httproute" no defaults are injected
+and the parentRefs are exactly the user-supplied httpRoute.customParentRefs, so
+users running their own gateway can fully control attachment.
+
+Call with (dict "Values" .Values "component" "<name>").
+*/ -}}
+{{- define "httpRouteParentRefs" -}}
+{{- $spec := index .Values .component -}}
+{{- $refs := list -}}
+{{- if eq "httproute" (include "ingressKind" (dict "Values" .Values "component" .component)) -}}
+{{- $refs = append $refs (dict "name" "envoy-gateway" "namespace" "envoy-gateway-system" "sectionName" "http") -}}
+{{- if .Values.jxRequirements.ingress.tls.enabled -}}
+{{- $refs = append $refs (dict "name" "envoy-gateway" "namespace" "envoy-gateway-system" "sectionName" "https") -}}
+{{- end -}}
+{{- end -}}
+{{- range $spec.httpRoute.customParentRefs -}}
+{{- $refs = append $refs . -}}
+{{- end -}}
+{{- if $refs -}}
+{{ toYaml $refs }}
+{{- end -}}
+{{- end }}
+
+{{- /*
+httpRouteHostname returns the hostname for a component's HTTPRoute: the
+per-component httpRoute.customHost if set, otherwise the composed
+<prefix><namespaceSubDomain><domain>. The prefix falls back to the component's
+ingress.prefix when httpRoute.prefix is not set. Call with
+(dict "Values" .Values "component" "<name>").
+*/ -}}
+{{- define "httpRouteHostname" -}}
+{{- $spec := index .Values .component -}}
+{{- if $spec.httpRoute.customHost -}}
+{{ $spec.httpRoute.customHost }}
+{{- else -}}
+{{ $spec.httpRoute.prefix | default $spec.ingress.prefix }}{{ .Values.jxRequirements.ingress.namespaceSubDomain }}{{ .Values.jxRequirements.ingress.domain }}
+{{- end -}}
+{{- end }}
+
+{{- /*
+httpRouteAnnotations returns the per-component httpRoute.annotations as raw
+(unindented) YAML, or an empty string when there are none. Call with
+(dict "Values" .Values "component" "<name>"); the caller is responsible for
+indenting (e.g. `nindent 4`) and for only emitting the `annotations:` key when
+the result is non-empty.
+*/ -}}
+{{- define "httpRouteAnnotations" -}}
+{{- $spec := index .Values .component -}}
+{{- if $spec.httpRoute.annotations -}}
+{{ toYaml $spec.httpRoute.annotations }}
+{{- end -}}
+{{- end }}

@@ -1,0 +1,29 @@
+{{- if and (index .Values "docker-registry" "enabled") (not .Values.istio.enabled) (eq "httproute" (include "ingressKind" (dict "Values" .Values "component" "docker-registry"))) }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+{{- $annotations := include "httpRouteAnnotations" (dict "Values" .Values "component" "docker-registry") }}
+{{- if $annotations }}
+  annotations:
+  {{- $annotations | nindent 4 }}
+{{- end }}
+  name: docker-registry
+spec:
+{{- $parentRefs := include "httpRouteParentRefs" (dict "Values" .Values "component" "docker-registry") }}
+{{- if trim $parentRefs }}
+  parentRefs:
+  {{- $parentRefs | nindent 2 }}
+{{- end }}
+{{- if or (index .Values "docker-registry" "httpRoute" "customHost") .Values.jxRequirements.ingress.domain }}
+  hostnames:
+  - {{ include "httpRouteHostname" (dict "Values" .Values "component" "docker-registry") }}
+{{- end }}
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: jenkins-x-docker-registry
+      port: 5000
+{{- end }}
